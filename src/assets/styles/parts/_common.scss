@@ -1,0 +1,140 @@
+@use "../globals" as *;
+
+body {
+  // ページのheaderにリンクを貼って、CSSでフォントファミリーを指定する。
+  // フォント・スタックで記述すること。
+  // 英語の書体なら『Kameron』にマッチ、日本語の書体は、2番目の『Noto Sans JP』にマッチする。
+  // 順に探していく仕様。
+  font-family: "Kameron", "Noto Sans JP", sans-serif;
+}
+
+// !!!!! WEBフォントの指定で2年前から変わったところがあるよう。!!!!!
+// 講義のような項目はなかった。
+// google fontsに『フォント名: CSS class for a variable style』という項目あり、
+// 以下のように設定してもいちいちクラスをつけるのは面倒でできない。
+// 何か意味があると思うのでここに記しておく。
+.noto-sans-jp {
+  font-family: "Noto Sans JP", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  &__md {
+    font-weight: 500;
+  }
+}
+// }
+// & .kameron {
+//   font-family: "Kameron", serif;
+//   font-optical-sizing: auto;
+//   font-style: normal;
+//   &__md {
+//     font-weight: 400;
+//   }
+//   &__b {
+//     font-weight: 700;
+//   }
+// }
+
+// image
+img {
+  // reset.cssで設定されているからトル
+  // max-width: 100%;
+  vertical-align: bottom;
+}
+
+ul {
+  padding: 0;
+  li {
+    list-style-type: none;
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+// margin, padding
+.mb-sm {
+  margin-bottom: 16px !important;
+}
+
+.mb-lg {
+  margin-bottom: 80px !important;
+
+  @include mq(lg) {
+    margin-bottom: 150px !important;
+  }
+}
+
+.pb-sm {
+  padding-bottom: 16px !important;
+}
+
+.pb-lg {
+  padding-bottom: 80px !important;
+  @include mq(lg) {
+    padding-bottom: 150px !important;
+  }
+}
+
+.content-width {
+  width: 90%;
+  margin: 0 auto;
+  max-width: $contentMaxWidth;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+  @include mq(md) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+.purple {
+  color: $cWineRed;
+}
+
+#main-content {
+  position: relative;
+  z-index: 0;
+}
+
+// font
+.font-sm {
+  font-size: 14px;
+  @include mq(lg) {
+    font-size: 16px;
+  }
+}
+.font-md {
+  font-size: 17px;
+  @include mq(lg) {
+    font-size: 19px;
+  }
+}
+.font-lr {
+  font-size: 17px;
+  @include mq(lg) {
+    font-size: 23px;
+  }
+}
+.font-lg {
+  font-size: 25px;
+  @include mq(lg) {
+    font-size: 36px;
+  }
+}
+
+.main-title {
+  @extend .font-lg;
+  font-weight: 600;
+  margin-bottom: 0;
+  display: block;
+}
+
+.sub-title {
+  @extend .font-sm;
+  @extend .mb-sm;
+  color: $cSubTitle;
+}
