@@ -1,113 +1,43 @@
-// ジャンル
-const GENRE_OPTIONS = { 
-  fiction: "小説",
-  essays_personalHistory: "エッセイ・自分史",
-  haiku_poetry_anthologies: "句集・歌集・詩集",
-  commemorative_companyHistories: "記念誌・社史",
-  history_geography: "歴史・地理",
-  academicPapers_technicalBooks: "論文集・専門書",
-  posthumousWorks: "遺稿集"
+import { useReducer } from "react";
+
+import Example from './parts/Example.jsx'
+
+const handleReducer = (prev, { identifier, payload }) => {
+  const { name, value } = payload;
 };
 
-// 版型
-const TRIM_SIZE_OPTIONS = {
-  shiroku_ban: "四六判",
-  A5: "A5判",
-  B5: "B5判",
-  A4: "A4判"
-};
+const printQuantityArr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+for (let i = 10; i <= 2000; i += 5) {
+  printQuantityArr.push(i);
+}
 
-// 書籍体裁
-const BOOK_FORMAT = {
-  paperback: "並製本（ソフトカバー）",
-  hardcover: "上製本（ハードカバー）"
-};
-
-// 本文レイアウト
-const LAYOUT = {
-  textData_basicLayout: "テキストデータ・簡単なレイアウト",
-  textData_advancedLayout: "テキストデータ・高度なレイアウト",
-  handwrittenScript_basicLayout: "手書き原稿・簡単なレイアウト",
-  handwrittenScript_advancedLayout: "手書き原稿・高度なレイアウト",
-  printReady: "完全データ原稿（Ai・Id・PDF）"  
-};
-
-// 装丁デザイン
-const COVER_DESIGN = {
-  professionalCoverDesign: "プロによる装丁デザイン希望",
-  supplyingCoverDesignData: "装丁完全データ持ち込み"
-};
-
-// 部数
-const QUANTITY = {};
-
-// ページ数
-const TOTAL_PAGE_COUNT = {};
-
-// 見返し
-const ENDPAPER = {
-  surpriseMe_chooseSpecialtyPaper: "おまかせ・特殊紙（ラシャ・タントなど）",
-  not: "なし"
-};
-
-// 表紙
-const COVER = {
-  specialtyPaper: "特殊紙",
-  nomalPaper: "普通紙"
-};
-
-// 表紙加工
-const COVER_FINISHING = {
-  mirrorPP: "ミラーPP",
-  mattePP: "マットPP",
-  not: "PP加工なし"
-};
-
-// 化粧扉
-const DECORATIVE_WRAPPER = {
-  add: "あり",
-  not: "なし"
-};
-
-// カバー（4色）・帯
-const COVER_BOOK_WRAP = {
-  both: "両方あり",
-  onlyCover: "カバーのみ",
-  not: "両方なし",
-};
-
-// 冊子のサイズ: trim_size
-// 新書版・文庫版変形サイズ入力: custom_trim_size (e.g., Shinsho or Bunko Variant Size)
-// 本文の印刷方法: text_printing_method
-// 本文の種類: text_paper_type
-// 印刷部数: print_quantity
-// ページ数: page_count
-// 製本方法: binding_method
-// 表紙の印刷方法: cover_printing_method
-// 表紙の種類（印刷方法）: cover_type_printing_method
-// オプション加工: optional_finishing
-
-// 新書版・文庫版変形サイズ入力
-// 新書版
-// 基本サイズ　h176×w103、h182×w112
-// 可能範囲　[h172～192]×[w103～138]
-
-// 文庫版
-// 基本サイズ　h148～152×w105
-// 可能範囲　[h138～152]×[w103～115]
-
-// 変形サイズ 小
-// 可能範囲　[h105～210]×[w90～148]
-
-// 変形サイズ 大　
-// 可能範囲　[h149～297]×[w149～210]
-
-// 本文の印刷方法
-
+const pageCountArr = [0, 4, 8];
+for (let i = 10; i <= 500; i += 2) {
+  pageCountArr.push(i);
+}
 
 const AutoCalc = () => {
+  const initState = {
+    pageCount: 0,
+    // colorPageCount: 0
+  };
+  const [state,  dispatch] = useReducer(handleReducer, initState);
+  const putedPrintQuantity = (e) => {
+    dispatch({ printQuantity: e.target.value });
+  };
+  const putedPageCount = (e) => {
+    dispatch({ pageCount: e.target.value });
+  };
+  const putedCustomTrimSize = (e) => {
+    dispatch({ customTrimSize: e.target.value });
+  };
+  const dummyFunc = (e) => {
+    dispatch({ dummyCount: e.target.value })
+  };
+
   return (
     <>
+      <Example />
       <div className="calc">
         {/* 冊子のサイズ */}
         <div className="calc__item-wrapper trim_size">
@@ -116,39 +46,39 @@ const AutoCalc = () => {
           </div>
           <div className="calc__content-inner">
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input id="" type="radio" value="" onChange={dummyFunc} />
               A6
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input id="" type="radio" value="" onChange={dummyFunc} />
               B6
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" checked="checked" onClick="" />
+              <input id="" type="radio" value="" onChange={dummyFunc} />
               A5
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input id="" type="radio" value="" onChange={dummyFunc} />
               B5
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input id="" type="radio" value="" onChange={dummyFunc} />
               A4
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input id="" type="radio" value="" onChange={dummyFunc} />
               新書版
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input id="" type="radio" value="" onChange={dummyFunc} />
               文庫版
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input id="" type="radio" value="" onChange={dummyFunc} />
               変形サイズ 小
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input id="" type="radio" value="" onChange={dummyFunc} />
               変形サイズ 大
             </label>
           </div>
@@ -161,8 +91,8 @@ const AutoCalc = () => {
           </div>   
           <div className="calc__content-inner">
             <label htmlFor="">
-              H（&nbsp;<input id="" type="number" name="" value="" onChange="" />&nbsp;）&nbsp;㎜&nbsp;×&nbsp;
-              W（&nbsp;<input id="" type="number" name="" value="" onChange="" />&nbsp;）&nbsp;㎜ 
+              H（&nbsp;<input id="" type="number" name="" value="" onChange={dummyFunc} />&nbsp;）&nbsp;㎜&nbsp;×&nbsp;
+              W（&nbsp;<input id="" type="number" name="" value="" onChange={dummyFunc} />&nbsp;）&nbsp;㎜ 
             </label>
           </div>       
         </div>
@@ -173,7 +103,7 @@ const AutoCalc = () => {
             本文の印刷方法<span>※</span>
           </div>   
           <div className="calc__content-inner">
-            <select id="" name="" value="" onChange="">
+            <select id="" name="" value="" onChange={dummyFunc}>
               <option value="">モノクロ印刷</option>
               <option value="">カラー・モノクロ混在印刷</option>
               <option value="">カラー・モノクロ混在印刷お得ver.</option>
@@ -198,71 +128,73 @@ const AutoCalc = () => {
           </div>   
           <div className="calc__content-inner">
             <label htmlFor="">
-              <input type="radio" id="" value="" />
+              <input type="radio" id="" value="" onChange={dummyFunc} />
               上質 70kg
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" />
+              <input type="radio" id="" value="" onChange={dummyFunc} />
               上質 90kg
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" />
+              <input type="radio" id="" value="" onChange={dummyFunc} />
               上質 55kg
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" />
+              <input type="radio" id="" value="" onChange={dummyFunc} />
               コート110kg
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" />
+              <input type="radio" id="" value="" onChange={dummyFunc} />
               マットコート90kg
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" />
+              <input type="radio" id="" value="" onChange={dummyFunc} />
               書籍用紙 72.5kg（淡クリームキンマリ）
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" />
+              <input type="radio" id="" value="" onChange={dummyFunc} />
               書籍用紙 90kg（淡クリームキンマリ）
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" />
+              <input type="radio" id="" value="" onChange={dummyFunc} />
               書籍用紙 57kg（淡クリームキンマリ）
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" />
+              <input type="radio" id="" value="" onChange={dummyFunc} />
               ラフクリーム琥珀 71.5kg
             </label>
           </div>       
         </div>
         {/* 印刷部数 */}
-        {/* 1–10, 5ずつ増加、2000部まで */}
         <div className="calc__item-wrapper print_quantity">
           <div className="calc__entry">
             印刷部数<span>※</span>
           </div>   
           <div className="calc__content-inner">
-            <select name="" id="" onChange="">
-              <option value="">1</option>
+            <select name="" id="" value={state.printQuantity} onChange={putedPrintQuantity}>
+              { printQuantityArr.map((num) => { return <option key={num} value={num}>{num}</option> }) }
             </select>
+            <div className="result">{state.printQuantity}</div>
           </div>       
         </div>
-        {/* ページ数 */}
-        {/* 4, 8, 10以降は2ページずつ増加500ページまで */}
-        {/* 本文ページ数の範囲で1ページずつカウント */}
         <div className="calc__item-wrapper page_count">
           <div className="calc__entry">
             ページ数<span>※</span>
           </div>   
           <div className="calc__content-inner">
+            {/* ページ数 */}
             <label htmlFor="">
-              <input type="number" />
-              <ul className="note">
-                <li>表紙（表1・2・3・4）を除く本文のページ数</li>
-              </ul>
+              <select id="" value={state.pageCount} onChange={putedPageCount}>
+                { pageCountArr.map((num) => { return <option key={num} value={num}>{num}</option> }) }
+              </select>
             </label>
+            <div className="result">{state.pageCount}</div>
+            <ul className="note">
+              <li>表紙（表1・2・3・4）を除く本文のページ数</li>
+            </ul>
+            {/* カラーページ数 */}
             <label htmlFor="">
-              <input type="number" />
+              <input type="number" id="" value="" onChange={dummyFunc} />
               <ul className="note">
                 <li>内カラーページ数</li>
               </ul>
@@ -296,11 +228,11 @@ const AutoCalc = () => {
           </div>   
           <div className="calc__content-inner">
             <label htmlFor="">
-              <input type="radio" name="" value="" onClick="" />
+              <input type="radio" name="" value="" onClick={dummyFunc} />
               フルカラー印刷
             </label>
             <label htmlFor="">
-              <input type="radio" name="" value="" onClick="" />
+              <input type="radio" name="" value="" onClick={dummyFunc} />
               モノクロ印刷
             </label>
           </div>  
@@ -317,117 +249,117 @@ const AutoCalc = () => {
           <div className="calc__content-inner">
             <div className="calc__entry-title">上質・色上質・色ファンシー</div>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               上質&nbsp;180kg
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               色上質最厚口
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               レザック&nbsp;175kg<span>★</span>
             </label>
 
             <div className="calc__entry-title">艶ありコート・アート・キャスト</div>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               コート紙&nbsp;180kg
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               アートポスト紙&nbsp;200kg<span>★</span>
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               ミラーコート紙&nbsp;220kg<span>★</span>
             </label>
 
             <div className="calc__entry-title">艶なしマットコート・ダル</div>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               マットコート紙&nbsp;135kg
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               サテン金藤&nbsp;180kg<span>★</span>
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               マットポスト紙&nbsp;220kg<span>★</span>
             </label>
 
             <div className="calc__entry-title">ラフ・エンボス</div>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               アラベール&nbsp;スノーホワイト&nbsp;160kg<span>★</span>
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               アラベール&nbsp;ナチュラル&nbsp;160kg<span>★</span>
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               マーメイド&nbsp;スノーホワイト&nbsp;175kg
             </label>
 
             <div className="calc__entry-title">特殊紙&nbsp;パール・シャイン・ラメ</div>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               ペルーラ&nbsp;スノーホワイト&nbsp;180kg<span>★</span>
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               ミランダ&nbsp;スノーホワイト&nbsp;170kg<span>★</span>
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               五感紙粗目&nbsp;純白キラ&nbsp;135kg
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               新星物語&nbsp;パウダー&nbsp;180kg
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               エスプリコートVNエンボス&nbsp;アラレ&nbsp;176.5kg★
             </label>
             <div className="calc__entry-title">特殊紙&nbsp;その他</div>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               OKカイゼル&nbsp;白&nbsp;155kg
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               しこくてんれい&nbsp;ゆき&nbsp;180kg★
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               両更クラフト紙&nbsp;129.5kg（モノクロ印刷）
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               レザック82&nbsp;ろうけつ 白 175kg
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               両更クラフト紙&nbsp;129.5kg
             </label>
 
             <div className="calc__entry-title">お持ち込みの場合・本文と同じ用紙を使用する場合</div>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               表紙お持込み（印刷済み表紙のご支給）
               <ul className="note">
                 <li>詳しくは<a href="faq.html#a18" target="_blank">こちら</a>をご覧ください。</li>
               </ul>
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               本文と同じ紙を使用（モノクロ印刷）
             </label>
             <label htmlFor="">
-              <input type="radio" id="" value="" onClick="" />
+              <input type="radio" id="" value="" onClick={dummyFunc} />
               本文と同じ紙を使用
             </label>
             <ul className="note">
@@ -444,11 +376,11 @@ const AutoCalc = () => {
           <div className="calc__content-inner">
             <section>
               <label htmlFor="">
-                <input type="checkbox" id="" value="" onClick="" />
+                <input type="checkbox" id="" value="" onClick={dummyFunc} />
                 表紙・PP加工（クリアPP）
               </label>
               <label htmlFor="">
-                <input type="checkbox" id="" value="" onClick="" />
+                <input type="checkbox" id="" value="" onClick={dummyFunc} />
                 表紙・PP加工（マットPP）
               </label>
               <ul className="note">
@@ -458,20 +390,20 @@ const AutoCalc = () => {
             </section>
             <section>
               <label htmlFor="">
-                <input type="checkbox" id="" value="" />
+                <input type="checkbox" id="" value="" onChange={dummyFunc} />
                 遊び紙（合紙）挿入
               </label>
               <label htmlFor="">
-                <input type="checkbox" id="" value="" />
+                <input type="checkbox" id="" value="" onChange={dummyFunc} />
                 遊び紙に印刷がある場合は、こちらにチェックを入れてください。
               </label>
               <label htmlFor="">
-                枚数：<input type="text" id="" value="" />枚
+                枚数：<input type="text" id="" value="" onChange={dummyFunc} />枚
               </label>
-              <input type="text" name="" value="" />
-              <button type="button" id="" onClick="" >用紙・色 選択</button>
+              <input type="text" value="" onChange={dummyFunc} />
+              <button type="button" onClick={dummyFunc} >用紙・色 選択</button>
               <div>遊び紙への印刷ページを記入して下さい。（データのページ数）</div>
-              <input type="text" name="" />
+              <input type="text" value="" onChange={dummyFunc} />
               <ul className="note example">
                 <li>（例：本文の前後とp30-31の間⇒前,30-31,後 [挿入枚数3枚]）</li>
                 <li>（P10と11の間、本文p34と35の間⇒10-11,34-35 [挿入枚数2枚]）</li>
@@ -479,34 +411,34 @@ const AutoCalc = () => {
             </section>
             <section>
               <label htmlFor="">
-                <input type="checkbox" id="" value="" onClick="" />
+                <input type="checkbox" id="" value="" onChange={dummyFunc} />
                 表2・3&nbsp;モノクロ印刷
               </label>
               <label htmlFor="">
-                <input type="checkbox" id="" value="" onClick="" />
+                <input type="checkbox" id="" value="" onChange={dummyFunc} />
                 表2・3&nbsp;フルカラー印刷
               </label>
               <label htmlFor="">
-                <input type="checkbox" id="" value="" />
+                <input type="checkbox" id="" value="" onChange={dummyFunc} />
                 本文片面印刷
               </label>
             </section>
             <section>
               <label htmlFor="">
-                <input type="checkbox" id="" value="" />
+                <input type="checkbox" id="" value="" onChange={dummyFunc} />
                 表紙データ自動塗り足し追加
               </label>
               <label htmlFor="">
-                <input type="checkbox" id="" value="" />
+                <input type="checkbox" id="" value="" onChange={dummyFunc} />
                 本文データ自動塗り足し追加
               </label>
               <ul className="note">
-                <li>※必ず<a href="" onClick="">「自動塗り足し追加サービスの注意点」</a>をご確認・ご了承の上ご注文ください。</li>
+                <li>※必ず<a href="" onClick={dummyFunc}>「自動塗り足し追加サービスの注意点」</a>をご確認・ご了承の上ご注文ください。</li>
               </ul>
             </section>
             <section>
               <label htmlFor="">
-                <input type="checkbox" id="" value="" />
+                <input type="checkbox" id="" value="" onChange={dummyFunc} />
                 分納
               </label>
               <div>納品箇所数：</div>
@@ -518,15 +450,15 @@ const AutoCalc = () => {
                 <option value="">5</option>
               </select>
               <label htmlFor="">
-                <input type="checkbox" id="" value="" />
+                <input type="checkbox" id="" value="" onChange={dummyFunc} />
                 横綴じ製本
               </label>
               <label htmlFor="">
-                <input type="checkbox" id="" value="" />
+                <input type="checkbox" id="" value="" onChange={dummyFunc} />
                 紙版原稿（紙版原稿入稿選択時は自動選択）
               </label>
               <label htmlFor="">
-                <input type="checkbox" id="" value="" />
+                <input type="checkbox" id="" value="" onChange={dummyFunc} />
                 Word（ワード）入稿（Word入稿選択時は自動選択）
               </label>
             </section>
@@ -535,7 +467,7 @@ const AutoCalc = () => {
       </div>
 
       <div>
-        <button name="" type="submit" onClick="" >お見積もり</button>
+        <button name="" type="submit" onClick={dummyFunc} >お見積もり</button>
         <button name="" type="reset" >リセット</button>
       </div>
     </>
