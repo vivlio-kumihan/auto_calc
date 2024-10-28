@@ -3,49 +3,23 @@ import { useReducer } from "react";
 const handleRreducer = (prev, { item, payload }) => {
   const { name, value } = payload;
   switch (item) {
-    // // 済んだ分 start
-    // // 印刷部数
-    // case "printQuantity": return { ...prev, [name]: value };
-    // // ページ数
-    // case "pageCount": {
-    //   // 条件分岐が必要な箇所
-    //   const maxColorPageCount = Math.floor(value / 2);
-    //   // const maxColorPageCount = Math.floor(value - 1);
-    //   const tmpArr = [];
-    //   for (let i = 1; i <= maxColorPageCount; i++) {
-    //     tmpArr.push(i);
-    //   }
-    //   return { ...prev, [name]: value, colorPageCountArr: tmpArr };
-    // };
-    // // カラー・ページ数    
-    // case "colorPageCount": return { ...prev, [name]: value };
-    // // 済んだ分 end
+    case "trimSize": return { ...prev, [name]: value };
     default: throw new Error("error...");
   }
 };
 
-// // 済んだ分 start
-// // 印刷部数
-// const printQuantityArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-// for (let i = 10; i <= 2000; i += 5) {
-//   printQuantityArr.push(i);
-// }
-// // ページ数
-// const pageCountArr = [0, 4, 8];
-// for (let i = 10; i <= 500; i += 2) {
-//   pageCountArr.push(i);
-// }
-// // 済んだ分 end
-
 const Example = () => {
   const initState = {
-    // // 済んだ分 start
-    // // 済んだ分 end
+
   };
   const [state,  dispatch] = useReducer(handleRreducer, initState);
-  // // 済んだ分 start
-  // // 印刷部数  
-  // // 済んだ分 end
+
+  const handleTrimSize = () => {
+    dispatch({
+      item: "trimSize",
+      payload: { name: e.target.name, value: e.taget.value }
+    });
+  };
 
   return (
     <>
@@ -56,8 +30,19 @@ const Example = () => {
             冊子のサイズ<span>※</span>
           </div>
           <div className="calc__content-inner">
+            {
+              Object.entries(TRIM_SIZES).map(([key,size]) => {
+                return (
+                  <label htmlFor="" key={size}>
+                    <div>{console.log(size)}</div>
+                    <input id="" type="radio" value={size} checked="" onChange={handlerTrimSize} />
+                    {size}
+                  </label>
+                )
+              })
+            }          
             <label htmlFor="">
-              <input id="" type="radio" value="" onChange={dummyFunc} />
+              <input id="" type="radio" value="" onChange={handleTrimSize} />
               A6
             </label>
           </div>
@@ -81,3 +66,6 @@ const Example = () => {
 };
 
 export default Example;
+
+// // 済んだ分 start
+// // 済んだ分 end

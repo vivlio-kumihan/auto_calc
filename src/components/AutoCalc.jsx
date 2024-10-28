@@ -63,11 +63,9 @@ const AutoCalc = () => {
 
   return (
     <>
-      {/* <Example /> */}
+      <Example />
+
       <div className="calc">
-
-
-
         {/* 本文の印刷方法 */}
         {/* 方法によって可変するテキストが入る */}
         <div className="calc__item-wrapper text_printing_method">
