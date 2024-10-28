@@ -80,7 +80,7 @@ const AutoCalc = () => {
 
   return (
     <>
-      {/* <Example /> */}
+      <Example />
 
       <div className="calc">
         {/* 冊子のサイズ */}
@@ -134,6 +134,7 @@ const AutoCalc = () => {
               {/* ※カラー・モノクロ混在印刷のデータ作成についての注意点をこちらでご確認ください。 */}
           </div>       
         </div>
+
         {/* 本文の種類 */}
         <div className="calc__item-wrapper text_paper_type">
           <div className="calc__entry">
@@ -238,6 +239,7 @@ const AutoCalc = () => {
             <li>くるみ製本は14ページ以上から対応可能</li>
           </ul>               
         </div>
+
         {/* 表紙の印刷方法 */}
         <div className="calc__item-wrapper cover_printing_method">
           <div className="calc__entry">
@@ -258,6 +260,7 @@ const AutoCalc = () => {
             <li>表表紙（表1）の裏側を表2、裏表紙(表4)の内側を表3と呼びます。</li>
           </ul>     
         </div>
+
         {/* 表紙の種類（印刷方法） */}
         <div className="calc__item-wrapper cover_type_printing_method">
           <div className="calc__entry">
@@ -385,6 +388,7 @@ const AutoCalc = () => {
             </ul>
           </div>       
         </div>
+
         {/* オプション加工 */}
         <div className="calc__item-wrapper optional_finishing">
           <div className="calc__entry">
