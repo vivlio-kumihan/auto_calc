@@ -16,8 +16,17 @@ const handleRreducer = (prev, { item, payload }) => {
       return { ...prev, [name]: value, colorPageCountArr: tmpArr };
     };
     case "colorPageCount": return { ...prev, [name]: value };
+    case "trimSize": return { ...prev, trimSize: { name: name, value: value } };    
     default: throw new Error("error...");
   }
+};
+
+const TRIM_SIZES = { 
+  A6: "A6", B6: "B6", A5: "A5", B5: "B5", A4: "A4",
+  stdPaperback: "新書版",
+  pocketEdition: "文庫版",
+  customSizeSm: "変形サイズ（小）",
+  customSizeLg: "変形サイズ（大）"
 };
 
 const printQuantityArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -35,6 +44,7 @@ const AutoCalc = () => {
     pageCount: 0,
     colorPageCount: 0,
     colorPageCountArr: [],
+    trimSize: {},
   };
   const [state,  dispatch] = useReducer(handleRreducer, initState);
   const handlePrintQuantity = (e) => {
@@ -57,15 +67,48 @@ const AutoCalc = () => {
     });
   };  
 
+  const handleTrimSize = (e) => {
+    dispatch({
+      item: "trimSize",
+      payload: { name: e.target.name, value: e.target.value }
+    });
+  };  
+
   const dummyFunc = (e) => {
     dispatch({ dummyCount: e.target.value })
   };
 
   return (
     <>
-      <Example />
+      {/* <Example /> */}
 
       <div className="calc">
+        {/* 冊子のサイズ */}
+        <div className="calc__item-wrapper trim_size">
+          <div className="calc__entry">
+            冊子のサイズ<span>※</span>
+          </div>
+          <div className="calc__content-inner">
+            {
+              Object.entries(TRIM_SIZES).map(([name, value]) => {
+                return (
+                  <label htmlFor={name} key={name}>
+                    <input
+                      id={name}
+                      type="radio"
+                      name={name}
+                      value={value}
+                      checked={state.trimSize.name === name}
+                      onChange={handleTrimSize} 
+                    />
+                    {value}
+                  </label>
+                )
+              })
+            }
+          </div>
+        </div> 
+
         {/* 本文の印刷方法 */}
         {/* 方法によって可変するテキストが入る */}
         <div className="calc__item-wrapper text_printing_method">
