@@ -2,15 +2,28 @@ import { useReducer } from "react";
 
 import Example from './parts/Example.jsx'
 
-const handleReducer = (prev, { identifier, payload }) => {
+const handleRreducer = (prev, { item, payload }) => {
   const { name, value } = payload;
+  switch (item) {
+    case "printQuantity": return { ...prev, [name]: value };
+    case "pageCount": {
+      const maxColorPageCount = Math.floor(value / 2);
+      // const maxColorPageCount = Math.floor(value - 1);
+      const tmpArr = [];
+      for (let i = 1; i <= maxColorPageCount; i++) {
+        tmpArr.push(i);
+      }
+      return { ...prev, [name]: value, colorPageCountArr: tmpArr };
+    };
+    case "colorPageCount": return { ...prev, [name]: value };
+    default: throw new Error("error...");
+  }
 };
 
-const printQuantityArr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const printQuantityArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 for (let i = 10; i <= 2000; i += 5) {
   printQuantityArr.push(i);
 }
-
 const pageCountArr = [0, 4, 8];
 for (let i = 10; i <= 500; i += 2) {
   pageCountArr.push(i);
@@ -18,84 +31,43 @@ for (let i = 10; i <= 500; i += 2) {
 
 const AutoCalc = () => {
   const initState = {
+    printQuantity: 0,
     pageCount: 0,
-    // colorPageCount: 0
+    colorPageCount: 0,
+    colorPageCountArr: [],
   };
-  const [state,  dispatch] = useReducer(handleReducer, initState);
-  const putedPrintQuantity = (e) => {
-    dispatch({ printQuantity: e.target.value });
+  const [state,  dispatch] = useReducer(handleRreducer, initState);
+  const handlePrintQuantity = (e) => {
+    dispatch({
+      item: "printQuantity",
+      payload: { name: e.target.name, value: e.target.value }
+    });
   };
-  const putedPageCount = (e) => {
-    dispatch({ pageCount: e.target.value });
+
+  const handlePageCount = (e) => {
+    dispatch({
+      item: "pageCount",
+      payload: { name: e.target.name, value: e.target.value }
+    });
   };
-  const putedCustomTrimSize = (e) => {
-    dispatch({ customTrimSize: e.target.value });
-  };
+  const handleColorPageCount = (e) => {
+    dispatch({
+      item: "colorPageCount",
+      payload: { name: e.target.name, value: e.target.value }
+    });
+  };  
+
   const dummyFunc = (e) => {
     dispatch({ dummyCount: e.target.value })
   };
 
   return (
     <>
-      <Example />
+      {/* <Example /> */}
       <div className="calc">
-        {/* 冊子のサイズ */}
-        <div className="calc__item-wrapper trim_size">
-          <div className="calc__entry">
-            冊子のサイズ<span>※</span>
-          </div>
-          <div className="calc__content-inner">
-            <label htmlFor="">
-              <input id="" type="radio" value="" onChange={dummyFunc} />
-              A6
-            </label>
-            <label htmlFor="">
-              <input id="" type="radio" value="" onChange={dummyFunc} />
-              B6
-            </label>
-            <label htmlFor="">
-              <input id="" type="radio" value="" onChange={dummyFunc} />
-              A5
-            </label>
-            <label htmlFor="">
-              <input id="" type="radio" value="" onChange={dummyFunc} />
-              B5
-            </label>
-            <label htmlFor="">
-              <input id="" type="radio" value="" onChange={dummyFunc} />
-              A4
-            </label>
-            <label htmlFor="">
-              <input id="" type="radio" value="" onChange={dummyFunc} />
-              新書版
-            </label>
-            <label htmlFor="">
-              <input id="" type="radio" value="" onChange={dummyFunc} />
-              文庫版
-            </label>
-            <label htmlFor="">
-              <input id="" type="radio" value="" onChange={dummyFunc} />
-              変形サイズ 小
-            </label>
-            <label htmlFor="">
-              <input id="" type="radio" value="" onChange={dummyFunc} />
-              変形サイズ 大
-            </label>
-          </div>
-        </div>
-        {/* 新書版・文庫版変形サイズ入力 */}
-        {/* 冊子サイズによって可変するテキストが入る */}
-        <div className="calc__item-wrapper custom_trim_size">
-          <div className="calc__entry">
-            新書版・文庫版変形サイズ入力<span>※</span>
-          </div>   
-          <div className="calc__content-inner">
-            <label htmlFor="">
-              H（&nbsp;<input id="" type="number" name="" value="" onChange={dummyFunc} />&nbsp;）&nbsp;㎜&nbsp;×&nbsp;
-              W（&nbsp;<input id="" type="number" name="" value="" onChange={dummyFunc} />&nbsp;）&nbsp;㎜ 
-            </label>
-          </div>       
-        </div>
+
+
+
         {/* 本文の印刷方法 */}
         {/* 方法によって可変するテキストが入る */}
         <div className="calc__item-wrapper text_printing_method">
@@ -165,26 +137,28 @@ const AutoCalc = () => {
             </label>
           </div>       
         </div>
+
         {/* 印刷部数 */}
         <div className="calc__item-wrapper print_quantity">
           <div className="calc__entry">
             印刷部数<span>※</span>
           </div>   
           <div className="calc__content-inner">
-            <select name="" id="" value={state.printQuantity} onChange={putedPrintQuantity}>
+            <select name="printQuantity" value={state.printQuantity} onChange={handlePrintQuantity}>
               { printQuantityArr.map((num) => { return <option key={num} value={num}>{num}</option> }) }
             </select>
-            <div className="result">{state.printQuantity}</div>
+            <div className="result">Result: {state.printQuantity}</div>
           </div>       
         </div>
+        
+        {/* ページ数 */}
         <div className="calc__item-wrapper page_count">
           <div className="calc__entry">
             ページ数<span>※</span>
           </div>   
           <div className="calc__content-inner">
-            {/* ページ数 */}
             <label htmlFor="">
-              <select id="" value={state.pageCount} onChange={putedPageCount}>
+              <select name="pageCount" value={state.pageCount} onChange={handlePageCount}>
                 { pageCountArr.map((num) => { return <option key={num} value={num}>{num}</option> }) }
               </select>
             </label>
@@ -192,9 +166,10 @@ const AutoCalc = () => {
             <ul className="note">
               <li>表紙（表1・2・3・4）を除く本文のページ数</li>
             </ul>
-            {/* カラーページ数 */}
             <label htmlFor="">
-              <input type="number" id="" value="" onChange={dummyFunc} />
+              <select  name="colorPageCount" value={state.colorPageCount} onChange={handleColorPageCount}>
+                { state.colorPageCountArr.map((num) => { return <option key={num} value={num}>{num}</option> }) }
+              </select>
               <ul className="note">
                 <li>内カラーページ数</li>
               </ul>
@@ -204,6 +179,7 @@ const AutoCalc = () => {
             <li>片面印刷をご希望の方は、下部のオプション加工を選択して下さい。</li>
           </ul>
         </div>
+
         {/* 製本方法 */}
         <div className="calc__item-wrapper binding_method">
           <div className="calc__entry">
