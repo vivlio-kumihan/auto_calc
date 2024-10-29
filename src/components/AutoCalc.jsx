@@ -2,11 +2,15 @@ import { useReducer } from "react";
 
 import Example from './parts/Example.jsx'
 
+// 関数Reducer
 const handleRreducer = (prev, { item, payload }) => {
   const { name, value } = payload;
   switch (item) {
+    case "trimSize": return { ...prev, trimSize: { name: name, value: value } };    
+    case "textPaperType": return { ...prev, textPaperType: { name: name, value: value } };
     case "printQuantity": return { ...prev, [name]: value };
     case "pageCount": {
+      // 課題　条件分岐が必要
       const maxColorPageCount = Math.floor(value / 2);
       // const maxColorPageCount = Math.floor(value - 1);
       const tmpArr = [];
@@ -16,11 +20,11 @@ const handleRreducer = (prev, { item, payload }) => {
       return { ...prev, [name]: value, colorPageCountArr: tmpArr };
     };
     case "colorPageCount": return { ...prev, [name]: value };
-    case "trimSize": return { ...prev, trimSize: { name: name, value: value } };    
     default: throw new Error("error...");
   }
 };
 
+// 冊子のサイズ
 const TRIM_SIZES = { 
   A6: "A6", B6: "B6", A5: "A5", B5: "B5", A4: "A4",
   stdPaperback: "新書版",
@@ -28,52 +32,76 @@ const TRIM_SIZES = {
   customSizeSm: "変形サイズ（小）",
   customSizeLg: "変形サイズ（大）"
 };
-
+// 本文の種類
+const TEXT_PAPER_TYPE = {
+  highQualityPaper_70kg: "上質 70kg",
+  highQualityPaper_90kg: "上質 90kg",
+  highQualityPaper_55kg: "上質 55kg",
+  CoatedPaper_110kg: "コート 110kg",
+  matteCoatePaper_90kg: "マットコート 90kg",
+  bookPaper_72dot5kg: "書籍用紙 72.5kg（淡クリームキンマリ）",
+  bookPaper_90kg: "書籍用紙 90kg（淡クリームキンマリ）",
+  bookPaper_57kg: "書籍用紙 57kg（淡クリームキンマリ）",
+  roughCreamPaper_71dot5kg: "ラフクリーム琥珀 71.5kg",
+};
+// 印刷部数
 const printQuantityArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 for (let i = 10; i <= 2000; i += 5) {
   printQuantityArr.push(i);
 }
+// ページ数
 const pageCountArr = [0, 4, 8];
 for (let i = 10; i <= 500; i += 2) {
   pageCountArr.push(i);
 }
 
+// 本体
 const AutoCalc = () => {
   const initState = {
+    trimSize: {},
+    textPaperType: {},
     printQuantity: 0,
     pageCount: 0,
     colorPageCount: 0,
     colorPageCountArr: [],
-    trimSize: {},
   };
   const [state,  dispatch] = useReducer(handleRreducer, initState);
+  // 冊子のサイズ
+  const handleTrimSize = (e) => {
+    dispatch({
+      item: "trimSize",
+      payload: { name: e.target.name, value: e.target.value }
+    });
+  };   
+  // 本文の種類  
+  const handleTextPaperType = (e) => {
+    dispatch({
+      item: "textPaperType",
+      payload: { name: e.target.name, value: e.target.value }
+    });
+  };
+  // 印刷部数
   const handlePrintQuantity = (e) => {
     dispatch({
       item: "printQuantity",
       payload: { name: e.target.name, value: e.target.value }
     });
   };
-
+  // ページ数
   const handlePageCount = (e) => {
     dispatch({
       item: "pageCount",
       payload: { name: e.target.name, value: e.target.value }
     });
   };
+  // カラー・ページ数  
   const handleColorPageCount = (e) => {
     dispatch({
       item: "colorPageCount",
       payload: { name: e.target.name, value: e.target.value }
     });
-  };  
-
-  const handleTrimSize = (e) => {
-    dispatch({
-      item: "trimSize",
-      payload: { name: e.target.name, value: e.target.value }
-    });
-  };  
-
+  };   
+  // とりあえずダミーの関数
   const dummyFunc = (e) => {
     dispatch({ dummyCount: e.target.value })
   };
@@ -139,45 +167,26 @@ const AutoCalc = () => {
         <div className="calc__item-wrapper text_paper_type">
           <div className="calc__entry">
             本文の種類<span>※</span>
-          </div>   
+          </div>
           <div className="calc__content-inner">
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={dummyFunc} />
-              上質 70kg
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={dummyFunc} />
-              上質 90kg
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={dummyFunc} />
-              上質 55kg
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={dummyFunc} />
-              コート110kg
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={dummyFunc} />
-              マットコート90kg
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={dummyFunc} />
-              書籍用紙 72.5kg（淡クリームキンマリ）
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={dummyFunc} />
-              書籍用紙 90kg（淡クリームキンマリ）
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={dummyFunc} />
-              書籍用紙 57kg（淡クリームキンマリ）
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={dummyFunc} />
-              ラフクリーム琥珀 71.5kg
-            </label>
-          </div>       
+            {
+              Object.entries(TEXT_PAPER_TYPE).map(([name, value]) => {
+                return (
+                  <label htmlFor={name} key={name}>
+                    <input
+                      id={name}
+                      type="radio"
+                      name={name}
+                      value={value}
+                      checked={state.textPaperType.name === name}
+                      onChange={handleTextPaperType} 
+                    />
+                    {value}
+                  </label>
+                )
+              })
+            }
+          </div>
         </div>
 
         {/* 印刷部数 */}

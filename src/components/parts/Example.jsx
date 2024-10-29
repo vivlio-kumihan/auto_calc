@@ -1,78 +1,164 @@
 import { useReducer } from "react";
 
-const TRIM_SIZES = { 
-  A6: "A6", B6: "B6", A5: "A5", B5: "B5", A4: "A4",
-  stdPaperback: "新書版",
-  pocketEdition: "文庫版",
-  customSizeSm: "変形サイズ（小）",
-  customSizeLg: "変形サイズ（大）"
+// 本文の全ての種類
+const TEXT_PAPER_TYPE = {
+  _1_highQualityPaper_70kg: "上質 70kg",
+  _2_highQualityPaper_90kg: "上質 90kg",
+  _3_highQualityPaper_55kg: "上質 55kg",
+  _4_coatedPaper_110kg: "コート 110kg",
+  _5_matteCoatePaper_90kg: "マットコート 90kg",
+  _6_bookPaper_72dot5kg: "書籍用紙 72.5kg（淡クリームキンマリ）",
+  _7_bookPaper_90kg: "書籍用紙 90kg（淡クリームキンマリ）",
+  _8_bookPaper_57kg: "書籍用紙 57kg（淡クリームキンマリ）",
+  _9_roughCreamPaper_71dot5kg: "ラフクリーム琥珀 71.5kg",
 };
-
+// 版型それぞれに使用できる用紙の種類を生成する。
+function geneTextPaperType(obj,
+  items) {
+  return items.reduce((newObj, key) => {
+    if (obj[key] !== undefined) {
+      newObj[key] = obj[key];
+    }
+    return newObj;
+  }, {});
+}
+// A6
+const caseA6 = geneTextPaperType(
+  TEXT_PAPER_TYPE,
+  [
+    "_1_highQualityPaper_70kg",
+    "_2_highQualityPaper_90kg",
+    "_3_highQualityPaper_55kg",
+    "_6_bookPaper_72dot5kg",
+    "_7_bookPaper_90kg",
+    "_8_bookPaper_57kg",
+    "_9_roughCreamPaper_71dot5kg",
+  ]);
+// B6
+const caseB6 = geneTextPaperType(
+  TEXT_PAPER_TYPE,
+  [
+    "_1_highQualityPaper_70kg",
+    "_2_highQualityPaper_90kg",
+    "_6_bookPaper_72dot5kg",
+    "_7_bookPaper_90kg",
+    "_9_roughCreamPaper_71dot5kg",
+  ]);
+// A5
+const caseA5 = geneTextPaperType(
+  TEXT_PAPER_TYPE,
+  [
+    "_1_highQualityPaper_70kg",
+    "_2_highQualityPaper_90kg",
+    "_6_bookPaper_72dot5kg",
+    "_7_bookPaper_90kg",
+    "_9_roughCreamPaper_71dot5kg",
+  ]);
+// B5
+const caseB5 = geneTextPaperType(
+  TEXT_PAPER_TYPE,
+  [
+    "_1_highQualityPaper_70kg",
+    "_2_highQualityPaper_90kg",
+    "_6_bookPaper_72dot5kg",
+    "_7_bookPaper_90kg",
+    "_9_roughCreamPaper_71dot5kg",
+  ]);
+// A4
+const caseA4 = geneTextPaperType(
+  TEXT_PAPER_TYPE,
+  [
+    "_1_highQualityPaper_70kg",
+    "_2_highQualityPaper_90kg",
+    "_6_bookPaper_72dot5kg",
+    "_7_bookPaper_90kg",
+    "_9_roughCreamPaper_71dot5kg",
+  ]);
 // 新書版
-const stdPaperbackVarSizeHights = [];
-for (let i = 172; i <= 192; ++i) {
-  stdPaperbackVarSizeHights.push(i);
-}
-const stdPaperbackVarSizeWidths = [];
-for (let i = 103; i <= 138; ++i) {
-  stdPaperbackVarSizeWidths.push(i);
-}
-
+const caseStdPaperback = geneTextPaperType(
+  TEXT_PAPER_TYPE,
+  [
+    "_1_highQualityPaper_70kg",
+    "_2_highQualityPaper_90kg",
+    "_6_bookPaper_72dot5kg",
+    "_7_bookPaper_90kg",
+    "_9_roughCreamPaper_71dot5kg",
+  ]);
 // 文庫版
-const pocketEditionVarSizeHights = [];
-for (let i = 138; i <= 152; ++i) {
-  pocketEditionVarSizeHights.push(i);
-}
-const pocketEditionVarSizeWidths = [];
-for (let i = 103; i <= 115; ++i) {
-  pocketEditionVarSizeWidths.push(i);
-}
-
+const casePocketEdition = geneTextPaperType(
+  TEXT_PAPER_TYPE,
+  [
+    "_1_highQualityPaper_70kg",
+    "_2_highQualityPaper_90kg",
+    "_3_highQualityPaper_55kg",
+    "_6_bookPaper_72dot5kg",
+    "_7_bookPaper_90kg",
+    "_8_bookPaper_57kg",
+    "_9_roughCreamPaper_71dot5kg",
+  ]);
 // 変形サイズ（小）
-const customSizeSmVarSizeHights = [];
-for (let i = 105; i <= 210; ++i) {
-  customSizeSmVarSizeHights.push(i);
-}
-const customSizeSmVarSizeWidths = [];
-for (let i = 90; i <= 148; ++i) {
-  customSizeSmVarSizeWidths.push(i);
-}
-
+const caseCustomSizeSm = geneTextPaperType(
+  TEXT_PAPER_TYPE,
+  [
+    "_1_highQualityPaper_70kg",
+    "_2_highQualityPaper_90kg",
+    "_6_bookPaper_72dot5kg",
+    "_7_bookPaper_90kg",
+  ]);
 // 変形サイズ（大）
-const customSizeLgVarSizeHights = [];
-for (let i = 149; i <= 297; ++i) {
-  customSizeLgVarSizeHights.push(i);
-}
-const customSizeLgVarSizeWidths = [];
-for (let i = 149; i <= 210; ++i) {
-  customSizeLgVarSizeWidths.push(i);
-}
+const caseCustomSizeLg = geneTextPaperType(
+  TEXT_PAPER_TYPE,
+  [
+    "_1_highQualityPaper_70kg",
+    "_2_highQualityPaper_90kg",
+    "_6_bookPaper_72dot5kg",
+    "_7_bookPaper_90kg",
+  ]);
+  
+// 冊子のサイズと対応する用紙の種類
+const TRIM_SIZES_TYPE = { 
+  A6: { name: "A6", paper_type: caseA6 },
+  B6: { name: "B6", paper_type: caseB6 },
+  A5: { name: "A5", paper_type: caseA5 },
+  B5: { name: "B5", paper_type: caseB5 },
+  A4: { name: "A4", paper_type: caseA4 },
+  stdPaperback: { name: "新書版", paper_type: caseStdPaperback },
+  pocketEdition: { name: "文庫版", paper_type: casePocketEdition },
+  customSizeSm: { name: "変形サイズ（小）", paper_type: caseCustomSizeSm },
+  customSizeLg: { name: "変形サイズ（大）", paper_type: caseCustomSizeLg },
+};
 
 const handleRreducer = (prev, { item, payload }) => {
   const { name, value } = payload;
   switch (item) {
-    case "trimSize": return { ...prev, trimSize: { name: name, value: value } };
-    case "customtrimSize": return { ...prev, customtrimSize: { name: name, value: value } };
+    case "trimSize": return { ...prev, trimSize: { name: value } };    
+    case "textPaperType": return { ...prev, textPaperType: { name: name, value: value } };
     default: throw new Error("error...");
   }
 };
 
 const Example = () => {
   const initState = {
-    trimSize: {},
-    customTrimSize: []
+    trimSize: {},    
+    textPaperType: {},
   };
 
   const [state,  dispatch] = useReducer(handleRreducer, initState);
 
+  // 冊子のサイズ
   const handleTrimSize = (e) => {
     dispatch({
       item: "trimSize",
+      payload: { value: e.target.value }
+    });
+  }; 
+  // 本文の種類    
+  const handleTextPaperType = (e) => {
+    dispatch({
+      item: "textPaperType",
       payload: { name: e.target.name, value: e.target.value }
     });
   };
-
-  const handlecustomTrimSize = (e) => {};
 
   return (
     <>
@@ -82,54 +168,56 @@ const Example = () => {
           <div className="calc__entry">
             冊子のサイズ<span>※</span>
           </div>
-          <div className="calc__content-inner">
+            <div className="calc__content-inner">
             {
-              Object.entries(TRIM_SIZES).map(([name, value]) => {
+              console.log(state)
+            }
+            {
+              Object.entries(TRIM_SIZES_TYPE).map(([key, value]) => {
                 return (
-                  <label htmlFor={name} key={name}>
+                  <label htmlFor={key} key={key}>
                     <input
-                      id={name}
+                      id={key}
                       type="radio"
-                      name={name}
-                      value={value}
-                      checked={state.trimSize.name === name}
+                      name={key}
+                      value={value.name}
+                      checked={state.trimSize.name === key}
                       onChange={handleTrimSize} 
                     />
-                    {value}
+                    {value.name}
                   </label>
                 )
               })
             }
           </div>
-        </div> 
-
-        {/* 新書版・文庫版変形サイズ入力 */}
-        {/* 冊子サイズによって可変するテキストが入る */}
-        <div className="calc__item-wrapper custom_trim_size">
+        </div>      
+        {/* 本文の種類 */}
+        <div className="calc__item-wrapper text_paper_type">
           <div className="calc__entry">
-            新書版・文庫版変形サイズ入力<span>※</span>
-          </div>   
+            本文の種類<span>※</span>
+          </div>
           <div className="calc__content-inner">
-            <label htmlFor="">
-              H（&nbsp;<input id="" type="number" name="" value="" />&nbsp;）&nbsp;㎜&nbsp;×&nbsp;
-              W（&nbsp;<input id="" type="number" name="" value="" />&nbsp;）&nbsp;㎜ 
-            </label>
-
-            <select
-              name="customTrimSize"
-              value={state.customTrimSize}
-              onChange={handlecustomTrimSize}>
-              {
-                customTrimSizeArr.map((num) => {
-                  return (
-                    <option key={num} value={num}>{num}</option> 
-                  ) 
-                }) 
-              }
-            </select>
-            <div className="result">Result: {state.customTrimSize}</div>            
-          </div>       
-        </div>           
+            {
+              Object.entries(TRIM_SIZES_TYPE).map(([key, value]) => {
+                console.log(key)
+                console.log(value.paper_type)
+                return (
+                  <label htmlFor={key} key={key}>
+                    <input
+                      id={key}
+                      type="radio"
+                      name={key}
+                      value={value}
+                      checked={state.textPaperType === key}
+                      onChange={handleTrimSize} 
+                    />
+                    {value.name}
+                  </label>
+                )
+              })
+            }
+          </div>
+        </div>
       </div>
     </>
   );
