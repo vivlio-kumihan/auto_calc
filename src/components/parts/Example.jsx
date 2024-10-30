@@ -24,10 +24,10 @@ const TRIM_SIZES_TYPES = {
 };
 
 const handleRreducer = (prev, { item, payload }) => {
-  const { name, value } = payload;
+  const { key, name, value } = payload;
   switch (item) {
-    case "trimSize": return { ...prev, trimSize: { name: value } };    
-    case "textPaperType": return { ...prev, textPaperType: { name: value } };
+    case "trimSize": return { ...prev, trimSize: { id: key, name: name } };    
+    case "textPaperType": return { ...prev, textPaperType: { name: name } };
     default: throw new Error("error...");
   }
 };
@@ -39,20 +39,21 @@ const Example = () => {
   };
   
   const [state,  dispatch] = useReducer(handleRreducer, initState);
-  console.log(state)
+  // 状態の確認
+  console.log(state, "++++++++++++++++++++++++++++++++++")
 
   // 冊子のサイズ
   const handleTrimSize = (e) => {
     dispatch({
       item: "trimSize",
-      payload: { value: e.target.value }
+      payload: { key: e.target.id, name: e.target.name }
     });
   }; 
   // 本文の種類    
   const handleTextPaperType = (e) => {
     dispatch({
       item: "textPaperType",
-      payload: { value: e.target.value }
+      payload: { name: e.target.name }
     });
   };
 
@@ -65,24 +66,18 @@ const Example = () => {
             冊子のサイズ<span>※</span>
           </div>
             <div className="calc__content-inner">
-
             {
-              Object.entries(TRIM_SIZES_TYPES).map(([key, value]) => {
-                {/* console.log(key)
-                console.log(value)
-                console.log(value.name)
-                console.log(state.trimSize.name) */}
+              Object.entries(TRIM_SIZES_TYPES).map(([key, item]) => {
                 return (
                   <label htmlFor={key} key={key}>
                     <input
                       id={key}
                       type="radio"
-                      name={key}
-                      value={value.name}
-                      checked={state.trimSize.name === value.name}
+                      name={item.name}
+                      checked={state.trimSize.id === key}
                       onChange={handleTrimSize} 
                     />
-                    {value.name}
+                    {item.name}
                   </label>
                 )
               })
@@ -97,17 +92,20 @@ const Example = () => {
             本文の種類<span>※</span>
           </div>
           <div className="calc__content-inner">
+            {/* {console.log(TRIM_SIZES_TYPES)} */}
+            {/* {console.log(state.trimSize.id)} */}
+            {/* {console.log(TRIM_SIZES_TYPES[state.trimSize.id])} */}
             {
-              state.trimSize.name &&
-                TRIM_SIZES_TYPES[state.trimSize.name]?.useTextPaperTypes.map((type) => {
+              state.trimSize.id &&
+                TRIM_SIZES_TYPES[state.trimSize.id]?.useTextPaperTypes.map((type) => {
+                  {/* console.log(type) */}
                   return (
                     <label htmlFor={type} key={type}>
                       <input
                         id={type}
                         type="radio"
-                        name="textPaperType"
-                        value={type}
-                        checked={state.textPaperType.value === type}
+                        name={type}
+                        checked={state.textPaperType.name === type}
                         onChange={handleTextPaperType} 
                       />
                       {type}
