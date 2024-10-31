@@ -3,34 +3,34 @@ import { useReducer } from "react";
 import Example from './parts/Example.jsx'
 
 // 本文の全ての種類
-// const TEXT_PAPER_TYPE = ["上質 70kg", "上質 90kg", "上質 55kg", "コート 110kg", "マットコート 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）", "書籍用紙 57kg（淡クリームキンマリ）", "ラフクリーム琥珀 71.5kg"];
+const TEXT_PAPER_TYPE = ["上質 70kg", "上質 90kg", "上質 55kg", "コート 110kg", "マットコート 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）", "書籍用紙 57kg（淡クリームキンマリ）", "ラフクリーム琥珀 71.5kg"];
 // 版型ごとに使用できる紙の種類を配列で格納。
 // A6, 文庫版
-const textPaperType_A6_PocketEdition = ["上質 70kg", "上質 90kg", "上質 55kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）", "書籍用紙 57kg（淡クリームキンマリ）", "ラフクリーム琥珀 71.5kg"];
+const TEXT_PAPER_TYPE_1C_A6_POCKETEDITION = ["上質 70kg", "上質 90kg", "上質 55kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）", "書籍用紙 57kg（淡クリームキンマリ）", "ラフクリーム琥珀 71.5kg"];
 // 変形サイズ（小）（大）
-const textPaperTypesCustomSize_Sm_Lg = ["上質 70kg", "上質 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）"];
+const TEXT_PAPER_TYPES_1C_CUSTOMSIZE_SM_LG = ["上質 70kg", "上質 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）"];
 // B6, A5, B5, A4, 新書版
-const textPaperTypes_Others = ["上質 70kg", "上質 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）", "ラフクリーム琥珀 71.5kg"];
-  
+const TEXT_PAPER_TYPES_1C_OTHERS = ["上質 70kg", "上質 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）", "ラフクリーム琥珀 71.5kg"];
+
 // 冊子のサイズと対応する用紙の種類
 const TRIM_SIZES_TYPES = {
-  A6: { name: "A6", useTextPaperTypes: textPaperType_A6_PocketEdition },
-  B6: { name: "B6", useTextPaperTypes: textPaperTypes_Others },
-  A5: { name: "A5", useTextPaperTypes: textPaperTypes_Others },
-  B5: { name: "B5", useTextPaperTypes: textPaperTypes_Others },
-  A4: { name: "A4", useTextPaperTypes: textPaperTypes_Others },
-  stdPaperback: { name: "新書版", useTextPaperTypes: textPaperTypes_Others },
-  pocketEdition: { name: "文庫版", useTextPaperTypes: textPaperType_A6_PocketEdition },
-  customSizeSm: { name: "変形サイズ（小）", useTextPaperTypes: textPaperTypesCustomSize_Sm_Lg },
-  customSizeLg: { name: "変形サイズ（大）", useTextPaperTypes: textPaperTypesCustomSize_Sm_Lg },
+  A6: { name: "A6", textPaperTypes: TEXT_PAPER_TYPE_1C_A6_POCKETEDITION },
+  B6: { name: "B6", textPaperTypes: TEXT_PAPER_TYPES_1C_OTHERS },
+  A5: { name: "A5", textPaperTypes: TEXT_PAPER_TYPES_1C_OTHERS },
+  B5: { name: "B5", textPaperTypes: TEXT_PAPER_TYPES_1C_OTHERS },
+  A4: { name: "A4", textPaperTypes: TEXT_PAPER_TYPES_1C_OTHERS },
+  stdPaperback: { name: "新書版", textPaperTypes: TEXT_PAPER_TYPES_1C_OTHERS },
+  pocketEdition: { name: "文庫版", textPaperTypes: TEXT_PAPER_TYPE_1C_A6_POCKETEDITION },
+  customSizeSm: { name: "変形サイズ（小）", textPaperTypes: TEXT_PAPER_TYPES_1C_CUSTOMSIZE_SM_LG },
+  customSizeLg: { name: "変形サイズ（大）", textPaperTypes: TEXT_PAPER_TYPES_1C_CUSTOMSIZE_SM_LG },
 };
 
 // 関数Reducer
 const handleRreducer = (prev, { item, payload }) => {
-  const { name, value } = payload;
+  const { key, name, value } = payload;
   switch (item) {
-    case "trimSize": return { ...prev, trimSize: { name: value } };    
-    case "textPaperType": return { ...prev, textPaperType: { name: value } };
+    case "trimSize": return { ...prev, trimSize: { id: key, name: name } };    
+    case "textPaperType": return { ...prev, textPaperType: { name: name } };
     case "printQuantity": return { ...prev, [name]: value };
     case "pageCount": {
       // 課題　条件分岐が必要
@@ -60,6 +60,7 @@ for (let i = 10; i <= 500; i += 2) {
 
 // 本体
 const AutoCalc = () => {
+  // 初期値
   const initState = {
     trimSize: {},
     textPaperType: {},
@@ -68,19 +69,21 @@ const AutoCalc = () => {
     colorPageCount: 0,
     colorPageCountArr: [],
   };
+  // 状態
   const [state,  dispatch] = useReducer(handleRreducer, initState);
+  // console.log(state);
   // 冊子のサイズ
   const handleTrimSize = (e) => {
     dispatch({
       item: "trimSize",
-      payload: { name: e.target.name, value: e.target.value }
+      payload: { key: e.target.id, name: e.target.name }
     });
-  };   
+  };  
   // 本文の種類  
   const handleTextPaperType = (e) => {
     dispatch({
       item: "textPaperType",
-      payload: { value: e.target.value }
+      payload: { name: e.target.name }
     });
   };
   // 印刷部数
@@ -120,20 +123,18 @@ const AutoCalc = () => {
             冊子のサイズ<span>※</span>
           </div>
             <div className="calc__content-inner">
-
             {
-              Object.entries(TRIM_SIZES_TYPES).map(([key, value]) => {
+              Object.entries(TRIM_SIZES_TYPES).map(([key, item]) => {
                 return (
                   <label htmlFor={key} key={key}>
                     <input
                       id={key}
                       type="radio"
-                      name={key}
-                      value={value.name}
-                      checked={state.trimSize.name === key}
+                      name={item.name}
+                      checked={state.trimSize.id === key}
                       onChange={handleTrimSize} 
                     />
-                    {value.name}
+                    {item.name}
                   </label>
                 )
               })
@@ -176,16 +177,15 @@ const AutoCalc = () => {
           </div>
           <div className="calc__content-inner">
             {
-              state.trimSize.name &&
-                TRIM_SIZES_TYPES[state.trimSize.name]?.useTextPaperTypes.map((type) => {
+              state.trimSize.id &&
+                TRIM_SIZES_TYPES[state.trimSize.id]?.textPaperTypes.map((type) => {
                   return (
                     <label htmlFor={type} key={type}>
                       <input
                         id={type}
                         type="radio"
-                        name="textPaperType"
-                        value={type}
-                        checked={state.textPaperType.value === type}
+                        name={type}
+                        checked={state.textPaperType.name === type}
                         onChange={handleTextPaperType} 
                       />
                       {type}
