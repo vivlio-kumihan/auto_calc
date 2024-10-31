@@ -25,6 +25,28 @@ const TRIM_SIZES_TYPES = {
   customSizeLg: { name: "変形サイズ（大）", textPaperTypes: TEXT_PAPER_TYPES_1C_CUSTOMSIZE_SM_LG },
 };
 
+const COVER_PRINTING_METHOD = { mono: "モノクロ印刷", color: "フルカラー印刷" };
+
+// 表紙の種類1C（K）
+const COVER_PAPER_TYPES_PRINTED_1C = [
+  { group: "上質・色上質・色ファンシー" , types: ["上質 180kg", "色上質最厚口", "レザック 175kg"] },
+  { group: "特殊紙 その他" , types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "両更クラフト紙 129.5kg"] }
+];
+// 表紙の種類4C
+const COVER_PAPER_TYPES_PRINTED_4C = [
+  { group: "上質・色上質・色ファンシー" , types: ["上質 180kg", "色上質最厚口", "レザック 175kg"] },
+  { group: "艶ありコート・アート・キャスト" , types: ["コート紙 180kg", "アートポスト紙 200kg", "ミラーコート紙 220kg"] },
+  { group: "艶なしマットコート・ダル" , types: ["マットコート紙 135kg", "サテン金藤 180kg", "マットポスト紙 220kg"] },
+  { group: "ラフ・エンボス" , types: ["アラベール スノーホワイト 160kg", "アラベール ナチュラル 160kg", "マーメイド スノーホワイト 175kg"] },
+  { group: "特殊紙 パール・シャイン・ラメ" , types: ["ペルーラ スノーホワイト 180kg", "ミランダ スノーホワイト 170kg", "五感紙粗目 純白キラ 135kg", "新星物語 パウダー 180kg", "エスプリコートVNエンボス アラレ 176.5kg"] },
+  { group: "特殊紙 その他" , types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "レザック82 ろうけつ 白 175kg", "両更クラフト紙 129.5kg"] }
+];
+// 表紙の種類
+const COVER_PAPER_TYPES_GROUP = {
+  mono: { coverPaperTypes: COVER_PAPER_TYPES_PRINTED_1C },
+  color: { coverPaperTypes: COVER_PAPER_TYPES_PRINTED_4C }
+};
+
 // 関数Reducer
 const handleRreducer = (prev, { item, payload }) => {
   const { key, name, value } = payload;
@@ -32,6 +54,8 @@ const handleRreducer = (prev, { item, payload }) => {
     case "trimSize": return { ...prev, trimSize: { id: key, name: name } };    
     case "textPaperType": return { ...prev, textPaperType: { name: name } };
     case "printQuantity": return { ...prev, [name]: value };
+    case "coverPrintingMethod": return { ...prev, coverPrintingMethod: { id: key, name: name } };
+    case "coverPaperType": return { ...prev, coverPaperType: { name: name } };
     case "pageCount": {
       // 課題　条件分岐が必要
       const maxColorPageCount = Math.floor(value / 2);
@@ -65,6 +89,8 @@ const AutoCalc = () => {
     trimSize: {},
     textPaperType: {},
     printQuantity: 0,
+    coverPrintingMethod: {},
+    coverPaperType: {},    
     pageCount: 0,
     colorPageCount: 0,
     colorPageCountArr: [],
@@ -93,6 +119,20 @@ const AutoCalc = () => {
       payload: { name: e.target.name, value: e.target.value }
     });
   };
+  // 表紙の印刷方法
+  const handleCoverPrintingMethod = (e) => {
+    dispatch({
+      item: "coverPrintingMethod",
+      payload: { key: e.target.id, name: e.target.name }
+    });
+  };
+  // 表紙の種類
+  const handleCoverPaperType = (type) => {
+    dispatch({
+      item: "coverPaperType",
+      payload: { name: type }  // クリックしたラジオボタンのtypeをstateにセット
+    });
+  };  
   // ページ数
   const handlePageCount = (e) => {
     dispatch({
@@ -196,6 +236,75 @@ const AutoCalc = () => {
             }
           </div>
         </div>
+
+        {/* 表紙の印刷方法 */}
+        <div className="calc__item-wrapper cover_printing_method">
+          <div className="calc__entry">
+            表紙の印刷方法<span>※</span>
+          </div>   
+          <div className="calc__content-inner">
+            {
+              Object.entries(COVER_PRINTING_METHOD).map(([key, color]) => {
+                return (
+                  <label htmlFor={key} key={key}>
+                    <input
+                      id={key}
+                      type="radio"
+                      name={color}
+                      checked={state.coverPrintingMethod.name === color}
+                      onChange={handleCoverPrintingMethod} 
+                    />
+                    {color}
+                  </label>
+                )
+              })
+            }
+          </div>  
+          <ul className="note">
+            <li>表2・表3に印刷をご希望の場合は、下記のオプション加工をお選び下さい。</li>
+            <li>表表紙（表1）の裏側を表2、裏表紙(表4)の内側を表3と呼びます。</li>
+          </ul>     
+        </div>
+
+        {/* 表紙の種類（印刷方法） */}
+        <div className="calc__item-wrapper cover_paper_type">
+          <div className="calc__entry">
+            表紙の種類（印刷方法）<span>※</span>
+          </div>
+          <div className="calc__content-inner">
+            {
+              state.coverPrintingMethod.id &&
+                COVER_PAPER_TYPES_GROUP[state.coverPrintingMethod.id]?.coverPaperTypes.map((item) => {
+                  return (
+                    <div key={item.group}>
+                      <h3>{item.group}</h3>
+                      <ul>
+                        {
+                          item.types.map((type) => {
+                            return (
+                              <li key={type}>
+                                <label htmlFor={type}>
+                                  <input 
+                                    id={type}
+                                    type="radio" 
+                                    name="coverPaperType"  // 全てのラジオボタンで共通のname属性にする
+                                    checked={state.coverPaperType.name === type}
+                                    onChange={() => handleCoverPaperType(type)}  // typeを引数に渡す
+                                  />
+                                  {type}
+                                </label>
+                              </li>
+                            )
+                          })
+                        }
+                      </ul>
+                    </div>
+                  )
+                }
+              )
+            }
+          </div>
+        </div>           
 
         {/* 印刷部数 */}
         <div className="calc__item-wrapper print_quantity">

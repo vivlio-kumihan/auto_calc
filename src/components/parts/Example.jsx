@@ -39,7 +39,7 @@ const COVER_PRINTING_METHOD = { mono: "モノクロ印刷", color: "フルカラ
 // 表紙の種類1C（K）
 const COVER_PAPER_TYPES_PRINTED_1C = [
   { group: "上質・色上質・色ファンシー" , types: ["上質 180kg", "色上質最厚口", "レザック 175kg"] },
-  { group: "特殊紙 その他" , types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "両更クラフト紙 129.5kg（モノクロ印刷）", "レザック82 ろうけつ 白 175kg", "両更クラフト紙 129.5kg"] }
+  { group: "特殊紙 その他" , types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "両更クラフト紙 129.5kg"] }
 ];
 // 表紙の種類4C
 const COVER_PAPER_TYPES_PRINTED_4C = [
@@ -48,7 +48,7 @@ const COVER_PAPER_TYPES_PRINTED_4C = [
   { group: "艶なしマットコート・ダル" , types: ["マットコート紙 135kg", "サテン金藤 180kg", "マットポスト紙 220kg"] },
   { group: "ラフ・エンボス" , types: ["アラベール スノーホワイト 160kg", "アラベール ナチュラル 160kg", "マーメイド スノーホワイト 175kg"] },
   { group: "特殊紙 パール・シャイン・ラメ" , types: ["ペルーラ スノーホワイト 180kg", "ミランダ スノーホワイト 170kg", "五感紙粗目 純白キラ 135kg", "新星物語 パウダー 180kg", "エスプリコートVNエンボス アラレ 176.5kg"] },
-  { group: "特殊紙 その他" , types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "両更クラフト紙 129.5kg（モノクロ印刷）", "レザック82 ろうけつ 白 175kg", "両更クラフト紙 129.5kg"] }
+  { group: "特殊紙 その他" , types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "レザック82 ろうけつ 白 175kg", "両更クラフト紙 129.5kg"] }
 ];
 // 表紙の種類
 const COVER_PAPER_TYPES_GROUP = {
@@ -70,12 +70,12 @@ const handleRreducer = (prev, { item, payload }) => {
 const Example = () => {
   const initState = {
     trimSize: {},
-    textPaperType: {},
+    textPaperType: {},    
     coverPrintingMethod: {},
     coverPaperType: {},
   };
   
-  const [state,  dispatch] = useReducer(handleRreducer, initState);
+  const [state, dispatch] = useReducer(handleRreducer, initState);
 
   // 冊子のサイズ
   const handleTrimSize = (e) => {
@@ -83,14 +83,16 @@ const Example = () => {
       item: "trimSize",
       payload: { key: e.target.id, name: e.target.name }
     });
-  }; 
-  // 本文の種類    
+  };  
+  
+  // 本文の種類  
   const handleTextPaperType = (e) => {
     dispatch({
       item: "textPaperType",
       payload: { name: e.target.name }
     });
   };
+
   // 表紙の印刷方法
   const handleCoverPrintingMethod = (e) => {
     dispatch({
@@ -99,16 +101,70 @@ const Example = () => {
     });
   };
   // 表紙の種類
-  const handleCoverPaperType = (e) => {
+  const handleCoverPaperType = (type) => {
     dispatch({
       item: "coverPaperType",
-      payload: { name: e.target.name }
+      payload: { name: type }  // クリックしたラジオボタンのtypeをstateにセット
     });
   };
-
+  
   return (
     <>
       <div className="calc">
+        {/* 冊子のサイズ */}
+        <div className="calc__item-wrapper trim_size">
+          <div className="calc__entry">
+            冊子のサイズ<span>※</span>
+          </div>
+          <div className="calc__content-inner">
+            {
+              Object.entries(TRIM_SIZES_TYPES).map(([key, item]) => {
+                return (
+                  <label htmlFor={key} key={key}>
+                    <input
+                      id={key}
+                      type="radio"
+                      name={item.name}
+                      checked={state.trimSize.id === key}
+                      onChange={handleTrimSize} 
+                    />
+                    {item.name}
+                  </label>
+                )
+              })
+            }
+          </div>
+        </div>    
+
+        {/* 本文の種類 */}
+        {/* 論理 AND 演算子『&&』は、左側が true の場合のみ右側の処理を実行する。 */}
+        {/* ?. は「オプショナルチェーン」演算子で、指定したプロパティが存在する場合のみ次の操作に進む。 */}
+        <div className="calc__item-wrapper text_paper_type">
+          <div className="calc__entry">
+            本文の種類<span>※</span>
+          </div>
+          <div className="calc__content-inner">
+            {
+              state.trimSize.id &&
+                TRIM_SIZES_TYPES[state.trimSize.id]?.textPaperTypes.map((type) => {
+                  return (
+                    <label htmlFor={type} key={type}>
+                      <input
+                        id={type}
+                        type="radio"
+                        name={type}
+                        checked={state.textPaperType.name === type}
+                        onChange={handleTextPaperType} 
+                      />
+                      {type}
+                    </label>
+                  )
+                }
+              )
+            }
+          </div>
+        </div>
+
         {/* 表紙の印刷方法 */}
         <div className="calc__item-wrapper cover_printing_method">
           <div className="calc__entry">
@@ -148,256 +204,38 @@ const Example = () => {
               state.coverPrintingMethod.id &&
                 COVER_PAPER_TYPES_GROUP[state.coverPrintingMethod.id]?.coverPaperTypes.map((item) => {
                   return (
-                    <>
+                    <div key={item.group}>
                       <h3>{item.group}</h3>
                       <ul>
-                        (
-                          item.tyeps.map((type) => {
-                          <li>{type}</li>
+                        {
+                          item.types.map((type) => {
+                            return (
+                              <li key={type}>
+                                <label htmlFor={type}>
+                                  <input 
+                                    id={type}
+                                    type="radio" 
+                                    name="coverPaperType"  // 全てのラジオボタンで共通のname属性にする
+                                    checked={state.coverPaperType.name === type}
+                                    onChange={() => handleCoverPaperType(type)}  // typeを引数に渡す
+                                  />
+                                  {type}
+                                </label>
+                              </li>
+                            )
                           })
-                        )
+                        }
                       </ul>
-                    </>
+                    </div>
                   )
                 }
               )
             }
           </div>
         </div>        
-        {/* <div className="calc__item-wrapper cover_paper_type">
-          <div className="calc__entry">
-            表紙の種類（印刷方法）<span>※</span>
-          </div>   
-          <div className="calc__content-inner">
-            <div className="calc__entry-title">上質・色上質・色ファンシー</div>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              上質&nbsp;180kg
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              色上質最厚口
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              レザック&nbsp;175kg<span>★</span>
-            </label>
-
-            <div className="calc__entry-title">艶ありコート・アート・キャスト</div>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              コート紙&nbsp;180kg
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              アートポスト紙&nbsp;200kg<span>★</span>
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              ミラーコート紙&nbsp;220kg<span>★</span>
-            </label>
-
-            <div className="calc__entry-title">艶なしマットコート・ダル</div>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              マットコート紙&nbsp;135kg
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              サテン金藤&nbsp;180kg<span>★</span>
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              マットポスト紙&nbsp;220kg<span>★</span>
-            </label>
-
-            <div className="calc__entry-title">ラフ・エンボス</div>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              アラベール&nbsp;スノーホワイト&nbsp;160kg<span>★</span>
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              アラベール&nbsp;ナチュラル&nbsp;160kg<span>★</span>
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              マーメイド&nbsp;スノーホワイト&nbsp;175kg
-            </label>
-
-            <div className="calc__entry-title">特殊紙&nbsp;パール・シャイン・ラメ</div>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              ペルーラ&nbsp;スノーホワイト&nbsp;180kg<span>★</span>
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              ミランダ&nbsp;スノーホワイト&nbsp;170kg<span>★</span>
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              五感紙粗目&nbsp;純白キラ&nbsp;135kg
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              新星物語&nbsp;パウダー&nbsp;180kg
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              エスプリコートVNエンボス&nbsp;アラレ&nbsp;176.5kg★
-            </label>
-            <div className="calc__entry-title">特殊紙&nbsp;その他</div>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              OKカイゼル&nbsp;白&nbsp;155kg
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              しこくてんれい&nbsp;ゆき&nbsp;180kg★
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              両更クラフト紙&nbsp;129.5kg（モノクロ印刷）
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              レザック82&nbsp;ろうけつ 白 175kg
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              両更クラフト紙&nbsp;129.5kg
-            </label>
-
-            <div className="calc__entry-title">お持ち込みの場合・本文と同じ用紙を使用する場合</div>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              表紙お持込み（印刷済み表紙のご支給）
-              <ul className="note">
-                <li>詳しくは<a href="faq.html#a18" target="_blank">こちら</a>をご覧ください。</li>
-              </ul>
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              本文と同じ紙を使用（モノクロ印刷）
-            </label>
-            <label htmlFor="">
-              <input type="radio" id="" value="" onChange={handleColor} />
-              本文と同じ紙を使用
-            </label>
-            <ul className="note">
-              <li>★が付いている表紙がPP加工可能です。</li>
-              <li>表紙に使う用紙については、「<a href="" target="_blank">制作に使う紙について</a>」をご覧ください。</li>
-            </ul>
-          </div>       
-        </div> */}
-
-        {/* 冊子のサイズ */}
-        <div className="calc__item-wrapper trim_size">
-          <div className="calc__entry">
-            冊子のサイズ<span>※</span>
-          </div>
-          <div className="calc__content-inner">
-            {
-              Object.entries(TRIM_SIZES_TYPES).map(([key, item]) => {
-                return (
-                  <label htmlFor={key} key={key}>
-                    <input
-                      id={key}
-                      type="radio"
-                      name={item.name}
-                      checked={state.trimSize.id === key}
-                      onChange={handleTrimSize} 
-                    />
-                    {item.name}
-                  </label>
-                )
-              })
-            }
-          </div>
-        </div>      
-        {/* 本文の種類 */}
-        {/* 論理 AND 演算子『&&』は、左側が true の場合のみ右側の処理を実行する。 */}
-        {/* ?. は「オプショナルチェーン」演算子で、指定したプロパティが存在する場合のみ次の操作に進む。 */}
-        <div className="calc__item-wrapper text_paper_type">
-          <div className="calc__entry">
-            本文の種類<span>※</span>
-          </div>
-          <div className="calc__content-inner">
-            {
-              state.trimSize.id &&
-                TRIM_SIZES_TYPES[state.trimSize.id]?.textPaperTypes.map((type) => {
-                  return (
-                    <label htmlFor={type} key={type}>
-                      <input
-                        id={type}
-                        type="radio"
-                        name={type}
-                        checked={state.textPaperType.name === type}
-                        onChange={handleTextPaperType} 
-                      />
-                      {type}
-                    </label>
-                  )
-                }
-              )
-            }
-          </div>
-        </div>
       </div>
     </>
   );
 };
 
 export default Example;
-
-
-
-
-
-
-
-
-// div>
-//   <label for="">
-//     <input id="" name="" value="" onChange="" /> 
-//     表紙お持込み（印刷済み表紙のご支給）※詳しくは<a href="" target="_blank">こちら</a>をご覧ください
-//   </label>
-// </div>
-// <div>
-//   <label for="">
-//     <input id="" name="" value="" onChange="" /> 
-//     本文と同じ紙を使用（モノクロ印刷）
-//   </label>
-// </div>
-// <div>
-//   <label for="">
-//     <input id="" name="" value="" onChange="" /> 
-//     本文と同じ紙を使用
-//   </label>
-// </div>
-
-// ※★が付いている表紙がPP加工可能です。
-// ※表紙に使う用紙については、「制作に使う紙について」をご覧ください。
-
-
-
-
-
-
-// console.log(key);
-// console.log(value.name);
-// console.log(value.textPaperTypes);
-
-// 基本サイズ　h176×w103、h182×w112
-// 可能範囲　[h172～192]×[w103～138]
-
-// 基本サイズ　h148～152×w105
-// 可能範囲　[h138～152]×[w103～115]
-
-// 可能範囲　[h105～210]×[w90～148]
-
-// 可能範囲　[h149～297]×[w149～210]
-
-
-// // 済んだ分 start
-// // 済んだ分 end
