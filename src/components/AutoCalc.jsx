@@ -2,29 +2,141 @@ import { useReducer } from "react";
 
 import Example from './parts/Example.jsx'
 
-// 本文の全ての種類　メモとして置いておく。
-const TEXT_PAPER_TYPE = ["上質 70kg", "上質 90kg", "上質 55kg", "コート 110kg", "マットコート 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）", "書籍用紙 57kg（淡クリームキンマリ）", "ラフクリーム琥珀 71.5kg"];
-// スプレッド演算子を使って効率的に書きたいが、メニューにラインアップされる順番を制御できないので止める。
-const BASIC_TEXT_PAPER_TYPE = ["上質 70kg", "上質 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）"];
+// 本文の種類
+// オブジェクトを整理して配列に変換する関数
+const corectPaperTypeToArr = (hash) => {
+  const arr = Object.entries(hash).reduce((acc, item) => {
+    acc.push(item[1]);
+    return acc;
+  }, []);
+  return arr;
+};
+
 // 版型ごとに使用できる紙の種類を配列で格納。
-// A6, 文庫版
-const TEXT_PAPER_TYPE_1C_A6_POCKETEDITION = ["上質 70kg", "上質 90kg", "上質 55kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）", "書籍用紙 57kg（淡クリームキンマリ）", "ラフクリーム琥珀 71.5kg"];
-// 変形サイズ（小）（大）
-const TEXT_PAPER_TYPES_1C_CUSTOMSIZE_SM_LG = ["上質 70kg", "上質 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）"];
-// B6, A5, B5, A4, 新書版
-const TEXT_PAPER_TYPES_1C_OTHERS = ["上質 70kg", "上質 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）", "ラフクリーム琥珀 71.5kg"];
+// 本文の全ての種類を参考のために置いておく
+// const TEXT_PAPER_TYPE = { 1: "上質 70kg", 2: "上質 90kg", 3: "上質 55kg", 4: "コート 110kg", 5: "マットコート 90kg", 6: "書籍用紙 72.5kg（淡クリームキンマリ）", 7: "書籍用紙 90kg（淡クリームキンマリ）", 8: "書籍用紙 57kg（淡クリームキンマリ）", 9: "ラフクリーム琥珀 71.5kg" };
+const BASIC_TEXT_PAPER_TYPE = { 1: "上質 70kg", 2: "上質 90kg", 6: "書籍用紙 72.5kg（淡クリームキンマリ）", 7: "書籍用紙 90kg（淡クリームキンマリ）" };
+// 本文：モノクロ
+// 本文：モノクロ, A6, 文庫版
+const TEXT_PAPER_TYPE_1C_A6_POCKETEDITION = corectPaperTypeToArr(
+  { ...BASIC_TEXT_PAPER_TYPE, 3: "上質 55kg", 8: "書籍用紙 57kg（淡クリームキンマリ）", 9: "ラフクリーム琥珀 71.5kg" }
+);
+// 本文：モノクロ, 変形サイズ（小）（大）
+const TEXT_PAPER_TYPES_1C_CUSTOMSIZE_SM_LG = corectPaperTypeToArr(
+  { ...BASIC_TEXT_PAPER_TYPE }
+);
+// 本文：モノクロ, B6, A5, B5, A4, 新書版
+const TEXT_PAPER_TYPES_1C_OTHERS = corectPaperTypeToArr(
+  { ...BASIC_TEXT_PAPER_TYPE, 9: "ラフクリーム琥珀 71.5kg" }
+);
+
+// 本文：カラー, カラー・モノクロ混在
+// 本文：カラー, A6, B6, A5, B5, A4, 新書版, 文庫版
+const TEXT_PAPER_TYPE_4C_OTHERS = corectPaperTypeToArr(
+  { ...BASIC_TEXT_PAPER_TYPE, 4: "コート 110kg", 5: "マットコート 90kg",  9: "ラフクリーム琥珀 71.5kg" }
+);
+// 本文：カラー, 変形サイズ（小）（大）
+const TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG = corectPaperTypeToArr(
+  { ...BASIC_TEXT_PAPER_TYPE, 4: "コート 110kg", 5: "マットコート 90kg" }
+);
+
+// 本文：カラー・モノクロ混在・お得
+// 本文：カラー・モノクロ混在・お得, A6, B6, A5, B5, A4, 新書版, 文庫版
+const TEXT_PAPER_TYPE_4C_OTHERS_SPECIAL = corectPaperTypeToArr(
+  { ...BASIC_TEXT_PAPER_TYPE, 9: "ラフクリーム琥珀 71.5kg" }
+);
+// 本文：カラー・モノクロ混在・お得, 変形サイズ（小）（大）
+const TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG_4C_SPECIAL = corectPaperTypeToArr(
+  { ...BASIC_TEXT_PAPER_TYPE }
+);
+
 // 冊子のサイズと対応する用紙の種類
 const TRIM_SIZES_TYPES = {
-  A6: { name: "A6", textPaperTypes: TEXT_PAPER_TYPE_1C_A6_POCKETEDITION },
-  B6: { name: "B6", textPaperTypes: TEXT_PAPER_TYPES_1C_OTHERS },
-  A5: { name: "A5", textPaperTypes: TEXT_PAPER_TYPES_1C_OTHERS },
-  B5: { name: "B5", textPaperTypes: TEXT_PAPER_TYPES_1C_OTHERS },
-  A4: { name: "A4", textPaperTypes: TEXT_PAPER_TYPES_1C_OTHERS },
-  stdPaperback: { name: "新書版", textPaperTypes: TEXT_PAPER_TYPES_1C_OTHERS },
-  pocketEdition: { name: "文庫版", textPaperTypes: TEXT_PAPER_TYPE_1C_A6_POCKETEDITION },
-  customSizeSm: { name: "変形サイズ（小）", textPaperTypes: TEXT_PAPER_TYPES_1C_CUSTOMSIZE_SM_LG },
-  customSizeLg: { name: "変形サイズ（大）", textPaperTypes: TEXT_PAPER_TYPES_1C_CUSTOMSIZE_SM_LG },
+  A6: {
+    name: "A6", 
+    textPaperTypes: {
+      _1C: TEXT_PAPER_TYPE_1C_A6_POCKETEDITION, 
+      _4C_MONO: TEXT_PAPER_TYPE_4C_OTHERS,  
+      _4CSP: TEXT_PAPER_TYPE_4C_OTHERS_SPECIAL,
+      _4C: TEXT_PAPER_TYPE_4C_OTHERS,
+    } 
+  },
+  B6: {
+    name: "B6", 
+    textPaperTypes: {
+      _1C: TEXT_PAPER_TYPES_1C_OTHERS, 
+      _4C_MONO: TEXT_PAPER_TYPE_4C_OTHERS,      
+      _4CSP: TEXT_PAPER_TYPE_4C_OTHERS_SPECIAL,
+      _4C: TEXT_PAPER_TYPE_4C_OTHERS, 
+    } 
+  },
+  A5: {
+    name: "A5", 
+    textPaperTypes: {
+      _1C: TEXT_PAPER_TYPES_1C_OTHERS,
+      _4C_MONO: TEXT_PAPER_TYPE_4C_OTHERS,      
+      _4CSP: TEXT_PAPER_TYPE_4C_OTHERS_SPECIAL ,
+      _4C: TEXT_PAPER_TYPE_4C_OTHERS,
+    } 
+  },
+  B5: {
+    name: "B5", 
+    textPaperTypes: {
+      _1C: TEXT_PAPER_TYPES_1C_OTHERS,
+      _4C_MONO: TEXT_PAPER_TYPE_4C_OTHERS,      
+      _4CSP: TEXT_PAPER_TYPE_4C_OTHERS_SPECIAL,
+      _4C: TEXT_PAPER_TYPE_4C_OTHERS,
+    } 
+  },
+  A4: {
+    name: "A4", 
+    textPaperTypes: {
+      _1C: TEXT_PAPER_TYPES_1C_OTHERS,
+      _4C_MONO: TEXT_PAPER_TYPE_4C_OTHERS,
+      _4CSP: TEXT_PAPER_TYPE_4C_OTHERS_SPECIAL,
+      _4C: TEXT_PAPER_TYPE_4C_OTHERS
+    } 
+  },
+  stdPaperback: {
+    name: "新書版", 
+    textPaperTypes: {
+      _1C: TEXT_PAPER_TYPES_1C_OTHERS,
+      _4C_MONO: TEXT_PAPER_TYPE_4C_OTHERS,      
+      _4CSP: TEXT_PAPER_TYPE_4C_OTHERS_SPECIAL,
+      _4C: TEXT_PAPER_TYPE_4C_OTHERS,
+    } 
+  },
+  pocketEdition: {
+    name: "文庫版", 
+    textPaperTypes: {
+      _1C: TEXT_PAPER_TYPE_1C_A6_POCKETEDITION,
+      _4C_MONO: TEXT_PAPER_TYPE_4C_OTHERS,      
+      _4CSP: TEXT_PAPER_TYPE_4C_OTHERS_SPECIAL,
+      _4C: TEXT_PAPER_TYPE_4C_OTHERS,
+    } 
+  },
+  customSizeSm: {
+    name: "変形サイズ（小）", 
+    textPaperTypes: {
+      _1C: TEXT_PAPER_TYPES_1C_CUSTOMSIZE_SM_LG,
+      _4C_MONO: TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG,
+      _4CSP: TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG_4C_SPECIAL,
+      _4C: TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG,
+    } 
+  },
+  customSizeLg: {
+    name: "変形サイズ（大）", 
+    textPaperTypes: {
+      _1C: TEXT_PAPER_TYPES_1C_CUSTOMSIZE_SM_LG,
+      _4C_MONO: TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG,      
+      _4CSP: TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG_4C_SPECIAL,
+      _4C: TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG,
+    } 
+  }
 };
+
+// 本文印刷方法
+const TEXT_PRINTING_METHOD = { _1C: "モノクロ印刷", _4C_MONO: "カラー・モノクロ混在印刷", _4CSP: "カラー・モノクロ混在印刷お得ver.", _4C: "フルカラー印刷" };
 
 // 印刷部数
 const printQuantityArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -65,6 +177,7 @@ const handleRreducer = (prev, { item, payload }) => {
   switch (item) {
     case "trimSize": return { ...prev, trimSize: { id: key, name: name } };    
     case "textPaperType": return { ...prev, textPaperType: { name: name } };
+    case "textPrintingMethod": return { ...prev, textPrintingMethod: { id: key, name: name } };    
     case "printQuantity": return { ...prev, [name]: value };
     case "pageCount": {
       // 課題　条件分岐が必要
@@ -87,8 +200,9 @@ const handleRreducer = (prev, { item, payload }) => {
 const AutoCalc = () => {
   // 初期値
   const initState = {
-    trimSize: {},
+    trimSize: { id: "A6", name: "A6"},
     textPaperType: {},
+    textPrintingMethod: { id: "_1C", name: "モノクロ印刷" },    
     printQuantity: 0,
     pageCount: 0,
     colorPageCount: 0,
@@ -96,6 +210,7 @@ const AutoCalc = () => {
     coverPrintingMethod: {},
     coverPaperType: {},    
   };
+
   // 状態
   const [state,  dispatch] = useReducer(handleRreducer, initState);
   // console.log(state);
@@ -115,6 +230,15 @@ const AutoCalc = () => {
       payload: { name: e.target.name }
     });
   };
+
+  // 本文の印刷方法  
+  const handleTextPrintingMethod = (e) => {
+    const key = e.target.selectedOptions[0].dataset.key;
+    dispatch({
+      item: "textPrintingMethod",
+      payload: { key: key, name: e.target.value }
+    });
+  };  
 
   // 印刷部数
   const handlePrintQuantity = (e) => {
@@ -163,7 +287,7 @@ const AutoCalc = () => {
 
   return (
     <>
-      <Example />
+      {/* <Example /> */}
 
       <div className="calc">
         {/* 冊子のサイズ */}
@@ -171,7 +295,7 @@ const AutoCalc = () => {
           <div className="calc__entry">
             冊子のサイズ<span>※</span>
           </div>
-            <div className="calc__content-inner">
+          <div className="calc__content-inner">
             {
               Object.entries(TRIM_SIZES_TYPES).map(([key, item]) => {
                 return (
@@ -189,7 +313,7 @@ const AutoCalc = () => {
               })
             }
           </div>
-        </div>  
+        </div>    
 
         {/* 本文の印刷方法 */}
         {/* 方法によって可変するテキストが入る */}
@@ -198,12 +322,19 @@ const AutoCalc = () => {
             本文の印刷方法<span>※</span>
           </div>   
           <div className="calc__content-inner">
-            <select id="" name="" value="" onChange={dummyFunc}>
-              <option value="">モノクロ印刷</option>
-              <option value="">カラー・モノクロ混在印刷</option>
-              <option value="">カラー・モノクロ混在印刷お得ver.</option>
-              <option value="">フルカラー印刷</option>
-            </select>
+            <label htmlFor="">
+              <select
+                name="textPrintingMethod"
+                value={state.textPrintingMethod.name}
+                onChange={handleTextPrintingMethod}
+              >
+                { Object.entries(TEXT_PRINTING_METHOD).map(([key, method]) => { 
+                  return(
+                    <option data-key={key} key={key} value={method}>{method}</option>
+                  )
+                }) }
+              </select>
+            </label>          
             {/* 共通 */}
             <ul className="note">
               <li>※本文で高彩度印刷をお選び頂いた場合で表紙もカラーを選択される場合、自動的に表紙も高彩度印刷になります。</li>
@@ -215,10 +346,11 @@ const AutoCalc = () => {
               {/* ※お得ver.は、カラーページ数が総ページ数の半分以下で、カラーページが巻頭か巻末かで全て連続しているものに限ります。（例：総ページ数80p 内カラーページ8p&emsp;巻頭カラー 1～8P,モノクロ 9～80P） */}
               {/* ※カラー・モノクロ混在印刷のデータ作成についての注意点をこちらでご確認ください。 */}
           </div>       
-        </div>
+        </div>        
 
         {/* 本文の種類 */}
         {/* 論理 AND 演算子『&&』は、左側が true の場合のみ右側の処理を実行する。 */}
+        {/* つまり、state.trimSize.idが『真』であれば、右辺のコードを実行する */}
         {/* ?. は「オプショナルチェーン」演算子で、指定したプロパティが存在する場合のみ次の操作に進む。 */}
         <div className="calc__item-wrapper text_paper_type">
           <div className="calc__entry">
@@ -227,7 +359,9 @@ const AutoCalc = () => {
           <div className="calc__content-inner">
             {
               state.trimSize.id &&
-                TRIM_SIZES_TYPES[state.trimSize.id]?.textPaperTypes.map((type) => {
+                Object.values(
+                  TRIM_SIZES_TYPES[state.trimSize.id]?.textPaperTypes[state.textPrintingMethod.id] || {})
+                  .map((type) => {
                   return (
                     <label htmlFor={type} key={type}>
                       <input
@@ -244,7 +378,7 @@ const AutoCalc = () => {
               )
             }
           </div>
-        </div>        
+        </div>    
 
         {/* 印刷部数 */}
         <div className="calc__item-wrapper print_quantity">

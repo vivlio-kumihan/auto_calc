@@ -43,7 +43,7 @@ const TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG = corectPaperTypeToArr(
 const TEXT_PAPER_TYPE_4C_OTHERS_SPECIAL = corectPaperTypeToArr(
   { ...BASIC_TEXT_PAPER_TYPE, 9: "ラフクリーム琥珀 71.5kg" }
 );
-// 本文：カラー・お得, 変形サイズ（小）（大）
+// 本文：カラー・モノクロ混在・お得, 変形サイズ（小）（大）
 const TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG_4C_SPECIAL = corectPaperTypeToArr(
   { ...BASIC_TEXT_PAPER_TYPE }
 );
@@ -153,7 +153,7 @@ const Example = () => {
   };
   
   const [state, dispatch] = useReducer(handleRreducer, initState);
-  console.log(state);
+  // console.log(state);
 
   // 冊子のサイズ
   const handleTrimSize = (e) => {
