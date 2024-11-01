@@ -291,7 +291,7 @@ const AutoCalc = () => {
               <li>表紙（表1・2・3・4）を除く本文のページ数</li>
             </ul>
             <label htmlFor="">
-              <select  name="colorPageCount" value={state.colorPageCount} onChange={handleColorPageCount}>
+              <select name="colorPageCount" value={state.colorPageCount} onChange={handleColorPageCount}>
                 { state.colorPageCountArr.map((num) => { 
                   return(
                     <option key={num} value={num}>{num}</option> 
