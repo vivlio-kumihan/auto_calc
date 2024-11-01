@@ -1,25 +1,43 @@
 import { useReducer } from "react";
 
+// 本文の種類
+// オブジェクトを整理して配列に変換する関数
+const corectPaperTypeToArr = (hash) => {
+  const arr = Object.entries(hash).reduce((acc, item) => {
+    acc.push(item[1]);
+    return acc;
+  }, []);
+  return arr;
+};
+
 // 本文の全ての種類
 // 版型ごとに使用できる紙の種類を配列で格納。
-const TEXT_PAPER_TYPE = ["上質 70kg", "上質 90kg", "上質 55kg", "コート 110kg", "マットコート 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）", "書籍用紙 57kg（淡クリームキンマリ）", "ラフクリーム琥珀 71.5kg"];
+const TEXT_PAPER_TYPE = { 1: "上質 70kg", 2: "上質 90kg", 3: "上質 55kg", 4: "コート 110kg", 5: "マットコート 90kg", 6: "書籍用紙 72.5kg（淡クリームキンマリ）", 7: "書籍用紙 90kg（淡クリームキンマリ）", 8: "書籍用紙 57kg（淡クリームキンマリ）", 9: "ラフクリーム琥珀 71.5kg" };
+const BASIC_TEXT_PAPER_TYPE = { 1: "上質 70kg", 2: "上質 90kg", 6: "書籍用紙 72.5kg（淡クリームキンマリ）", 7: "書籍用紙 90kg（淡クリームキンマリ）" };
 // 本文：モノクロ
 // 本文：モノクロ, A6, 文庫版
-const TEXT_PAPER_TYPE_1C_A6_POCKETEDITION = ["上質 70kg", "上質 90kg", "上質 55kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）", "書籍用紙 57kg（淡クリームキンマリ）", "ラフクリーム琥珀 71.5kg"];
+const tmp_TEXT_PAPER_TYPE_1C_A6_POCKETEDITION = { ...BASIC_TEXT_PAPER_TYPE, 3: "上質 55kg", 8: "書籍用紙 57kg（淡クリームキンマリ）", 9: "ラフクリーム琥珀 71.5kg" };
+const TEXT_PAPER_TYPE_1C_A6_POCKETEDITION = corectPaperTypeToArr(tmp_TEXT_PAPER_TYPE_1C_A6_POCKETEDITION);
 // 本文：モノクロ, 変形サイズ（小）（大）
-const TEXT_PAPER_TYPES_1C_CUSTOMSIZE_SM_LG = ["上質 70kg", "上質 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）"];
+const tmp_TEXT_PAPER_TYPES_1C_CUSTOMSIZE_SM_LG = { ...BASIC_TEXT_PAPER_TYPE };
+const TEXT_PAPER_TYPES_1C_CUSTOMSIZE_SM_LG = corectPaperTypeToArr(tmp_TEXT_PAPER_TYPES_1C_CUSTOMSIZE_SM_LG);
 // 本文：モノクロ, B6, A5, B5, A4, 新書版
-const TEXT_PAPER_TYPES_1C_OTHERS = ["上質 70kg", "上質 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）", "ラフクリーム琥珀 71.5kg"];
+const tmp_TEXT_PAPER_TYPES_1C_OTHERS = { ...BASIC_TEXT_PAPER_TYPE, 9: "ラフクリーム琥珀 71.5kg" };
+const TEXT_PAPER_TYPES_1C_OTHERS = corectPaperTypeToArr(tmp_TEXT_PAPER_TYPES_1C_OTHERS);
 // 本文：カラー
 // 本文：カラー, A6, B6, A5, B5, A4, 新書版, 文庫版
-const TEXT_PAPER_TYPE_4C_OTHERS = ["上質 70kg", "上質 90kg", "コート 110kg", "マットコート 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）", "ラフクリーム琥珀 71.5kg"];
+const tmp_TEXT_PAPER_TYPE_4C_OTHERS = { ...BASIC_TEXT_PAPER_TYPE, 4: "コート 110kg", 5: "マットコート 90kg",  9: "ラフクリーム琥珀 71.5kg" };
+const TEXT_PAPER_TYPE_4C_OTHERS = corectPaperTypeToArr(tmp_TEXT_PAPER_TYPE_4C_OTHERS);
 // 本文：カラー, 変形サイズ（小）（大）
-const TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG = ["上質 70kg", "上質 90kg", "コート 110kg", "マットコート 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）"];
+const tmp_TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG = { ...BASIC_TEXT_PAPER_TYPE, 4: "コート 110kg", 5: "マットコート 90kg" };
+const TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG = corectPaperTypeToArr(tmp_TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG);
 // 本文：カラー・お得
 // 本文：カラー・お得, A6, B6, A5, B5, A4, 新書版, 文庫版
-const TEXT_PAPER_TYPE_4C_OTHERS_SPECIAL = ["上質 70kg", "上質 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）", "ラフクリーム琥珀 71.5kg"];
+const tmp_TEXT_PAPER_TYPE_4C_OTHERS_SPECIAL = { ...BASIC_TEXT_PAPER_TYPE, 9: "ラフクリーム琥珀 71.5kg" };
+const TEXT_PAPER_TYPE_4C_OTHERS_SPECIAL = corectPaperTypeToArr(tmp_TEXT_PAPER_TYPE_4C_OTHERS_SPECIAL);
 // 本文：カラー・お得, 変形サイズ（小）（大）
-const TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG_4C_SPECIAL = ["上質 70kg", "上質 90kg", "書籍用紙 72.5kg（淡クリームキンマリ）", "書籍用紙 90kg（淡クリームキンマリ）"];
+const tmp_TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG_4C_SPECIAL = { ...BASIC_TEXT_PAPER_TYPE };
+const TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG_4C_SPECIAL = corectPaperTypeToArr(tmp_TEXT_PAPER_TYPE_4C_CUSTOMSIZE_SM_LG_4C_SPECIAL);
 
 // 冊子のサイズと対応する用紙の種類
 const TRIM_SIZES_TYPES = {
@@ -34,6 +52,7 @@ const TRIM_SIZES_TYPES = {
   customSizeLg: { name: "変形サイズ（大）", textPaperTypes: TEXT_PAPER_TYPES_1C_CUSTOMSIZE_SM_LG },
 };
 
+// 印刷方法
 const COVER_PRINTING_METHOD = { mono: "モノクロ印刷", color: "フルカラー印刷" };
 
 // 表紙の種類1C（K）
@@ -76,6 +95,7 @@ const Example = () => {
   };
   
   const [state, dispatch] = useReducer(handleRreducer, initState);
+  console.log(state);
 
   // 冊子のサイズ
   const handleTrimSize = (e) => {
@@ -100,6 +120,7 @@ const Example = () => {
       payload: { key: e.target.id, name: e.target.name }
     });
   };
+  
   // 表紙の種類
   const handleCoverPaperType = (type) => {
     dispatch({
@@ -135,6 +156,32 @@ const Example = () => {
             }
           </div>
         </div>    
+
+        {/* 本文の印刷方法 */}
+        {/* 方法によって可変するテキストが入る */}
+        <div className="calc__item-wrapper text_printing_method">
+          <div className="calc__entry">
+            本文の印刷方法<span>※</span>
+          </div>   
+          <div className="calc__content-inner">
+            <select id="" name="" value="" >
+              <option value="">モノクロ印刷</option>
+              <option value="">カラー・モノクロ混在印刷</option>
+              <option value="">カラー・モノクロ混在印刷お得ver.</option>
+              <option value="">フルカラー印刷</option>
+            </select>
+            {/* 共通 */}
+            <ul className="note">
+              <li>※本文で高彩度印刷をお選び頂いた場合で表紙もカラーを選択される場合、自動的に表紙も高彩度印刷になります。</li>
+            </ul> 
+            {/* カラー・モノクロ混在印刷 */}
+              {/* ※「カラーページのご指定」欄に何ページ目がカラー印刷になるかデータのページ数で明記して下さい。 */}
+              {/* ページ数のご指定方法はコチラ */}
+            {/* カラー・モノクロ混在印刷お得ver. */}
+              {/* ※お得ver.は、カラーページ数が総ページ数の半分以下で、カラーページが巻頭か巻末かで全て連続しているものに限ります。（例：総ページ数80p 内カラーページ8p&emsp;巻頭カラー 1～8P,モノクロ 9～80P） */}
+              {/* ※カラー・モノクロ混在印刷のデータ作成についての注意点をこちらでご確認ください。 */}
+          </div>       
+        </div>        
 
         {/* 本文の種類 */}
         {/* 論理 AND 演算子『&&』は、左側が true の場合のみ右側の処理を実行する。 */}
