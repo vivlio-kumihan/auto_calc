@@ -1,3 +1,8 @@
-@use '../globals/' as *;
-@use '../parts/common' as *;
+// @use '../globals/' as *;
+// @use '../parts/common' as *;
 
+.set-flex {
+  display: flex;
+  flex-direction: column;
+  gap: .25em;
+}
