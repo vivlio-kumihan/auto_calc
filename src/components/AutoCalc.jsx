@@ -56,15 +56,16 @@ const TEXT_PAPER_TYPE_4C_4cMono_OTHERS = corectPaperTypeToArr(
   { ...BASIC_TEXT_PAPER_TYPE, 4: "コート 110kg", 5: "マットコート 90kg",  9: "ラフクリーム琥珀 71.5kg" }
 );
 
+
 // 冊子のサイズと対応する用紙の種類
-const TRIM_SIZES_TYPES = {
+const TRIM_SIZES_TYPES_RANGE = {
   A6: {
     name: "A6", 
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_A6_PocketEdition, 
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,  
       _4CSP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
-      _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
+      _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     } 
   },
   B6: {
@@ -73,7 +74,7 @@ const TRIM_SIZES_TYPES = {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS, 
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,      
       _4CSP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
-      _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS, 
+      _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     } 
   },
   A5: {
@@ -82,7 +83,7 @@ const TRIM_SIZES_TYPES = {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,      
       _4CSP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS ,
-      _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
+      _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     } 
   },
   B5: {
@@ -91,7 +92,7 @@ const TRIM_SIZES_TYPES = {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,      
       _4CSP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
-      _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
+      _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     } 
   },
   A4: {
@@ -109,8 +110,12 @@ const TRIM_SIZES_TYPES = {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,      
       _4CSP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
-      _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
-    } 
+      _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
+    },
+    customTrimSizeRange: {
+      height: [172, 192],
+      width: [103, 138]
+    }
   },
   pocketEdition: {
     name: "文庫版", 
@@ -118,8 +123,12 @@ const TRIM_SIZES_TYPES = {
       _1C: TEXT_PAPER_TYPE_1C_A6_PocketEdition,
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,      
       _4CSP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
-      _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
-    } 
+      _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
+    },
+    customTrimSizeRange: {
+      height: [138, 152],
+      width: [103, 115]
+    }    
   },
   customSizeSm: {
     name: "変形サイズ（小）", 
@@ -127,8 +136,12 @@ const TRIM_SIZES_TYPES = {
       _1C: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
       _4C_MONO: TEXT_PAPER_TYPE_4C_CustomSizeSmLg,
       _4CSP: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
-      _4C: TEXT_PAPER_TYPE_4C_CustomSizeSmLg,
-    } 
+      _4C: TEXT_PAPER_TYPE_4C_CustomSizeSmLg
+    },
+    customTrimSizeRange: {
+      height: [105, 210],
+      width: [90, 148]
+    }
   },
   customSizeLg: {
     name: "変形サイズ（大）", 
@@ -136,8 +149,12 @@ const TRIM_SIZES_TYPES = {
       _1C: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
       _4C_MONO: TEXT_PAPER_TYPE_4C_CustomSizeSmLg,      
       _4CSP: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
-      _4C: TEXT_PAPER_TYPE_4C_CustomSizeSmLg,
-    } 
+      _4C: TEXT_PAPER_TYPE_4C_CustomSizeSmLg
+    },
+    customTrimSizeRange: {
+      height: [149, 297],
+      width: [149, 210]
+    }
   }
 };
 
@@ -155,6 +172,7 @@ for (let i = 10; i <= 500; i += 2) {
   pageCountArr.push(i);
 }
 
+// 製本方法
 const BINDING_METHOD = ["くるみ製本", "中とじ製本"];
 
 // 表紙の印刷方法
@@ -181,23 +199,22 @@ const COVER_PAPER_TYPES_GROUP = {
 
 // 関数Reducer
 const handleRreducer = (prev, { item, payload }) => {
-  const { key, name, value } = payload;
+  const { key, name, value, customTrimSizeHight, customTrimSizeWidth } = payload;
   switch (item) {
-    case "trimSize": return { ...prev, trimSize: { id: key, name: name } };    
+    case "trimSize": return { 
+      ...prev, 
+      trimSize: {
+        id: key, 
+        name: name,
+        customTrimSizeHight: customTrimSizeHight, 
+        customTrimSizeWidth: customTrimSizeWidth
+      } 
+    };
     case "textPaperType": return { ...prev, textPaperType: { name: name } };
     case "textPrintingMethod": return { ...prev, textPrintingMethod: { id: key, name: name } };    
-    case "printQuantity": return { ...prev, [name]: value };
-    case "pageCount": {
-      // 課題　条件分岐が必要
-      const maxColorPageCount = Math.floor(value / 2);
-      // const maxColorPageCount = Math.floor(value - 1);
-      const tmpArr = [];
-      for (let i = 1; i <= maxColorPageCount; i++) {
-        tmpArr.push(i);
-      }
-      return { ...prev, [name]: value, colorPageCountArr: tmpArr };
-    };
-    case "colorPageCount": return { ...prev, [name]: value };
+    case "printQuantity": return { ...prev, [name]: parseInt(value) };
+    case "pageCount": { return { ...prev, [name]: parseInt(value) } };
+    case "colorPageCount": return { ...prev, [name]: parseInt(value) };
     case "bindingMethod": return { ...prev, bindingMethod: name };
     case "coverPrintingMethod": return { ...prev, coverPrintingMethod: { id: key, name: name } };
     case "coverPaperType": return { ...prev, coverPaperType: { name: name } };
@@ -214,8 +231,6 @@ const AutoCalc = () => {
     textPrintingMethod: { id: "_1C", name: "モノクロ印刷" },    
     printQuantity: 1,
     pageCount: 16,
-    colorPageCount: 0,
-    colorPageCountArr: [],
     coverPrintingMethod: {},
     coverPaperType: {},    
   };
@@ -224,13 +239,26 @@ const AutoCalc = () => {
   const [state,  dispatch] = useReducer(handleRreducer, initState);
   console.log(state);
 
+  
   // 冊子のサイズ
   const handleTrimSize = (e) => {
+    console.log(e.target.value);
+    console.log(e);
     dispatch({
       item: "trimSize",
-      payload: { key: e.target.id, name: e.target.name }
+      payload: { 
+        key: e.target.id, 
+        name: e.target.name, 
+        customTrimSizeHight: e.target.value, 
+        customTrimSizeWidth: e.target.value 
+      }
     });
-  };  
+  };
+
+  // 新書版・文庫版・変形サイズ入力
+  const handleCustomTrimSize = () => {
+
+  };
 
   // 本文の種類  
   const handleTextPaperType = (e) => {
@@ -269,7 +297,7 @@ const AutoCalc = () => {
   const handleColorPageCount = (e) => {
     dispatch({
       item: "colorPageCount",
-      payload: { name: e.target.name, value: e.target.value }
+      payload: { name: "colorPageCount", value: e.target.value }
     });
   }; 
 
@@ -299,11 +327,77 @@ const AutoCalc = () => {
 
   // とりあえずダミーの関数
   const dummyFunc = (e) => {
-    dispatch({ dummyCount: e.target.value })
+  };
+
+  const renderCustomTrimSize = () => {
+
+    const handleHeightWidthDiff = (trimSize) => {
+      if (trimSize && trimSize.customTrimSizeRange) {
+        const range = trimSize.customTrimSizeRange;
+        return {
+            startHeight: range.height[0], heightDiff: range.height[1] - range.height[0] + 1, // 高の始点の値と差分
+            startWidth: range.width[0], widthDiff: range.width[1] - range.width[0] + 1, // 幅の始点の値と差分
+        };
+      } else {
+        return {};
+      }
+    };
+
+    const customTrimSize = TRIM_SIZES_TYPES_RANGE[state.trimSize.id] ?? null;
+    const { startHeight, heightDiff, startWidth, widthDiff } = handleHeightWidthDiff(customTrimSize);
+    const createRangeArr = (start, diff) => {
+      return Array(diff).fill().reduce((acc, _, idx) => {
+        acc.push(start + idx);
+        return acc;
+      }, []);  
+    };
+
+    const HEIGHT_RANGE = createRangeArr(startHeight, heightDiff);
+    const WIDTH_RANGE = createRangeArr(startWidth, widthDiff);
+
+    return (
+      <label className="custom-size-input-value-wrapper">
+        <div>
+          <span>高さ:&nbsp;</span>
+          <select
+            id={state.trimSize.id}
+            name={state.trimSize.name}
+            onChange={handleTrimSize}
+          >
+          { 
+            HEIGHT_RANGE.map((pageNum) => {
+              return(
+                <option key={pageNum} value={pageNum}>{pageNum}</option>
+              )
+            }) 
+          }          
+          </select>
+          <span>mm</span>
+        </div>
+        <div>×</div>
+        <div>
+          <span>幅:&nbsp;</span>
+          <select
+            id={state.trimSize.id}          
+            name={state.trimSize.name}
+            onChange={handleTrimSize}
+          >
+          { 
+            WIDTH_RANGE.map((pageNum) => { 
+              return(
+                <option key={pageNum} value={pageNum}>{pageNum}</option>
+              )
+            }) 
+          }  
+          </select>
+          <span>mm</span>
+        </div>
+      </label>      
+    )
   };
 
   const renderBindingMethodOptions = () => {
-    const pageCount = parseInt(state.pageCount);
+    const pageCount = state.pageCount;
     let method;
     let defaultMethod;
 
@@ -346,9 +440,60 @@ const AutoCalc = () => {
     ));
   };
 
+  const renderColorPageCountSelector = () => {
+    let count = state.pageCount;
+    const _4cMonoCount = count - 1;
+    const _4cMonoSpCount = Math.floor(count / 2);
+    const makeCountArr = (argCount) => {
+      if (argCount <= 0) return []; // ===演算子ではダメみたい。
+      return Array(argCount).fill().reduce((acc, _, idx) => {
+        acc.push(idx + 1);
+        return acc;
+      }, [0]);
+    };
+
+    const colorPageCountArr = state.textPrintingMethod.name === "カラー・モノクロ混在印刷" || state.textPrintingMethod.name === "カラー・モノクロ混在印刷お得ver."
+      ? state.textPrintingMethod.name === "カラー・モノクロ混在印刷"
+        ? makeCountArr(_4cMonoCount)
+        : makeCountArr(_4cMonoSpCount)
+      : state.textPrintingMethod.name === "フルカラー印刷"
+        ? count
+        : null
+    // フルカラー印刷を選択すると『count』を返し、
+    // 『count』がある場合は、uesEffectで状態を処理する。
+    useEffect(() => {
+      if (state.textPrintingMethod.name === "フルカラー印刷" && count) {
+        dispatch({
+          item: "colorPageCount",
+          payload: { name: "colorPageCount", value: count }
+        });
+      } else if (state.colorPageCount !== 0) {
+        // フルカラー印刷から他の印刷方法に切り替えたときに colorPageCount をリセット
+        dispatch({
+          item: "colorPageCount",
+          payload: { name: "colorPageCount", value: 0 }
+        });
+      }
+    }, [count, state.textPrintingMethod.name, dispatch]);
+
+    return (
+      <label>
+        <select name="colorPageCount" value={state.colorPageCount} onChange={handleColorPageCount}>
+          {
+            Array.isArray(colorPageCountArr)
+              ? colorPageCountArr.map((num) => <option key={num} value={num}>{num}</option>)
+              : null
+          }
+        </select>
+        <ul className="note">
+          <li>内カラーページ数</li>
+        </ul>
+      </label>
+    )
+  };
+
   return (
     <>
-      {/* <Example /> */}
       <div className="calc">
         {/* 冊子のサイズ */}
         <div className="calc__item-wrapper trim_size">
@@ -357,8 +502,7 @@ const AutoCalc = () => {
           </div>
           <div className="calc__content-inner">
             {
-              Object.entries(TRIM_SIZES_TYPES).map(([key, item]) => {
-                {/* {console.log(trimSize)} */}
+              Object.entries(TRIM_SIZES_TYPES_RANGE).map(([key, item]) => {
                 return (
                   <label htmlFor={key} key={key}>
                     <input
@@ -374,7 +518,22 @@ const AutoCalc = () => {
               })
             }
           </div>
-        </div>    
+        </div>  
+
+        <div className="calc__item-wrapper custom_size">
+          <div className="calc__entry">
+            新書版・文庫版・変形サイズ入力<span>※</span>
+          </div>        
+          <div className="calc__content-inner">
+            {renderCustomTrimSize()}
+          </div>
+          <div>基本サイズ：高&nbsp;176&ensp;×&ensp;幅&nbsp;103mm：または、高&nbsp;182&ensp;×&ensp;幅&nbsp;112mm</div>
+          <div>可能範囲：［高&nbsp;172～192mm］&ensp;×&ensp;［幅&nbsp;103～138mm］</div>
+          <div>基本サイズ：高&nbsp;148～152mm&ensp;×&ensp;幅&nbsp;105mm</div>
+          <div>可能範囲：［高&nbsp;138～152mm］&ensp;×&ensp;［幅&nbsp;103～115mm］</div>
+          <div>可能範囲：［高&nbsp;105～210mm］&ensp;×&ensp;［幅&nbsp;90～148mm］</div>
+          <div>可能範囲：［高&nbsp;149～297mm］&ensp;×&ensp;［幅&nbsp;149～210mm］</div>
+        </div>
 
         {/* 本文の印刷方法 */}
         {/* 方法によって可変するテキストが入る */}
@@ -383,7 +542,7 @@ const AutoCalc = () => {
             本文の印刷方法<span>※</span>
           </div>   
           <div className="calc__content-inner">
-            <label htmlFor="">
+            <label>
               <select
                 name="textPrintingMethod"
                 value={state.textPrintingMethod.name}
@@ -421,7 +580,7 @@ const AutoCalc = () => {
             {
               state.trimSize.id &&
                 Object.values(
-                  TRIM_SIZES_TYPES[state.trimSize.id]?.textPaperTypes[state.textPrintingMethod.id] || {})
+                  TRIM_SIZES_TYPES_RANGE[state.trimSize.id]?.textPaperTypes[state.textPrintingMethod.id] || {})
                   .map((type) => {
                     return (
                       <label htmlFor={type} key={type}>
@@ -458,7 +617,7 @@ const AutoCalc = () => {
                 ) 
               })}
             </select>
-            <div className="result">Result: {state.printQuantity}</div>
+            {/* <div className="result">Result: {state.printQuantity}</div> */}
           </div>       
         </div>
         
@@ -481,26 +640,16 @@ const AutoCalc = () => {
                 })}
               </select>
             </label>
-            <div className="result">{state.pageCount}</div>
+            {/* <div className="result">{state.pageCount}</div> */}
             <ul className="note">
               <li>表紙（表1・2・3・4）を除く本文のページ数</li>
             </ul>
-            <label htmlFor="">
-              <select name="colorPageCount" value={state.colorPageCount} onChange={handleColorPageCount}>
-                { state.colorPageCountArr.map((num) => { 
-                  return(
-                    <option key={num} value={num}>{num}</option> 
-                  ) 
-                })}
-              </select>
-              <ul className="note">
-                <li>内カラーページ数</li>
-              </ul>
-            </label>
+
+            {renderColorPageCountSelector()}
+            <ul className="note">
+              <li>片面印刷をご希望の方は、下部のオプション加工を選択して下さい。</li>
+            </ul>
           </div> 
-          <ul className="note">
-            <li>片面印刷をご希望の方は、下部のオプション加工を選択して下さい。</li>
-          </ul>
         </div>
 
         {/* 製本方法 */}
