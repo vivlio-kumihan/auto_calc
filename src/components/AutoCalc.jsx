@@ -237,28 +237,22 @@ const AutoCalc = () => {
 
   // 状態
   const [state,  dispatch] = useReducer(handleRreducer, initState);
-  console.log(state);
-
+  // console.log(state);
   
-  // 冊子のサイズ
-  const handleTrimSize = (e) => {
-    console.log(e.target.value);
-    console.log(e);
-    dispatch({
-      item: "trimSize",
-      payload: { 
-        key: e.target.id, 
-        name: e.target.name, 
-        customTrimSizeHight: e.target.value, 
-        customTrimSizeWidth: e.target.value 
-      }
-    });
-  };
-
-  // 新書版・文庫版・変形サイズ入力
-  const handleCustomTrimSize = () => {
-
-  };
+  // // 冊子のサイズ
+  // const handleTrimSize = (e) => {
+  //   console.log(e.target.value);
+  //   console.log(e);
+  //   dispatch({
+  //     item: "trimSize",
+  //     payload: { 
+  //       key: e.target.id, 
+  //       name: e.target.name, 
+  //       customTrimSizeHight: e.target.value, 
+  //       customTrimSizeWidth: e.target.value 
+  //     }
+  //   });
+  // };
 
   // 本文の種類  
   const handleTextPaperType = (e) => {
@@ -329,72 +323,72 @@ const AutoCalc = () => {
   const dummyFunc = (e) => {
   };
 
-  const renderCustomTrimSize = () => {
+  // const renderCustomTrimSize = () => {
 
-    const handleHeightWidthDiff = (trimSize) => {
-      if (trimSize && trimSize.customTrimSizeRange) {
-        const range = trimSize.customTrimSizeRange;
-        return {
-            startHeight: range.height[0], heightDiff: range.height[1] - range.height[0] + 1, // 高の始点の値と差分
-            startWidth: range.width[0], widthDiff: range.width[1] - range.width[0] + 1, // 幅の始点の値と差分
-        };
-      } else {
-        return {};
-      }
-    };
+  //   const handleHeightWidthDiff = (trimSize) => {
+  //     if (trimSize && trimSize.customTrimSizeRange) {
+  //       const range = trimSize.customTrimSizeRange;
+  //       return {
+  //           startHeight: range.height[0], heightDiff: range.height[1] - range.height[0] + 1, // 高の始点の値と差分
+  //           startWidth: range.width[0], widthDiff: range.width[1] - range.width[0] + 1, // 幅の始点の値と差分
+  //       };
+  //     } else {
+  //       return {};
+  //     }
+  //   };
 
-    const customTrimSize = TRIM_SIZES_TYPES_RANGE[state.trimSize.id] ?? null;
-    const { startHeight, heightDiff, startWidth, widthDiff } = handleHeightWidthDiff(customTrimSize);
-    const createRangeArr = (start, diff) => {
-      return Array(diff).fill().reduce((acc, _, idx) => {
-        acc.push(start + idx);
-        return acc;
-      }, []);  
-    };
+  //   const customTrimSize = TRIM_SIZES_TYPES_RANGE[state.trimSize.id] ?? null;
+  //   const { startHeight, heightDiff, startWidth, widthDiff } = handleHeightWidthDiff(customTrimSize);
+  //   const createRangeArr = (start, diff) => {
+  //     return Array(diff).fill().reduce((acc, _, idx) => {
+  //       acc.push(start + idx);
+  //       return acc;
+  //     }, []);  
+  //   };
 
-    const HEIGHT_RANGE = createRangeArr(startHeight, heightDiff);
-    const WIDTH_RANGE = createRangeArr(startWidth, widthDiff);
+  //   const HEIGHT_RANGE = createRangeArr(startHeight, heightDiff);
+  //   const WIDTH_RANGE = createRangeArr(startWidth, widthDiff);
 
-    return (
-      <label className="custom-size-input-value-wrapper">
-        <div>
-          <span>高さ:&nbsp;</span>
-          <select
-            id={state.trimSize.id}
-            name={state.trimSize.name}
-            onChange={handleTrimSize}
-          >
-          { 
-            HEIGHT_RANGE.map((pageNum) => {
-              return(
-                <option key={pageNum} value={pageNum}>{pageNum}</option>
-              )
-            }) 
-          }          
-          </select>
-          <span>mm</span>
-        </div>
-        <div>×</div>
-        <div>
-          <span>幅:&nbsp;</span>
-          <select
-            id={state.trimSize.id}          
-            name={state.trimSize.name}
-            onChange={handleTrimSize}
-          >
-          { 
-            WIDTH_RANGE.map((pageNum) => { 
-              return(
-                <option key={pageNum} value={pageNum}>{pageNum}</option>
-              )
-            }) 
-          }  
-          </select>
-          <span>mm</span>
-        </div>
-      </label>      
-    )
-  };
+  //   return (
+  //     <label className="custom-size-input-value-wrapper">
+  //       <div>
+  //         <span>高さ:&nbsp;</span>
+  //         <select
+  //           id={state.trimSize.id}
+  //           name={state.trimSize.name}
+  //           onChange={handleTrimSize}
+  //         >
+  //         { 
+  //           HEIGHT_RANGE.map((pageNum) => {
+  //             return(
+  //               <option key={pageNum} value={pageNum}>{pageNum}</option>
+  //             )
+  //           }) 
+  //         }          
+  //         </select>
+  //         <span>mm</span>
+  //       </div>
+  //       <div>×</div>
+  //       <div>
+  //         <span>幅:&nbsp;</span>
+  //         <select
+  //           id={state.trimSize.id}          
+  //           name={state.trimSize.name}
+  //           onChange={handleTrimSize}
+  //         >
+  //         { 
+  //           WIDTH_RANGE.map((pageNum) => { 
+  //             return(
+  //               <option key={pageNum} value={pageNum}>{pageNum}</option>
+  //             )
+  //           }) 
+  //         }  
+  //         </select>
+  //         <span>mm</span>
+  //       </div>
+  //     </label>      
+  //   )
+  // };
 
   const renderBindingMethodOptions = () => {
     const pageCount = state.pageCount;
@@ -494,9 +488,10 @@ const AutoCalc = () => {
 
   return (
     <>
+      <Example />
       <div className="calc">
         {/* 冊子のサイズ */}
-        <div className="calc__item-wrapper trim_size">
+        {/* <div className="calc__item-wrapper trim_size">
           <div className="calc__entry">
             冊子のサイズ<span>※</span>
           </div>
@@ -518,9 +513,9 @@ const AutoCalc = () => {
               })
             }
           </div>
-        </div>  
+        </div>   */}
 
-        <div className="calc__item-wrapper custom_size">
+        {/* <div className="calc__item-wrapper custom_size">
           <div className="calc__entry">
             新書版・文庫版・変形サイズ入力<span>※</span>
           </div>        
@@ -533,7 +528,7 @@ const AutoCalc = () => {
           <div>可能範囲：［高&nbsp;138～152mm］&ensp;×&ensp;［幅&nbsp;103～115mm］</div>
           <div>可能範囲：［高&nbsp;105～210mm］&ensp;×&ensp;［幅&nbsp;90～148mm］</div>
           <div>可能範囲：［高&nbsp;149～297mm］&ensp;×&ensp;［幅&nbsp;149～210mm］</div>
-        </div>
+        </div> */}
 
         {/* 本文の印刷方法 */}
         {/* 方法によって可変するテキストが入る */}
