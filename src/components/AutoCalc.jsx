@@ -173,29 +173,51 @@ for (let i = 10; i <= 500; i += 2) {
 }
 
 // 製本方法
-const BINDING_METHOD = ["くるみ製本", "中とじ製本"];
+const BINDING_METHOD = ["無線とじ製本", "中とじ製本"];
 
-// 表紙の印刷方法
+// 表紙の印刷方法（度数）
 const COVER_PRINTING_METHOD = { mono: "モノクロ印刷", color: "フルカラー印刷" };
-// 表紙の種類1C（K）
+// 表紙で使用可能な用紙種 1C（K）
 const COVER_PAPER_TYPES_PRINTED_1C = [
-  { group: "上質・色上質・色ファンシー" , types: ["上質 180kg", "色上質最厚口", "レザック 175kg"] },
-  { group: "特殊紙 その他" , types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "両更クラフト紙 129.5kg"] }
+  { group: "上質・色上質・色ファンシー",
+    types: ["上質 180kg", "色上質最厚口", "レザック 175kg"] },
+  { group: "特殊紙 その他",
+    types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "両更クラフト紙 129.5kg"] }
 ];
-// 表紙の種類4C
+// 表紙で使用可能な用紙種類 4C
 const COVER_PAPER_TYPES_PRINTED_4C = [
-  { group: "上質・色上質・色ファンシー" , types: ["上質 180kg", "色上質最厚口", "レザック 175kg"] },
-  { group: "艶ありコート・アート・キャスト" , types: ["コート紙 180kg", "アートポスト紙 200kg", "ミラーコート紙 220kg"] },
-  { group: "艶なしマットコート・ダル" , types: ["マットコート紙 135kg", "サテン金藤 180kg", "マットポスト紙 220kg"] },
-  { group: "ラフ・エンボス" , types: ["アラベール スノーホワイト 160kg", "アラベール ナチュラル 160kg", "マーメイド スノーホワイト 175kg"] },
-  { group: "特殊紙 パール・シャイン・ラメ" , types: ["ペルーラ スノーホワイト 180kg", "ミランダ スノーホワイト 170kg", "五感紙粗目 純白キラ 135kg", "新星物語 パウダー 180kg", "エスプリコートVNエンボス アラレ 176.5kg"] },
-  { group: "特殊紙 その他" , types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "レザック82 ろうけつ 白 175kg", "両更クラフト紙 129.5kg"] }
+  { group: "上質・色上質・色ファンシー",
+    types: ["上質 180kg", "色上質最厚口", "レザック 175kg"] },
+  { group: "艶ありコート・アート・キャスト",
+    types: ["コート紙 180kg", "アートポスト紙 200kg", "ミラーコート紙 220kg"] },
+  { group: "艶なしマットコート・ダル",
+    types: ["マットコート紙 135kg", "サテン金藤 180kg", "マットポスト紙 220kg"] },
+  { group: "ラフ・エンボス",
+    types: ["アラベール スノーホワイト 160kg", "アラベール ナチュラル 160kg", "マーメイド スノーホワイト 175kg"] },
+  { group: "特殊紙 パール・シャイン・ラメ",
+    types: ["ペルーラ スノーホワイト 180kg", "ミランダ スノーホワイト 170kg", "五感紙粗目 純白キラ 135kg", "新星物語 パウダー 180kg", "エスプリコートVNエンボス アラレ 176.5kg"] },
+  { group: "特殊紙 その他",
+    types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "レザック82 ろうけつ 白 175kg", "両更クラフト紙 129.5kg"] }
 ];
-// 表紙の種類
+// 表紙の用紙種類
 const COVER_PAPER_TYPES_GROUP = {
   mono: { coverPaperTypes: COVER_PAPER_TYPES_PRINTED_1C },
   color: { coverPaperTypes: COVER_PAPER_TYPES_PRINTED_4C }
 };
+// コーティング加工が可能な用紙
+const COATING_PROCESS_AVAILABLE = [
+  "レザック 175kg",
+  "アートポスト紙 200kg",
+  "ミラーコート紙 220kg",
+  "サテン金藤 180kg",
+  "マットポスト紙 220kg",
+  "アラベール スノーホワイト 160kg",
+  "アラベール ナチュラル 160kg",
+  "ペルーラ スノーホワイト 180kg",
+  "ミランダ スノーホワイト 170kg",
+  "エスプリコートVNエンボス アラレ 176.5kg",
+  "しこくてんれい ゆき 180kg"
+];
 
 // 関数Reducer
 const handleRreducer = (prev, { item, payload }) => {
@@ -234,13 +256,14 @@ const AutoCalc = () => {
     textPrintingMethod: { id: "_1C", name: "モノクロ印刷" },    
     printQuantity: 1,
     pageCount: 16,
+    colorPageCount: 0,    
     coverPrintingMethod: {},
     coverPaperType: {},    
   };
 
   // 状態
   const [state,  dispatch] = useReducer(handleRreducer, initState);
-  // console.log(state);
+  console.log(state);
   
   // 冊子のサイズ
   const handleTrimSize = (e) => {
@@ -283,17 +306,18 @@ const AutoCalc = () => {
     }
   }, [state.trimSize.id]);  
 
-  const renderCustomTrimSize = () => {
+  // 新書、文庫、変形（大）（小）のサイズを持った配列の生成
+  const collectedCustomTrimSizeArr = () => {
     const handleHeightWidthDiff = (trimSize) => {
       if (trimSize.customTrimSizeRange) {
         const range = trimSize.customTrimSizeRange;
         return {
           // 高の始点の値と差分
-            startHeight: range.height[0], 
-            heightDiff: range.height[1] - range.height[0] + 1, 
-            // 幅の始点の値と差分
-            startWidth: range.width[0], 
-            widthDiff: range.width[1] - range.width[0] + 1, 
+          startHeight: range.height[0], 
+          heightDiff: range.height[1] - range.height[0] + 1, 
+          // 幅の始点の値と差分
+          startWidth: range.width[0], 
+          widthDiff: range.width[1] - range.width[0] + 1, 
         };
       } else {
         return {
@@ -320,48 +344,7 @@ const AutoCalc = () => {
 
     const HEIGHT_RANGE = createRangeArr(startHeight, heightDiff);
     const WIDTH_RANGE = createRangeArr(startWidth, widthDiff);
-
-    return (
-      <label className="custom-size-input-value-wrapper">
-        <div>
-          <span>高さ:&nbsp;</span>
-          <select
-            id={state.trimSize.id}
-            name={state.trimSize.name}
-            value={ state.trimSize.customTrimSize.height ?? "---" }
-            onChange={handleCustomTrimSize}
-          >
-          { 
-            HEIGHT_RANGE.map((pageNum) => {
-              return(
-                <option key={pageNum} data-name="height" value={pageNum}>{pageNum}</option>
-              )
-            }) 
-          }          
-          </select>
-          <span>mm</span>
-        </div>
-        <div>×</div>
-        <div>
-          <span>幅:&nbsp;</span>
-          <select
-            id={state.trimSize.id}          
-            name={state.trimSize.name}
-            value={ state.trimSize.customTrimSize.width ?? "---" }      
-            onChange={handleCustomTrimSize}
-          >
-          { 
-            WIDTH_RANGE.map((pageNum) => { 
-              return(
-                <option key={pageNum} data-name="width" value={pageNum}>{pageNum}</option>
-              )
-            }) 
-          }  
-          </select>
-          <span>mm</span>
-        </div>
-      </label>      
-    )
+    return [HEIGHT_RANGE, WIDTH_RANGE];
   };
   
   // 本文の種類  
@@ -429,6 +412,7 @@ const AutoCalc = () => {
     });
   };    
 
+  // 製本の方法
   const renderBindingMethodOptions = () => {
     const pageCount = state.pageCount;
     let method;
@@ -473,6 +457,24 @@ const AutoCalc = () => {
     ));
   };
 
+  // フルカラー印刷を選択すると『count』を返し、
+  // 『count』がある場合は、uesEffectで状態を処理する。
+  useEffect(() => {
+    if (state.textPrintingMethod.name === "フルカラー印刷" && state.pageCount) {
+      dispatch({
+        item: "colorPageCount",
+        payload: { name: "colorPageCount", value: state.pageCount }
+      });
+    } else if (state.colorPageCount !== 0) {
+      // フルカラー印刷から他の印刷方法に切り替えたときに colorPageCount をリセット
+      dispatch({
+        item: "colorPageCount",
+        payload: { name: "colorPageCount", value: 0 }
+      });
+    }
+  }, [state.textPrintingMethod.name, dispatch]); 
+
+  // カラーページ数
   const renderColorPageCountSelector = () => {
     let count = state.pageCount;
     const _4cMonoCount = count - 1;
@@ -484,46 +486,17 @@ const AutoCalc = () => {
         return acc;
       }, [0]);
     };
-
     const colorPageCountArr = state.textPrintingMethod.name === "カラー・モノクロ混在印刷" || state.textPrintingMethod.name === "カラー・モノクロ混在印刷お得ver."
       ? state.textPrintingMethod.name === "カラー・モノクロ混在印刷"
         ? makeCountArr(_4cMonoCount)
         : makeCountArr(_4cMonoSpCount)
       : state.textPrintingMethod.name === "フルカラー印刷"
-        ? count
-        : null
-    // フルカラー印刷を選択すると『count』を返し、
-    // 『count』がある場合は、uesEffectで状態を処理する。
-    useEffect(() => {
-      if (state.textPrintingMethod.name === "フルカラー印刷" && count) {
-        dispatch({
-          item: "colorPageCount",
-          payload: { name: "colorPageCount", value: count }
-        });
-      } else if (state.colorPageCount !== 0) {
-        // フルカラー印刷から他の印刷方法に切り替えたときに colorPageCount をリセット
-        dispatch({
-          item: "colorPageCount",
-          payload: { name: "colorPageCount", value: 0 }
-        });
-      }
-    }, [count, state.textPrintingMethod.name, dispatch]);
+        ? [count]
+        : null ;
 
-    return (
-      <label>
-        <select name="colorPageCount" value={state.colorPageCount} onChange={handleColorPageCount}>
-          {
-            Array.isArray(colorPageCountArr)
-              ? colorPageCountArr.map((num) => <option key={num} value={num}>{num}</option>)
-              : null
-          }
-        </select>
-        <ul className="note">
-          <li>内カラーページ数</li>
-        </ul>
-      </label>
-    )
+    return colorPageCountArr;
   };
+
 
   // とりあえずダミーの関数
   const dummyFunc = (e) => {
@@ -533,6 +506,7 @@ const AutoCalc = () => {
     <>
       {/* <Example /> */}
 
+      <hr />
       <div className="calc">
         {/* 冊子のサイズ */}
         <div className="calc__item-wrapper trim_size">
@@ -559,13 +533,51 @@ const AutoCalc = () => {
           </div>
         </div>  
 
-        {/* 新書版・文庫版・変形サイズ入力 */}
+        {/* 新書版・文庫版・変形サイズ（大）（小）入力 */}
         <div className="calc__item-wrapper custom_size">
           <div className="calc__entry">
             新書版・文庫版・変形サイズ入力<span>※</span>
           </div>        
           <div className="calc__content-inner">
-            {renderCustomTrimSize()}
+            <label className="custom-size-input-value-wrapper">
+              <div>
+                <span>高さ:&nbsp;</span>
+                <select
+                  id={state.trimSize.id}
+                  name={state.trimSize.name}
+                  value={state.trimSize.customTrimSize.height ?? "---"}
+                  onChange={handleCustomTrimSize}
+                >
+                { 
+                  collectedCustomTrimSizeArr()[0].map((pageNum) => {
+                    return(
+                      <option key={pageNum} data-name="height" value={pageNum}>{pageNum}</option>
+                    )
+                  }) 
+                }          
+                </select>
+                <span>mm</span>
+              </div>
+              <div>×</div>
+              <div>
+                <span>幅:&nbsp;</span>
+                <select
+                  id={state.trimSize.id}          
+                  name={state.trimSize.name}
+                  value={ state.trimSize.customTrimSize.width ?? "---" }      
+                  onChange={handleCustomTrimSize}
+                >
+                { 
+                  collectedCustomTrimSizeArr()[1].map((pageNum) => { 
+                    return(
+                      <option key={pageNum} data-name="width" value={pageNum}>{pageNum}</option>
+                    )
+                  }) 
+                }  
+                </select>
+                <span>mm</span>
+              </div>
+            </label>
           </div>
           {
             state.trimSize.name === "新書版" && (
@@ -616,11 +628,11 @@ const AutoCalc = () => {
               </select>
             </label>          
             {/* カラー・モノクロ混在印刷 */}
-              {/* ※「カラーページのご指定」欄に何ページ目がカラー印刷になるかデータのページ数で明記して下さい。 */}
-              {/* ページ数のご指定方法はコチラ */}
+              {/* 「カラーページのご指定」欄に何ページ目がカラー印刷になるかデータのページ数で明記して下さい。 */}
+              {/* ページ数のご指定方法はコチラでご確認ください。 */}
             {/* カラー・モノクロ混在印刷お得ver. */}
-              {/* ※お得ver.は、カラーページ数が総ページ数の半分以下で、カラーページが巻頭か巻末かで全て連続しているものに限ります。（例：総ページ数80p 内カラーページ8p&emsp;巻頭カラー 1～8P,モノクロ 9～80P） */}
-              {/* ※カラー・モノクロ混在印刷のデータ作成についての注意点をこちらでご確認ください。 */}
+              {/* お得ver.は、カラーページ数が総ページ数の半分以下で、カラーページが巻頭か巻末かで全て連続しているものに限ります。（例：総ページ数80p 内カラーページ8p&emsp;巻頭カラー 1～8P,モノクロ 9～80P） */}
+              {/* カラー・モノクロ混在印刷のデータ作成についての注意点はコチラでご確認ください。 */}
           </div>       
         </div>        
 
@@ -696,12 +708,24 @@ const AutoCalc = () => {
                 })}
               </select>
             </label>
-            {/* <div className="result">{state.pageCount}</div> */}
             <ul className="note">
               <li>表紙（表1・2・3・4）を除く本文のページ数</li>
             </ul>
 
-            {renderColorPageCountSelector()}
+            <div>
+              <label>
+                <select name="colorPageCount" value={state.colorPageCount} onChange={handleColorPageCount}>
+                  {
+                    renderColorPageCountSelector()?.map((num) => (
+                      <option key={num} value={num}>{num}</option>)
+                    )
+                  }
+                </select>
+              </label> 
+              <ul className="note">
+                <li>内カラーページ数</li>
+              </ul>
+            </div>
             <ul className="note">
               <li>片面印刷をご希望の方は、下部のオプション加工を選択して下さい。</li>
             </ul>
