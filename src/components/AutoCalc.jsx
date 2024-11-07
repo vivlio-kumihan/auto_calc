@@ -64,7 +64,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_A6_PocketEdition, 
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,  
-      _4CSP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      _4C_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     } 
   },
@@ -73,7 +73,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS, 
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,      
-      _4CSP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      _4C_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     } 
   },
@@ -82,7 +82,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,      
-      _4CSP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS ,
+      _4C_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS ,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     } 
   },
@@ -91,7 +91,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,      
-      _4CSP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      _4C_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     } 
   },
@@ -100,7 +100,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
-      _4CSP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      _4C_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     } 
   },
@@ -109,7 +109,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,      
-      _4CSP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      _4C_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     },
     customTrimSizeRange: {
@@ -122,7 +122,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_A6_PocketEdition,
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,      
-      _4CSP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      _4C_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     },
     customTrimSizeRange: {
@@ -135,7 +135,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
       _4C_MONO: TEXT_PAPER_TYPE_4C_CustomSizeSmLg,
-      _4CSP: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
+      _4C_SP: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
       _4C: TEXT_PAPER_TYPE_4C_CustomSizeSmLg
     },
     customTrimSizeRange: {
@@ -148,7 +148,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
       _4C_MONO: TEXT_PAPER_TYPE_4C_CustomSizeSmLg,      
-      _4CSP: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
+      _4C_SP: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
       _4C: TEXT_PAPER_TYPE_4C_CustomSizeSmLg
     },
     customTrimSizeRange: {
@@ -159,13 +159,19 @@ const TRIM_SIZES_TYPES_RANGE = {
 };
 
 // 本文印刷方法
-const TEXT_PRINTING_METHOD = { _1C: "モノクロ印刷", _4C_MONO: "カラー・モノクロ混在印刷", _4CSP: "カラー・モノクロ混在印刷お得ver.", _4C: "フルカラー印刷" };
+const TEXT_PRINTING_METHOD = { 
+  _1C: "モノクロ印刷", 
+  _4C_MONO: "カラー・モノクロ混在印刷", 
+  _4C_SP: "カラー・モノクロ混在印刷お得ver.", 
+  _4C: "フルカラー印刷" 
+};
 
 // 印刷部数
 const printQuantityArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 for (let i = 10; i <= 2000; i += 5) {
   printQuantityArr.push(i);
 }
+
 // ページ数
 const pageCountArr = [0, 4, 8];
 for (let i = 10; i <= 500; i += 2) {
@@ -177,6 +183,7 @@ const BINDING_METHOD = ["無線とじ製本", "中とじ製本"];
 
 // 表紙の印刷方法（度数）
 const COVER_PRINTING_METHOD = { mono: "モノクロ印刷", color: "フルカラー印刷" };
+
 // 表紙で使用可能な用紙種 1C（K）
 const COVER_PAPER_TYPES_PRINTED_1C = [
   { group: "上質・色上質・色ファンシー",
@@ -184,6 +191,7 @@ const COVER_PAPER_TYPES_PRINTED_1C = [
   { group: "特殊紙 その他",
     types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "両更クラフト紙 129.5kg"] }
 ];
+
 // 表紙で使用可能な用紙種類 4C
 const COVER_PAPER_TYPES_PRINTED_4C = [
   { group: "上質・色上質・色ファンシー",
@@ -199,11 +207,13 @@ const COVER_PAPER_TYPES_PRINTED_4C = [
   { group: "特殊紙 その他",
     types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "レザック82 ろうけつ 白 175kg", "両更クラフト紙 129.5kg"] }
 ];
+
 // 表紙の用紙種類
 const COVER_PAPER_TYPES_GROUP = {
   mono: { coverPaperTypes: COVER_PAPER_TYPES_PRINTED_1C },
   color: { coverPaperTypes: COVER_PAPER_TYPES_PRINTED_4C }
 };
+
 // コーティング加工が可能な用紙
 const COATING_PROCESS_AVAILABLE = [
   "レザック 175kg",
@@ -329,9 +339,12 @@ const AutoCalc = () => {
       }
     };
 
+    // stateに版型のidが登録されていれば、それを変数に格納し、
     const customTrimSize = TRIM_SIZES_TYPES_RANGE[state.trimSize.id];
+    // 高さ、幅の始点と差分をオブジェクトにまとめる。
     const { startHeight, heightDiff, startWidth, widthDiff } = handleHeightWidthDiff(customTrimSize);
 
+    // select要素に入れるoptionの値が入った配列を生成する。
     const createRangeArr = (start, diff) => {
       if (start === null && diff === null) {
         return ["---"];
@@ -342,9 +355,11 @@ const AutoCalc = () => {
       }, ["---"]);  
     };
 
-    const HEIGHT_RANGE = createRangeArr(startHeight, heightDiff);
-    const WIDTH_RANGE = createRangeArr(startWidth, widthDiff);
-    return [HEIGHT_RANGE, WIDTH_RANGE];
+    const HEIGHT_RANGE_ARR = createRangeArr(startHeight, heightDiff);
+    const WIDTH_RANGE_ARR = createRangeArr(startWidth, widthDiff);
+
+    // この関数が発火したら、select要素に入れるoptionの値が入った配列を返す。
+    return [HEIGHT_RANGE_ARR, WIDTH_RANGE_ARR];
   };
   
   // 本文の種類  
@@ -415,7 +430,7 @@ const AutoCalc = () => {
   // 製本の方法
   const renderBindingMethodOptions = () => {
     const pageCount = state.pageCount;
-    let method;
+    let methods;
     let defaultMethod;
 
     if (pageCount >= 25 
@@ -424,13 +439,13 @@ const AutoCalc = () => {
         || state.trimSize.name === "文庫版"
         || state.trimSize.name === "変形サイズ（小）"
         || state.trimSize.name === "変形サイズ（大）") {
-      method = [BINDING_METHOD[0]];
+      methods = [BINDING_METHOD[0]];
       defaultMethod = BINDING_METHOD[0];
     } else if (pageCount >= 14 && pageCount <= 24) {
-      method = BINDING_METHOD;
+      methods = BINDING_METHOD;
       defaultMethod = null; // 状態管理で制御
     } else if (pageCount <= 13) {
-      method = [BINDING_METHOD[1]];
+      methods = [BINDING_METHOD[1]];
       defaultMethod = BINDING_METHOD[1];
     }
 
@@ -443,18 +458,7 @@ const AutoCalc = () => {
       }
     }, [defaultMethod, dispatch]);
 
-    return method.map((method) => (
-      <label htmlFor={method} key={method}>
-        <input
-          id={method}
-          type="radio"
-          name={method}
-          checked={state.bindingMethod === method}
-          onChange={handleBindingMethod}
-        />
-        {method}
-      </label>
-    ));
+    return methods;
   };
 
   // フルカラー印刷を選択すると『count』を返し、
@@ -738,7 +742,22 @@ const AutoCalc = () => {
             製本方法<span>※</span>
           </div>   
           <div className="calc__content-inner">
-            {renderBindingMethodOptions()}
+            {
+              renderBindingMethodOptions()?.map((method) => {
+                return (
+                  <label htmlFor={method} key={method}>
+                    <input
+                      id={method}
+                      type="radio"
+                      name={method}
+                      checked={state.bindingMethod === method}
+                      onChange={handleBindingMethod}
+                    />
+                    {method}
+                  </label>            
+                )
+              })
+            }
           </div>
           <ul>
             <li>中とじ製本は4から24ページのみ対応可能です。</li>
