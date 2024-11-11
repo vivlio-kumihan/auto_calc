@@ -64,7 +64,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_A6_PocketEdition, 
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,  
-      _4C_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     } 
   },
@@ -73,7 +73,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS, 
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,      
-      _4C_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     } 
   },
@@ -82,7 +82,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,      
-      _4C_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS ,
+      _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS ,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     } 
   },
@@ -91,7 +91,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,      
-      _4C_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     } 
   },
@@ -100,7 +100,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
-      _4C_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     } 
   },
@@ -109,7 +109,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,      
-      _4C_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     },
     customTrimSizeRange: {
@@ -122,7 +122,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_A6_PocketEdition,
       _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,      
-      _4C_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     },
     customTrimSizeRange: {
@@ -135,7 +135,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
       _4C_MONO: TEXT_PAPER_TYPE_4C_CustomSizeSmLg,
-      _4C_SP: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
+      _4C_MONO_SP: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
       _4C: TEXT_PAPER_TYPE_4C_CustomSizeSmLg
     },
     customTrimSizeRange: {
@@ -148,7 +148,7 @@ const TRIM_SIZES_TYPES_RANGE = {
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
       _4C_MONO: TEXT_PAPER_TYPE_4C_CustomSizeSmLg,      
-      _4C_SP: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
+      _4C_MONO_SP: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
       _4C: TEXT_PAPER_TYPE_4C_CustomSizeSmLg
     },
     customTrimSizeRange: {
@@ -162,7 +162,7 @@ const TRIM_SIZES_TYPES_RANGE = {
 const TEXT_PRINTING_METHOD = { 
   _1C: "モノクロ印刷", 
   _4C_MONO: "カラー・モノクロ混在印刷", 
-  _4C_SP: "カラー・モノクロ混在印刷お得ver.", 
+  _4C_MONO_SP: "カラー・モノクロ混在印刷お得ver.", 
   _4C: "フルカラー印刷" 
 };
 
@@ -229,6 +229,8 @@ const COATING_PROCESS_AVAILABLE = [
   "しこくてんれい ゆき 180kg"
 ];
 
+const ppProcessingTypes = ["クリアPP", "マットPP"];
+
 // 関数Reducer
 const handleRreducer = (prev, { item, payload }) => {
   const { key, name, value, customTrimSize } = payload;
@@ -262,18 +264,36 @@ const AutoCalc = () => {
       name: "B5", 
       customTrimSize: { height: null, width: null },
     },
-    textPaperType: {},
+    textPaperType: { name: null },
     textPrintingMethod: { id: "_1C", name: "モノクロ印刷" },    
     printQuantity: 1,
     pageCount: 16,
     colorPageCount: 0,    
-    coverPrintingMethod: {},
-    coverPaperType: {},    
+    coverPrintingMethod: { id: "null", name: null },
+    coverPaperType: { name: null },    
   };
 
   // 状態
   const [state,  dispatch] = useReducer(handleRreducer, initState);
-  console.log(state);
+  // console.log(state);
+
+  // 冊子サイズ、本文の印刷方法の選択を変更した場合、
+  // 選択している使用本文用紙の種類が選択肢になければ、
+  // 使用本文用紙のstateをnullに変更する。
+  useEffect(() => {
+    const textPaperTypeSelctOptions = TRIM_SIZES_TYPES_RANGE[state.trimSize.id]?.textPaperTypes[state.textPrintingMethod.id];
+    // 特定のサイズが選択されたときのみリセット
+    if (!textPaperTypeSelctOptions?.includes(state.textPaperType.name)) {
+      dispatch({
+        item: "textPaperType",
+        payload: { name: null },
+      });
+    }
+  }, [state.trimSize.id, 
+      state.textPrintingMethod.id, 
+      state.textPaperType.name, 
+      dispatch
+  ]);  
   
   // 冊子のサイズ
   const handleTrimSize = (e) => {
@@ -427,6 +447,19 @@ const AutoCalc = () => {
     });
   };    
 
+  // PP加工関連
+  // 選択したキーに紐づく使用可能な紙のタイプSELECTED_COVER_PAPER_TYPESの中にstatetypenameがあれば表示させる作戦
+  const RECENT_COLOR = COVER_PAPER_TYPES_GROUP[state.coverPrintingMethod.id];
+  const SELECTED_COVER_PAPER_TYPES = RECENT_COLOR 
+    ? RECENT_COLOR.coverPaperTypes.reduce((acc, hash) => {
+        acc.push(hash.types);
+        return acc;
+      }, []).flat()
+    : [];
+  const putAvilablePPMark = (type) => {
+    return COATING_PROCESS_AVAILABLE.includes(type);
+  };  
+
   // 製本の方法
   const renderBindingMethodOptions = () => {
     const pageCount = state.pageCount;
@@ -501,6 +534,7 @@ const AutoCalc = () => {
     return colorPageCountArr;
   };
 
+  const handleProcesePP = () => {};
 
   // とりあえずダミーの関数
   const dummyFunc = (e) => {
@@ -689,7 +723,6 @@ const AutoCalc = () => {
                 ) 
               })}
             </select>
-            {/* <div className="result">Result: {state.printQuantity}</div> */}
           </div>       
         </div>
 
@@ -803,34 +836,31 @@ const AutoCalc = () => {
           <div className="calc__content-inner">
             {
               state.coverPrintingMethod.id &&
-                COVER_PAPER_TYPES_GROUP[state.coverPrintingMethod.id]?.coverPaperTypes.map((item) => {
-                  return (
-                    <div key={item.group}>
-                      <h3>{item.group}</h3>
-                      <ul>
-                        {
-                          item.types.map((type) => {
-                            return (
-                              <li key={type}>
-                                <label htmlFor={type}>
-                                  <input 
-                                    id={type}
-                                    type="radio" 
-                                    name="coverPaperType"  // 全てのラジオボタンで共通のname属性にする
-                                    checked={state.coverPaperType.name === type}
-                                    onChange={() => handleCoverPaperType(type)}  // typeを引数に渡す
-                                  />
-                                  {type}
-                                </label>
-                              </li>
-                            )
-                          })
-                        }
-                      </ul>
+              COVER_PAPER_TYPES_GROUP[state.coverPrintingMethod.id]?.coverPaperTypes.map((item) => {
+                return (
+                  <div key={item.group}>
+                    <h3>{item.group}</h3>
+                    <div className="set-flex">
+                      {
+                        item.types.map((type) => {
+                          return (
+                            <label htmlFor={type} key={type}>
+                              <input 
+                                id={type}
+                                type="radio" 
+                                name="coverPaperType"  // 全てのラジオボタンで共通のname属性にする
+                                checked={state.coverPaperType.name === type}
+                                onChange={() => handleCoverPaperType(type)}  // typeを引数に渡す
+                              />
+                              {putAvilablePPMark(type) ? `${type}★` : `${type}`}
+                            </label>
+                          )
+                        })
+                      }
                     </div>
-                  )
-                }
-              )
+                  </div>
+                )
+              })
             }
           </div>
         </div>   
@@ -841,20 +871,19 @@ const AutoCalc = () => {
             オプション加工<span>※</span>
           </div>   
           <div className="calc__content-inner">
-            <section>
-              <label htmlFor="">
-                <input type="checkbox" id="" value="" onClick={dummyFunc} />
-                表紙・PP加工（クリアPP）
-              </label>
-              <label htmlFor="">
-                <input type="checkbox" id="" value="" onClick={dummyFunc} />
-                表紙・PP加工（マットPP）
-              </label>
-              <ul className="note">
-                <li><a href="" target="_blank">「PP加工をされる際の注意点」をご覧ください。</a></li>
-                <li>表表紙（表1）の裏側を表2<br />裏表紙（表4）の内側を表3と呼びます。</li>
-              </ul>
-            </section>
+            {
+              COATING_PROCESS_AVAILABLE.includes(state.coverPaperType.name) &&
+                <section>
+                  <label htmlFor="">
+                    <input type="checkbox" id="" value="" onClick={handleProcesePP} />
+                    表紙・PP加工（クリアPP）
+                  </label>
+                  <ul className="note">
+                    <li><a href="" target="_blank">「PP加工をされる際の注意点」をご覧ください。</a></li>
+                    <li>表表紙（表1）の裏側を表2<br />裏表紙（表4）の内側を表3と呼びます。</li>
+                  </ul>
+                </section>
+            }
             <section>
               <label htmlFor="">
                 <input type="checkbox" id="" value="" onChange={dummyFunc} />
