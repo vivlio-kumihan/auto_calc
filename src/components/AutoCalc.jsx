@@ -464,7 +464,18 @@ const AutoCalc = () => {
     return COATING_AVAILABLE.includes(type);
   };
 
-  // ページ数
+  useEffect(() => {
+    if (
+      COATING_AVAILABLE.includes(state.coverPaperType.name) !== true &&
+      state.ppCoating.name !== null
+    ) {
+      dispatch({
+        item: "ppCoating",
+        payload: { name: null }
+      });
+    }
+  }, [state.coverPaperType.name, state.ppCoating.name, dispatch]);
+
   const handleAddPPCoating = (e) => {
     console.log(e.target.value);
     dispatch({
@@ -888,10 +899,9 @@ const AutoCalc = () => {
                   {
                     PP_COATING_TYPES.map((coating) => {
                       return (
-                        <label htmlFor={coating}>
+                        <label htmlFor={coating} key={coating}>
                           <input
                             id={coating}
-                            key={coating}
                             type="radio"
                             name="pp-coating"
                             value={coating}
