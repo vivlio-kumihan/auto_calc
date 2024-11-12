@@ -910,17 +910,23 @@ const AutoCalc = () => {
             <section>
               <label htmlFor="">
                 <input type="checkbox" id="" value="" onChange={dummyFunc} />
-                扉がある　※扉の定義必要
-                ない
-
-                本文紙種と同じ
-                色紙にする
-
-                奇数ページを指定させる　指定ページの前が扉を前提
-
+                遊び紙（合紙）挿入
               </label>
+              <label htmlFor="">
+                <input type="checkbox" id="" value="" onChange={dummyFunc} />
+                遊び紙に印刷がある場合は、こちらにチェックを入れてください。
+              </label>
+              <label htmlFor="">
+                枚数：<input type="text" id="" value="" onChange={dummyFunc} />枚
+              </label>
+              <input type="text" value="" onChange={dummyFunc} />
               <button type="button" onClick={dummyFunc} >用紙・色 選択</button>
-              <div>扉への印刷ページを記入して下さい。（データのページ数）</div>
+              <div>遊び紙への印刷ページを記入して下さい。（データのページ数）</div>
+              <input type="text" value="" onChange={dummyFunc} />
+              <ul className="note example">
+                <li>（例：本文の前後とp30-31の間⇒前,30-31,後 [挿入枚数3枚]）</li>
+                <li>（P10と11の間、本文p34と35の間⇒10-11,34-35 [挿入枚数2枚]）</li>
+              </ul>
             </section>
             <section>
               <label htmlFor="">
