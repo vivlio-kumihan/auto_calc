@@ -259,6 +259,7 @@ const handleRreducer = (prev, { item, payload }) => {
     case "addBreedAutoText": return { ...prev, addBreedAutoText: payload };    
     case "horizontalBinding": return { ...prev, horizontalBinding: payload };    
     case "submissionInMSWordFormat": return { ...prev, submissionInMSWordFormat: payload };    
+    case "insideFrontBackCoverColor": return { ...prev, insideFrontBackCoverColor: { name: name } };    
     default: throw new Error("error...");
   }
 };
@@ -283,12 +284,13 @@ const AutoCalc = () => {
     addBreedAutoCover: false,
     addBreedAutoText: false,
     horizontalBinding : false,
-    submissionInMSWordFormat: false, 
+    submissionInMSWordFormat: false,
+    insideFrontBackCoverColor: { name: null },
   };
 
   // 状態
   const [state,  dispatch] = useReducer(handleRreducer, initState);
-  console.log(state);
+  // console.log(state);
 
   // 冊子サイズ、本文の印刷方法の選択を変更した場合、
   // 選択している使用本文用紙の種類が選択肢になければ、
@@ -592,11 +594,23 @@ const AutoCalc = () => {
   };
 
   const handleInsideFrontBackCoverColor = (e) => {
+    console.log(e.target.name);
     dispatch({
       item: "insideFrontBackCoverColor",
-      payload: e.target.value
+      payload: { name: e.target.name }
     });
   };
+
+  useEffect(() => {
+    (state.insideFrontBackCoverColor.name === "color"
+    && state.coverPrintingMethod.name === null
+    && state.coverPrintingMethod.id === "mono") &&
+      dispatch({
+        item: "insideFrontBackCoverColor",
+        payload: { name: null }
+    });
+  }, [state.insideFrontBackCoverColor.name, state.coverPrintingMethod.name, state.coverPrintingMethod.id, dispatch]);
+
 
   // とりあえずダミーの関数
   const dummyFunc = (e) => {
@@ -604,7 +618,7 @@ const AutoCalc = () => {
 
   return (
     <>
-      {/* <Example /> */}
+      <Example />
 
       <hr />
       <div className="calc">
@@ -953,10 +967,10 @@ const AutoCalc = () => {
                   }
                 </section>
             }
-                  <ul className="note">
-                    <li><a href="" target="_blank">「PP加工をされる際の注意点」をご覧ください。</a></li>
-                    <li>表表紙（表1）の裏側を表2<br />裏表紙（表4）の内側を表3と呼びます。</li>
-                  </ul>
+              <ul className="note">
+                <li><a href="" target="_blank">「PP加工をされる際の注意点」をご覧ください。</a></li>
+                <li>表表紙（表1）の裏側を表2<br />裏表紙（表4）の内側を表3と呼びます。</li>
+              </ul>
             <section>
               <label htmlFor="">
                 <input type="checkbox" id="" value="" onChange={dummyFunc} />
@@ -977,11 +991,12 @@ const AutoCalc = () => {
                 state.coverPrintingMethod.id === "color" &&
                 INSIDE_FRONT_BACK_COVER_COLOR.map((color) => {
                   return (
-                    <label htmlFor="type">
+                    <label htmlFor={color} key={color}>
                       <input
+                        id={color}
                         type="radio"
-                        id="color"
-                        value={color}
+                        name={color}
+                        checked={state.insideFrontBackCoverColor.name === color}
                         onChange={handleInsideFrontBackCoverColor} />
                       {color}
                     </label>
@@ -995,7 +1010,8 @@ const AutoCalc = () => {
                   type="checkbox"
                   id="addBreedAutoCover"
                   checked={state.addBreedAutoCover}
-                  onChange={handleAddBreedAutoCover} />
+                  onChange={handleAddBreedAutoCover} 
+                />
                 表紙データ自動塗り足し追加
               </label>
               <label htmlFor="addBreedAutoText">
@@ -1003,7 +1019,8 @@ const AutoCalc = () => {
                   type="checkbox"
                   id="addBreedAutoText"
                   checked={state.addBreedAutoText}
-                  onChange={handleAddBreedAutoText} />
+                  onChange={handleAddBreedAutoText} 
+                />
                 本文データ自動塗り足し追加
               </label>
               <ul className="note">
@@ -1016,7 +1033,8 @@ const AutoCalc = () => {
                   type="checkbox"
                   id="horizontalBinding"
                   checked={state.horizontalBinding}
-                  onChange={handleHorizontalBinding} />
+                  onChange={handleHorizontalBinding} 
+                />
                 横綴じ製本
               </label>            
               <label htmlFor="submissionInMSWordFormat">
@@ -1024,7 +1042,8 @@ const AutoCalc = () => {
                   type="checkbox"
                   id="submissionInMSWordFormat"
                   checked={state.submissionInMSWordFormat}
-                  onChange={handleSubmissionInMSWordFormat} />
+                  onChange={handleSubmissionInMSWordFormat} 
+                />
                 Word（ワード）入稿（Word入稿選択時は自動選択）
               </label>            
             </section>
