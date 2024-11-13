@@ -2,7 +2,6 @@ import { useReducer, useEffect } from "react";
 
 import Example from './parts/Example.jsx'
 
-
 // 本文の種類
 // オブジェクトを整理して配列に変換する関数
 const corectPaperTypeToArr = (hash) => {
@@ -214,6 +213,8 @@ const COVER_PAPER_TYPES_GROUP = {
   color: { coverPaperTypes: COVER_PAPER_TYPES_PRINTED_4C }
 };
 
+const INSIDE_FRONT_BACK_COVER_COLOR = ["フルカラー印刷", "モノクロ印刷"];
+
 // コーティング加工が可能な用紙
 const COATING_AVAILABLE = [
   "レザック 175kg",
@@ -254,6 +255,10 @@ const handleRreducer = (prev, { item, payload }) => {
     case "coverPrintingMethod": return { ...prev, coverPrintingMethod: { id: key, name: name } };
     case "coverPaperType": return { ...prev, coverPaperType: { name: name } };
     case "ppCoating": return { ...prev, ppCoating: { name: name } };
+    case "addBreedAutoCover": return { ...prev, addBreedAutoCover: payload };
+    case "addBreedAutoText": return { ...prev, addBreedAutoText: payload };    
+    case "horizontalBinding": return { ...prev, horizontalBinding: payload };    
+    case "submissionInMSWordFormat": return { ...prev, submissionInMSWordFormat: payload };    
     default: throw new Error("error...");
   }
 };
@@ -275,6 +280,10 @@ const AutoCalc = () => {
     coverPrintingMethod: { id: "null", name: null },
     coverPaperType: { name: null },
     ppCoating: { name: null },
+    addBreedAutoCover: false,
+    addBreedAutoText: false,
+    horizontalBinding : false,
+    submissionInMSWordFormat: false, 
   };
 
   // 状態
@@ -465,19 +474,15 @@ const AutoCalc = () => {
   };
 
   useEffect(() => {
-    if (
-      COATING_AVAILABLE.includes(state.coverPaperType.name) !== true &&
-      state.ppCoating.name !== null
-    ) {
+    (COATING_AVAILABLE.includes(state.coverPaperType.name) !== true 
+    && state.ppCoating.name !== null) && 
       dispatch({
         item: "ppCoating",
         payload: { name: null }
-      });
-    }
+    });
   }, [state.coverPaperType.name, state.ppCoating.name, dispatch]);
 
   const handleAddPPCoating = (e) => {
-    console.log(e.target.value);
     dispatch({
       item: "ppCoating",
       payload: { name: e.target.value }
@@ -556,6 +561,41 @@ const AutoCalc = () => {
         : null ;
 
     return colorPageCountArr;
+  };
+
+  const handleAddBreedAutoCover = () => {
+    dispatch({
+      item: "addBreedAutoCover",
+      payload: !state.addBreedAutoCover
+    });
+  };
+  
+  const handleAddBreedAutoText = () => {
+    dispatch({
+      item: "addBreedAutoText",
+      payload: !state.addBreedAutoText
+    });
+  };
+
+  const handleHorizontalBinding = () => {
+    dispatch({
+      item: "horizontalBinding",
+      payload: !state.horizontalBinding
+    });
+  };
+  
+  const handleSubmissionInMSWordFormat = () => {
+    dispatch({
+      item: "submissionInMSWordFormat",
+      payload: !state.submissionInMSWordFormat
+    });
+  };
+
+  const handleInsideFrontBackCoverColor = (e) => {
+    dispatch({
+      item: "insideFrontBackCoverColor",
+      payload: e.target.value
+    });
   };
 
   // とりあえずダミーの関数
@@ -933,57 +973,60 @@ const AutoCalc = () => {
               <div>扉への印刷ページを記入して下さい。（データのページ数）</div>
             </section>
             <section>
-              <label htmlFor="">
-                <input type="checkbox" id="" value="" onChange={dummyFunc} />
-                表2・3&nbsp;モノクロ印刷
-              </label>
-              <label htmlFor="">
-                <input type="checkbox" id="" value="" onChange={dummyFunc} />
-                表2・3&nbsp;フルカラー印刷
-              </label>
-              <label htmlFor="">
-                <input type="checkbox" id="" value="" onChange={dummyFunc} />
-                本文片面印刷
-              </label>
+              {
+                state.coverPrintingMethod.id === "color" &&
+                INSIDE_FRONT_BACK_COVER_COLOR.map((color) => {
+                  return (
+                    <label htmlFor="type">
+                      <input
+                        type="radio"
+                        id="color"
+                        value={color}
+                        onChange={handleInsideFrontBackCoverColor} />
+                      {color}
+                    </label>
+                  )
+                })
+              }
             </section>
             <section>
-              <label htmlFor="">
-                <input type="checkbox" id="" value="" onChange={dummyFunc} />
+              <label htmlFor="addBreedAutoCover">
+                <input
+                  type="checkbox"
+                  id="addBreedAutoCover"
+                  checked={state.addBreedAutoCover}
+                  onChange={handleAddBreedAutoCover} />
                 表紙データ自動塗り足し追加
               </label>
-              <label htmlFor="">
-                <input type="checkbox" id="" value="" onChange={dummyFunc} />
+              <label htmlFor="addBreedAutoText">
+                <input
+                  type="checkbox"
+                  id="addBreedAutoText"
+                  checked={state.addBreedAutoText}
+                  onChange={handleAddBreedAutoText} />
                 本文データ自動塗り足し追加
               </label>
               <ul className="note">
-                <li>※必ず<a href="" onClick={dummyFunc}>「自動塗り足し追加サービスの注意点」</a>をご確認・ご了承の上ご注文ください。</li>
+                <li>※必ず<a href="">「自動塗り足し追加サービスの注意点」</a>をご確認・ご了承の上ご注文ください。</li>
               </ul>
             </section>
             <section>
-              <label htmlFor="">
-                <input type="checkbox" id="" value="" onChange={dummyFunc} />
-                分納
-              </label>
-              <div>納品箇所数：</div>
-              <select name="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-              </select>
-              <label htmlFor="">
-                <input type="checkbox" id="" value="" onChange={dummyFunc} />
+              <label htmlFor="horizontalBinding">
+                <input
+                  type="checkbox"
+                  id="horizontalBinding"
+                  checked={state.horizontalBinding}
+                  onChange={handleHorizontalBinding} />
                 横綴じ製本
-              </label>
-              <label htmlFor="">
-                <input type="checkbox" id="" value="" onChange={dummyFunc} />
-                紙版原稿（紙版原稿入稿選択時は自動選択）
-              </label>
-              <label htmlFor="">
-                <input type="checkbox" id="" value="" onChange={dummyFunc} />
+              </label>            
+              <label htmlFor="submissionInMSWordFormat">
+                <input
+                  type="checkbox"
+                  id="submissionInMSWordFormat"
+                  checked={state.submissionInMSWordFormat}
+                  onChange={handleSubmissionInMSWordFormat} />
                 Word（ワード）入稿（Word入稿選択時は自動選択）
-              </label>
+              </label>            
             </section>
           </div>
         </div>
