@@ -290,7 +290,7 @@ const AutoCalc = () => {
 
   // 状態
   const [state,  dispatch] = useReducer(handleRreducer, initState);
-  // console.log(state);
+  console.log(state);
 
   // 冊子サイズ、本文の印刷方法の選択を変更した場合、
   // 選択している使用本文用紙の種類が選択肢になければ、
@@ -489,7 +489,22 @@ const AutoCalc = () => {
       item: "ppCoating",
       payload: { name: e.target.value }
     });
-  };  
+  }; 
+  
+  // サイズ変更時にcustomTrimSizeをリセットするためのuseEffect
+  useEffect(() => {
+    SELECTED_COVER_PAPER_TYPES.includes(state.coverPaperType.name) === false &&
+      dispatch({
+        item: "coverPaperType",
+        payload: {
+          name: null
+        }
+      });
+  }, [SELECTED_COVER_PAPER_TYPES.includes(state.coverPaperType.name)]);    
+
+  console.log(state.coverPaperType.name);
+  console.log(state.coverPrintingMethod.name);
+  console.log(SELECTED_COVER_PAPER_TYPES.includes(state.coverPaperType.name));
 
   // 製本の方法
   const renderBindingMethodOptions = () => {
@@ -594,7 +609,6 @@ const AutoCalc = () => {
   };
 
   const handleInsideFrontBackCoverColor = (e) => {
-    console.log(e.target.name);
     dispatch({
       item: "insideFrontBackCoverColor",
       payload: { name: e.target.name }
@@ -602,14 +616,13 @@ const AutoCalc = () => {
   };
 
   useEffect(() => {
-    (state.insideFrontBackCoverColor.name === "color"
-    && state.coverPrintingMethod.name === null
-    && state.coverPrintingMethod.id === "mono") &&
+    (state.coverPrintingMethod.id === "mono"
+    && state.insideFrontBackCoverColor.name === "フルカラー印刷") &&
       dispatch({
         item: "insideFrontBackCoverColor",
-        payload: { name: null }
+        payload: { name: "モノクロ印刷" }
     });
-  }, [state.insideFrontBackCoverColor.name, state.coverPrintingMethod.name, state.coverPrintingMethod.id, dispatch]);
+  }, [state.coverPrintingMethod.id, state.insideFrontBackCoverColor.name, dispatch]);
 
 
   // とりあえずダミーの関数
@@ -618,7 +631,7 @@ const AutoCalc = () => {
 
   return (
     <>
-      <Example />
+      {/* <Example /> */}
 
       <hr />
       <div className="calc">
@@ -981,6 +994,10 @@ const AutoCalc = () => {
                 色紙にする
 
                 奇数ページを指定させる　指定ページの前が扉を前提
+
+                本文ページ数のstate
+                1から始まるページ数までの奇数を集めた配列
+                これをselect要素で表示
 
               </label>
               <button type="button" onClick={dummyFunc} >用紙・色 選択</button>
