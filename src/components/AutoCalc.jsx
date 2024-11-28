@@ -1,7 +1,5 @@
 import { useReducer, useEffect } from "react";
 
-import Example from './parts/Example.jsx'
-
 // 本文の種類
 // オブジェクトを整理して配列に変換する関数
 const corectPaperTypeToArr = (hash) => {
@@ -502,10 +500,6 @@ const AutoCalc = () => {
       });
   }, [SELECTED_COVER_PAPER_TYPES.includes(state.coverPaperType.name)]);    
 
-  console.log(state.coverPaperType.name);
-  console.log(state.coverPrintingMethod.name);
-  console.log(SELECTED_COVER_PAPER_TYPES.includes(state.coverPaperType.name));
-
   // 製本の方法
   const renderBindingMethodOptions = () => {
     const pageCount = state.pageCount;
@@ -633,8 +627,8 @@ const AutoCalc = () => {
     <>
       {/* <Example /> */}
 
-      <hr />
-      <div className="calc">
+      <div className="calc content-width">
+        <h1>自動お見積もり</h1>
         {/* 冊子のサイズ */}
         <div className="calc__item-wrapper trim_size">
           <div className="calc__entry">
@@ -668,7 +662,7 @@ const AutoCalc = () => {
           <div className="calc__content-inner">
             <label className="custom-size-input-value-wrapper">
               <div>
-                <span>高さ:&nbsp;</span>
+                <span>高さ：&nbsp;</span>
                 <select
                   id={state.trimSize.id}
                   name={state.trimSize.name}
@@ -683,11 +677,11 @@ const AutoCalc = () => {
                   })
                 }
                 </select>
-                <span>mm</span>
+                <span>&nbsp;mm</span>
               </div>
               <div>×</div>
               <div>
-                <span>幅:&nbsp;</span>
+                <span>幅：&nbsp;</span>
                 <select
                   id={state.trimSize.id}
                   name={state.trimSize.name}
@@ -702,34 +696,34 @@ const AutoCalc = () => {
                   })
                 }
                 </select>
-                <span>mm</span>
+                <span>&nbsp;mm</span>
               </div>
             </label>
           </div>
           {
             state.trimSize.name === "新書版" && (
               <>
-                <div>基本サイズ：高&nbsp;176&ensp;×&ensp;幅&nbsp;103mm&ensp;または、高&nbsp;182&ensp;×&ensp;幅&nbsp;112mm</div>
-                <div>可能範囲：［高&nbsp;172～192mm］&ensp;×&ensp;［幅&nbsp;103～138mm］</div>
+                <div className="calc__explanation">基本サイズ：高&nbsp;176&ensp;×&ensp;幅&nbsp;103mm&ensp;または、高&nbsp;182&ensp;×&ensp;幅&nbsp;112mm</div>
+                <div className="calc__explanation">可能範囲：［高&nbsp;172～192mm］&ensp;×&ensp;［幅&nbsp;103～138mm］</div>
               </>
             )
           }
           {
             state.trimSize.name === "文庫版" && (
               <>
-                <div>基本サイズ：高&nbsp;148～152mm&ensp;×&ensp;幅&nbsp;105mm</div>
-                <div>可能範囲：［高&nbsp;138～152mm］&ensp;×&ensp;［幅&nbsp;103～115mm］</div>
+                <div className="calc__explanation">基本サイズ：高&nbsp;148～152mm&ensp;×&ensp;幅&nbsp;105mm</div>
+                <div className="calc__explanation">可能範囲：［高&nbsp;138～152mm］&ensp;×&ensp;［幅&nbsp;103～115mm］</div>
               </>
             )
           }
           {
             state.trimSize.name === "変形サイズ（小）" && (
-              <div>可能範囲：［高&nbsp;105～210mm］&ensp;×&ensp;［幅&nbsp;90～148mm］</div>
+              <div className="calc__explanation">可能範囲：［高&nbsp;105～210mm］&ensp;×&ensp;［幅&nbsp;90～148mm］</div>
             )
           }
           {
             state.trimSize.name === "変形サイズ（大）" && (
-              <div>可能範囲：［高&nbsp;149～297mm］&ensp;×&ensp;［幅&nbsp;149～210mm］</div>
+              <div className="calc__explanation">可能範囲：［高&nbsp;149～297mm］&ensp;×&ensp;［幅&nbsp;149～210mm］</div>
             )
           }
         </div>
@@ -820,7 +814,7 @@ const AutoCalc = () => {
           <div className="calc__entry">
             ページ数<span>※</span>
           </div>
-          <div className="calc__content-inner">
+          <div className="calc__content-inner number-pages">
             <label htmlFor="">
               <select
                 name="pageCount"
@@ -834,27 +828,18 @@ const AutoCalc = () => {
                 })}
               </select>
             </label>
-            <ul className="note">
-              <li>表紙（表1・2・3・4）を除く本文のページ数</li>
-            </ul>
-
-            <div>
-              <label>
-                <select name="colorPageCount" value={state.colorPageCount} onChange={handleColorPageCount}>
-                  {
-                    renderColorPageCountSelector()?.map((num) => (
-                      <option key={num} value={num}>{num}</option>)
-                    )
-                  }
-                </select>
-              </label>
-              <ul className="note">
-                <li>内カラーページ数</li>
-              </ul>
-            </div>
-            <ul className="note">
-              <li>片面印刷をご希望の方は、下部のオプション加工を選択して下さい。</li>
-            </ul>
+            <div className="calc__explanation">表紙（表1・2・3・4）を除く本文のページ数</div>
+            <label>
+              <select name="colorPageCount" value={state.colorPageCount} onChange={handleColorPageCount}>
+                {
+                  renderColorPageCountSelector()?.map((num) => (
+                    <option key={num} value={num}>{num}</option>)
+                  )
+                }
+              </select>
+              <span className="title-next-label">内カラーページ数</span>
+            </label>
+            {/* <div className="calc__explanation">片面印刷をご希望の方は、下部のオプション加工を選択して下さい。</div> */}
           </div>
         </div>
 
@@ -881,7 +866,7 @@ const AutoCalc = () => {
               })
             }
           </div>
-          <ul>
+          <ul className="calc__explanation">
             <li>中とじ製本は4から24ページのみ対応可能です。</li>
             <li>A6、B6、新書、文庫、変形サイズはくるみ製本のみ対応可能</li>
             <li>くるみ製本は14ページ以上から対応可能</li>
@@ -911,15 +896,15 @@ const AutoCalc = () => {
               })
             }
           </div>
-          <ul className="note">
-            <li>表2・表3に印刷をご希望の場合は、下記のオプション加工をお選び下さい。</li>
-            <li>表表紙（表1）の裏側を表2、裏表紙(表4)の内側を表3と呼びます。</li>
+          <ul>
+            <li className="calc__explanation">表2・表3に印刷をご希望の場合は、下記のオプション加工をお選び下さい。</li>
+            <li className="calc__explanation">表表紙（表1）の裏側を表2、裏表紙（表4）の内側を表3と呼びます。</li>
           </ul>
         </div>
 
         {/* 表紙の種類（印刷方法） */}
         <div className="calc__item-wrapper cover_paper_type">
-          <div className="calc__entry">
+          <div className="calc__entry margin-bottom-unset">
             表紙の種類（印刷方法）<span>※</span>
           </div>
           <div className="calc__content-inner">
@@ -980,7 +965,7 @@ const AutoCalc = () => {
                   }
                 </section>
             }
-              <ul className="note">
+              <ul className="calc__explanation">
                 <li><a href="" target="_blank">「PP加工をされる際の注意点」をご覧ください。</a></li>
                 <li>表表紙（表1）の裏側を表2<br />裏表紙（表4）の内側を表3と呼びます。</li>
               </ul>
@@ -1040,7 +1025,7 @@ const AutoCalc = () => {
                 />
                 本文データ自動塗り足し追加
               </label>
-              <ul className="note">
+              <ul className="calc__explanation">
                 <li>※必ず<a href="">「自動塗り足し追加サービスの注意点」</a>をご確認・ご了承の上ご注文ください。</li>
               </ul>
             </section>
@@ -1066,12 +1051,13 @@ const AutoCalc = () => {
             </section>
           </div>
         </div>
+
+        <div>
+          <button name="" type="submit" onClick={dummyFunc} >お見積もり</button>
+          <button name="" type="reset" >リセット</button>
+        </div>
       </div>
 
-      <div>
-        <button name="" type="submit" onClick={dummyFunc} >お見積もり</button>
-        <button name="" type="reset" >リセット</button>
-      </div>
     </>
   );
 };

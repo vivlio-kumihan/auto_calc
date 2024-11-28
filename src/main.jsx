@@ -12,6 +12,7 @@
 
 // 開発中は、コンソールログの出力が2重に出力されて見通しが悪いので『StrictMode』を外す。
 import { createRoot } from 'react-dom/client'
+import './assets/styles/vendors/css-reset.css';
 import './style.css'
 import AutoCalc from './components/AutoCalc.jsx'
 

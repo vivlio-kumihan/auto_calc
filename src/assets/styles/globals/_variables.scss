@@ -1,8 +1,29 @@
 $cWhite: white;
-$cBlack: black;
-$cSubTitle: #535353;
+$cBlackDeep: #000;
+$cBlack: #2d2d2d;
+$cBlackMd: #4b4b4b;
+$cBlackLt: #d8d7d7;
 $cBgGray: #eaebe6;
-$cWineRed: #904669;
-$contentMaxWidth: 1070px;
-$navHeight: 100px;
-$cTheme: blue;
+$cTheme: #023163;
+$cThemeMd: #01588C;
+$cThemeLt: #62AED1;
+$cThemeUl: #8ED4DB;
+$cThemeTh: #D7EBEA;
+$cBrown: #752d00;
+$cOrangeHd: #da791f;
+$cOrangeDk: #E49D5B;
+$cOrange: #E4D19D;
+$cOrangeLt: #fdf5c6;
+$cThemeOpaQt: rgba($color: #4F2472, $alpha: .25);
+$cThemeOpaMd: rgba($color: #4F2472, $alpha: .1);
+$cThemeOpaLt: rgba($color: #4F2472, $alpha: .03);
+$cLightBlue: #39C;
+$cThinLightBlue: aliceblue;
+
+$contentMaxWidth: 1080px;
+$navHeight: 120px;
+
+$fontGothic: "Noto Sans JP", sans-serif;
+$fontRym: "Noto Serif", serif;
+$cAmazonCol: rgb(255, 98, 0);
+$cAttention: #ff4000

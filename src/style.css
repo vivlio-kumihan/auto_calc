@@ -1,3 +1,250 @@
+body {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 100%;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.noto-serif-jp {
+  font-family: "Noto Serif", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+.noto-serif-jp__ex-light {
+  font-weight: 200;
+}
+.noto-serif-jp__regular {
+  font-weight: 400;
+}
+.noto-serif-jp__bold {
+  font-weight: 700;
+}
+.noto-serif-jp__black {
+  font-weight: 900;
+}
+
+.noto-sans-jp {
+  font-family: "Noto Sans JP", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+.noto-sans-jp__ex-light {
+  font-weight: 200;
+}
+.noto-sans-jp__regular {
+  font-weight: 400;
+}
+.noto-sans-jp__bold {
+  font-weight: 700;
+}
+.noto-sans-jp__black {
+  font-weight: 900;
+}
+
+select {
+  padding: 2.5px 0;
+}
+@media (min-width: 960px) {
+  select {
+    padding: 2.5px 5px;
+  }
+}
+
+.title-next-label {
+  margin-left: 0.75em;
+  font-weight: 900;
+}
+
+img {
+  vertical-align: bottom;
+}
+
+ul {
+  padding: 0;
+}
+ul li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.mb-sm {
+  margin-bottom: 16px !important;
+}
+
+.mb-lg {
+  margin-bottom: 80px !important;
+}
+@media (min-width: 960px) {
+  .mb-lg {
+    margin-bottom: 150px !important;
+  }
+}
+
+.pb-sm {
+  padding-bottom: 16px !important;
+}
+
+.pb-lg {
+  padding-bottom: 80px !important;
+}
+@media (min-width: 960px) {
+  .pb-lg {
+    padding-bottom: 150px !important;
+  }
+}
+
+.content-width {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1080px;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 600px) {
+  .flex {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+#main-content {
+  position: relative;
+  z-index: 0;
+}
+
+.font-sm {
+  font-size: 14px;
+}
+@media (min-width: 960px) {
+  .font-sm {
+    font-size: 16px;
+  }
+}
+
+.font-md {
+  font-size: 17px;
+}
+@media (min-width: 960px) {
+  .font-md {
+    font-size: 19px;
+  }
+}
+
+.font-lr {
+  font-size: 17px;
+}
+@media (min-width: 960px) {
+  .font-lr {
+    font-size: 23px;
+  }
+}
+
+.font-lg, .main-title {
+  font-size: 25px;
+}
+@media (min-width: 960px) {
+  .font-lg, .main-title {
+    font-size: 36px;
+  }
+}
+
+.main-title {
+  font-weight: 600;
+  margin-bottom: 0;
+  display: block;
+}
+
+.calc {
+  margin-top: 1em;
+  padding: 1em;
+  border: 10px solid rgba(228, 157, 91, 0.5);
+  border-radius: 30px;
+}
+@media (min-width: 600px) {
+  .calc {
+    padding: 3em;
+  }
+}
+.calc__item-wrapper {
+  margin-top: 2em;
+}
+.calc__item-wrapper.trim_size > .calc__content-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.calc__entry, .calc__content-inner, .calc .calc__explanation {
+  font-family: "Noto Sans JP", sans-serif;
+  font-feature-settings: "palt" 1;
+}
+.calc__entry {
+  margin-bottom: 0.5em;
+  font-size: 1.2em;
+  font-weight: 900;
+  line-height: 1;
+}
+@media (min-width: 960px) {
+  .calc__entry {
+    font-size: 1.5em;
+  }
+}
+.calc__entry > span {
+  margin-left: 0.25em;
+  font-size: 0.8em;
+}
+.calc__content-inner {
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 960px) {
+  .calc__content-inner {
+    flex-direction: row;
+    gap: 1em;
+  }
+}
+.calc__content-inner label {
+  padding-left: 1.25em;
+  text-indent: -1em;
+  font-weight: 400;
+}
+.calc__content-inner input {
+  margin-right: 0.25em;
+}
+.calc__content-inner.number-pages {
+  flex-direction: column;
+  row-gap: 0.5em;
+}
+.calc__content-inner.number-pages > .calc__explanation {
+  margin-top: unset;
+  font-size: 0.95em;
+  line-height: 1;
+}
+.calc__content-inner.number-pages > label:last-of-type {
+  margin-top: 0.5em;
+}
+.calc__explanation {
+  margin-top: 0.5em;
+  font-size: 0.9em;
+  line-height: 1.3;
+  font-weight: 600;
+  color: #023163;
+}
+.calc__explanation > li:not(:first-of-type) {
+  margin-top: 0.5em;
+}
+.calc h3 {
+  margin: 0.75em 0 0.25em;
+  font-size: 1em;
+}
+.calc .custom-size-input-value-wrapper > div {
+  margin-right: 0.5em;
+}
+
 .set-flex {
   display: flex;
   flex-direction: column;
@@ -7,4 +254,8 @@
 .custom-size-input-value-wrapper {
   display: flex;
   gap: 10px;
+}
+
+.margin-bottom-unset {
+  margin-bottom: unset;
 }/*# sourceMappingURL=style.css.map */
