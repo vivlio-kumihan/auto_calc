@@ -1,5 +1,15 @@
 import { useReducer, useEffect } from "react";
 
+import TrimSize from "./components/TrimSize.jsx";
+import CustomSize from "./components/CustomSize.jsx";
+import TextPrintingMethod from "./components/TextPrintingMethod.jsx";
+import TextPaperType from "./components/TextPaperType.jsx";
+import PrintQuantity from "./components/PrintQuantity.jsx";
+import PageCount from "./components/PageCount.jsx";
+import BindingMethod from "./components/BindingMethod.jsx";
+import CoverPrintingMethod from "./components/CoverPrintingMethod.jsx";
+import CoverPaperType from "./components/CoverPaperType.jsx";
+
 // 本文の種類
 // オブジェクトを整理して配列に変換する関数
 const corectPaperTypeToArr = (hash) => {
@@ -623,6 +633,25 @@ const AutoCalc = () => {
       <div className="calc content-width">
         <h1>自動お見積もり</h1>
         {/* 冊子のサイズ */}
+        <TrimSize />
+        {/* 新書版・文庫版・変形サイズ（大）（小）入力 */}
+        <CustomSize />
+        {/* 本文の印刷方法 */}
+        <TextPrintingMethod />
+        {/* 本文の種類 */}
+        <TextPaperType />
+        {/* 印刷部数 */}
+        <PrintQuantity />
+        {/* ページ数 */}
+        <PageCount />
+        {/* 製本方法 */}
+        <BindingMethod />
+        {/* 表紙の印刷方法 */}
+        <CoverPrintingMethod />
+        {/* 表紙の種類（印刷方法） */}
+        <CoverPaperType />
+
+        {/* 冊子のサイズ */}        
         <div className="calc__item-wrapper trim_size">
           <div className="calc__entry">
             冊子のサイズ<span>※</span>
