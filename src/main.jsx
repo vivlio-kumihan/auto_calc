@@ -14,7 +14,7 @@
 import { createRoot } from 'react-dom/client'
 import './assets/styles/vendors/css-reset.css';
 import './style.css'
-import AutoCalc from './components/AutoCalc.jsx'
+import AutoCalc from './AutoCalc.jsx'
 
 createRoot(document.getElementById('root')).render(
   <>

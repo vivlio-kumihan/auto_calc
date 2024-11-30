@@ -549,7 +549,7 @@ const AutoCalc = () => {
         payload: { name: "colorPageCount", value: 0 }
       });
     }
-  }, [state.textPrintingMethod.name, dispatch]);
+  }, [state.pageCount, state.textPrintingMethod.name, dispatch]);
 
   // カラーページ数
   const renderColorPageCountSelector = () => {
@@ -618,15 +618,8 @@ const AutoCalc = () => {
     });
   }, [state.coverPrintingMethod.id, state.insideFrontBackCoverColor.name, dispatch]);
 
-
-  // とりあえずダミーの関数
-  const dummyFunc = (e) => {
-  };
-
   return (
     <>
-      {/* <Example /> */}
-
       <div className="calc content-width">
         <h1>自動お見積もり</h1>
         {/* 冊子のサイズ */}
@@ -830,7 +823,10 @@ const AutoCalc = () => {
             </label>
             <div className="calc__explanation">表紙（表1・2・3・4）を除く本文のページ数</div>
             <label>
-              <select name="colorPageCount" value={state.colorPageCount} onChange={handleColorPageCount}>
+              <select name="colorPageCount" 
+                      value={state.colorPageCount} 
+                      onChange={handleColorPageCount}
+              >
                 {
                   renderColorPageCountSelector()?.map((num) => (
                     <option key={num} value={num}>{num}</option>)
@@ -839,7 +835,6 @@ const AutoCalc = () => {
               </select>
               <span className="title-next-label">内カラーページ数</span>
             </label>
-            {/* <div className="calc__explanation">片面印刷をご希望の方は、下部のオプション加工を選択して下さい。</div> */}
           </div>
         </div>
 
@@ -971,7 +966,7 @@ const AutoCalc = () => {
               </ul>
             <section>
               <label htmlFor="">
-                <input type="checkbox" id="" value="" onChange={dummyFunc} />
+                <input type="checkbox" id="" value=""/>
                 扉がある　※扉の定義必要
                 ない
 
@@ -985,7 +980,7 @@ const AutoCalc = () => {
                 これをselect要素で表示
 
               </label>
-              <button type="button" onClick={dummyFunc} >用紙・色 選択</button>
+              <button type="button">用紙・色 選択</button>
               <div>扉への印刷ページを記入して下さい。（データのページ数）</div>
             </section>
             <section>
@@ -1053,7 +1048,7 @@ const AutoCalc = () => {
         </div>
 
         <div>
-          <button name="" type="submit" onClick={dummyFunc} >お見積もり</button>
+          <button name="" type="submit">お見積もり</button>
           <button name="" type="reset" >リセット</button>
         </div>
       </div>
