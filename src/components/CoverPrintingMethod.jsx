@@ -16,17 +16,6 @@ const CoverPrintingMethod = ({ coverPaperTypesGroup }) => {
     });
   };
 
-
-
-
-
-  const INSIDE_FRONT_BACK_COVER_COLOR = ["フルカラー印刷", "モノクロ印刷"];
-
-
-  // 「Polypropylene (PP) Lamination」または「PP Coating」
-  // Gloss PP Lamination：ラミネーション
-  // Matte PP Lamination：PPラミネーション
-  const PP_COATING_TYPES = ["グロス（光沢）PP", "マット（艶消し）PP"];
   // PP加工関連
   // 選択したキーに紐づく使用可能な紙のタイプSELECTED_COVER_PAPER_TYPESの中にstatetypenameがあれば表示させる作戦
   const RECENT_COLOR = coverPaperTypesGroup[state.coverPrintingMethod.id];
@@ -36,15 +25,6 @@ const CoverPrintingMethod = ({ coverPaperTypesGroup }) => {
         return acc;
       }, []).flat()
     : [];
-
-
-
-  const handleAddPPCoating = (e) => {
-    dispatch({
-      item: "ppCoating",
-      payload: { name: e.target.value }
-    });
-  }; 
   
   // サイズ変更時にcustomTrimSizeをリセットするためのuseEffect
   useEffect(() => {

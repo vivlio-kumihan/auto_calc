@@ -211,6 +211,13 @@ const COATING_AVAILABLE = [
   "しこくてんれい ゆき 180kg"
 ];
 
+const INSIDE_FRONT_BACK_COVER_COLOR = ["フルカラー印刷", "モノクロ印刷"];
+
+// 「Polypropylene (PP) Lamination」または「PP Coating」
+// Gloss PP Lamination：ラミネーション
+// Matte PP Lamination：PPラミネーション
+const PP_COATING_TYPES = ["グロス（光沢）PP", "マット（艶消し）PP"];
+
 // 本体
 const AutoCalc = () => {
   return (
@@ -237,7 +244,11 @@ const AutoCalc = () => {
           {/* 表紙の種類（印刷方法） */}
           <CoverPaperType coverPaperTypesGroup={COVER_PAPER_TYPES_GROUP} coatingAvaiLable={COATING_AVAILABLE} />
           {/* オプション加工 */}
-          <OptionalFinishing coatingAvaiLable={COATING_AVAILABLE} />
+          <OptionalFinishing            
+            coatingAvaiLable={COATING_AVAILABLE}            
+            indieFrontBackCoverColor={INSIDE_FRONT_BACK_COVER_COLOR} 
+            ppCoatingTypes={PP_COATING_TYPES}
+          />
         </CalcProvider>
         <div>
           <button name="" type="submit">お見積もり</button>

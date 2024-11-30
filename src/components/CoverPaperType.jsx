@@ -55,7 +55,7 @@ const CoverPaperType = ({ coverPaperTypesGroup, coatingAvaiLable }) => {
               </div>
             ))
           ) : (
-            <p>データが見つかりません</p> // データがない場合のフォールバック
+            <p>表紙の印刷方法を選択してください。</p>
           )
         }
       </div>

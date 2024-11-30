@@ -2,7 +2,7 @@ import { useCalc, useCalcDispatch } from "../context/CalcContext";
 import { useEffect } from "react";
 
 
-const OptionalFinishing = ({ coatingAvaiLable }) => {
+const OptionalFinishing = ({ coatingAvaiLable, indieFrontBackCoverColor, ppCoatingTypes }) => {
   const state = useCalc();
   const dispatch = useCalcDispatch();
 
@@ -50,6 +50,13 @@ const OptionalFinishing = ({ coatingAvaiLable }) => {
     });
   }, [state.coverPrintingMethod.id, state.insideFrontBackCoverColor.name, dispatch]);
 
+  const handleAddPPCoating = (e) => {
+    dispatch({
+      item: "ppCoating",
+      payload: { name: e.target.value }
+    });
+  }; 
+
   return (
     <>
       <div className="calc__item-wrapper optional_finishing">
@@ -61,7 +68,7 @@ const OptionalFinishing = ({ coatingAvaiLable }) => {
             coatingAvaiLable.includes(state.coverPaperType.name) &&
               <section>
                 {
-                  PP_COATING_TYPES.map((coating) => {
+                  ppCoatingTypes.map((coating) => {
                     return (
                       <label htmlFor={coating} key={coating}>
                         <input
@@ -103,7 +110,7 @@ const OptionalFinishing = ({ coatingAvaiLable }) => {
           <section>
             {
               state.coverPrintingMethod.id === "color" &&
-              INSIDE_FRONT_BACK_COVER_COLOR.map((color) => {
+              indieFrontBackCoverColor.map((color) => {
                 return (
                   <label htmlFor={color} key={color}>
                     <input
