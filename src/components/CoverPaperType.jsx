@@ -1,22 +1,7 @@
 import { useCalc, useCalcDispatch } from "../context/CalcContext";
 import { useEffect } from "react";
 
-// コーティング加工が可能な用紙
-const COATING_AVAILABLE = [
-  "レザック 175kg",
-  "アートポスト紙 200kg",
-  "ミラーコート紙 220kg",
-  "サテン金藤 180kg",
-  "マットポスト紙 220kg",
-  "アラベール スノーホワイト 160kg",
-  "アラベール ナチュラル 160kg",
-  "ペルーラ スノーホワイト 180kg",
-  "ミランダ スノーホワイト 170kg",
-  "エスプリコートVNエンボス アラレ 176.5kg",
-  "しこくてんれい ゆき 180kg"
-];
-
-const CoverPaperType = ({ coverPaperTypesGroup }) => {
+const CoverPaperType = ({ coverPaperTypesGroup, coatingAvaiLable }) => {
   const state = useCalc();
   const dispatch = useCalcDispatch();
 
@@ -29,11 +14,11 @@ const CoverPaperType = ({ coverPaperTypesGroup }) => {
   };
 
   const putAvilablePPMark = (type) => {
-    return COATING_AVAILABLE.includes(type);
+    return coatingAvaiLable.includes(type);
   };
 
   useEffect(() => {
-    (COATING_AVAILABLE.includes(state.coverPaperType.name) !== true 
+    (coatingAvaiLable.includes(state.coverPaperType.name) !== true 
     && state.ppCoating.name !== null) && 
       dispatch({
         item: "ppCoating",
