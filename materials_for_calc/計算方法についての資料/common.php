@@ -1670,7 +1670,7 @@
       //製本処理/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       $ofs_syoukei=0;
       switch ($spec['bookb_type']) {
-        case '無線とじ':
+        case '無線綴じ':
           if($prepress_type=='ＣＴＰ'){  //CTP本文印字
             if($spec['size']=='A4' || $spec['size']=='B5'){
               $postpress_pagegake='８頁がけ';
@@ -1725,7 +1725,7 @@
           $ofs_syoukei+=$price*$spec['copies'];
           $ofs_tcheck+=array("ofs_maki"=>$price*$spec['copies']); //確認用
           break;
-        case '中とじ':
+        case '中綴じ':
           if($prepress_type=='ＣＴＰ'){  //CTP本文印字
             if($spec['size']=='A4' || $spec['size']=='B5'){
               $postpress_pagegake='８頁がけ';

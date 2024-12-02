@@ -23,7 +23,7 @@ const TrimSize = ({ trimSizeTypesRange }) => {
       dispatch
   ]);
 
-  // 冊子のサイズ
+  // 冊子の版型
   const handleTrimSize = (e) => {
     const isCustomSize = ["stdPaperback", "pocketEdition", "customSizeSm", "customSizeLg"].includes(e.target.id); // 変形サイズかどうか
     dispatch({
@@ -39,7 +39,7 @@ const TrimSize = ({ trimSizeTypesRange }) => {
   return (
     <div className="calc__item-wrapper trim_size">
       <div className="calc__entry">
-        冊子のサイズ<span>※</span>
+        冊子の版型<span>※</span>
       </div>
       <div className="calc__content-inner">
         {

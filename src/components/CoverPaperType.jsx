@@ -29,7 +29,7 @@ const CoverPaperType = ({ coverPaperTypesGroup, coatingAvaiLable }) => {
   return (
     <div className="calc__item-wrapper cover_paper_type">
       <div className="calc__entry margin-bottom-unset">
-        表紙の種類（印刷方法）<span>※</span>
+        表紙用紙の種類<span>※</span>
       </div>
       <div className="calc__content-inner">
         {

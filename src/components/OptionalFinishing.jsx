@@ -1,8 +1,12 @@
 import { useCalc, useCalcDispatch } from "../context/CalcContext";
 import { useEffect } from "react";
 
+// 「Polypropylene (PP) Lamination」または「PP Coating」
+// Gloss PP Lamination：ラミネーション
+// Matte PP Lamination：PPラミネーション
+const PP_COATING_TYPES = ["グロス（光沢）PP", "マット（艶消し）PP"];
 
-const OptionalFinishing = ({ coatingAvaiLable, indieFrontBackCoverColor, ppCoatingTypes }) => {
+const OptionalFinishing = ({ coatingAvaiLable }) => {
   const state = useCalc();
   const dispatch = useCalcDispatch();
 
@@ -34,22 +38,6 @@ const OptionalFinishing = ({ coatingAvaiLable, indieFrontBackCoverColor, ppCoati
     });
   };
 
-  const handleInsideFrontBackCoverColor = (e) => {
-    dispatch({
-      item: "insideFrontBackCoverColor",
-      payload: { name: e.target.name }
-    });
-  };
-
-  useEffect(() => {
-    (state.coverPrintingMethod.id === "mono"
-    && state.insideFrontBackCoverColor.name === "フルカラー印刷") &&
-      dispatch({
-        item: "insideFrontBackCoverColor",
-        payload: { name: "モノクロ印刷" }
-    });
-  }, [state.coverPrintingMethod.id, state.insideFrontBackCoverColor.name, dispatch]);
-
   const handleAddPPCoating = (e) => {
     dispatch({
       item: "ppCoating",
@@ -68,7 +56,7 @@ const OptionalFinishing = ({ coatingAvaiLable, indieFrontBackCoverColor, ppCoati
             coatingAvaiLable.includes(state.coverPaperType.name) &&
               <section>
                 {
-                  ppCoatingTypes.map((coating) => {
+                  PP_COATING_TYPES.map((coating) => {
                     return (
                       <label htmlFor={coating} key={coating}>
                         <input
@@ -99,31 +87,13 @@ const OptionalFinishing = ({ coatingAvaiLable, indieFrontBackCoverColor, ppCoati
 
               奇数ページを指定させる　指定ページの前が扉を前提
 
-              本文ページ数のstate
-              1から始まるページ数までの奇数を集めた配列
+              本本文ページ数のstate
+              1から始まる本文ページ数までの奇数を集めた配列
               これをselect要素で表示
 
             </label>
             <button type="button">用紙・色 選択</button>
-            <div>扉への印刷ページを記入して下さい。（データのページ数）</div>
-          </section>
-          <section>
-            {
-              state.coverPrintingMethod.id === "color" &&
-              indieFrontBackCoverColor.map((color) => {
-                return (
-                  <label htmlFor={color} key={color}>
-                    <input
-                      id={color}
-                      type="radio"
-                      name={color}
-                      checked={state.insideFrontBackCoverColor.name === color}
-                      onChange={handleInsideFrontBackCoverColor} />
-                    {color}
-                  </label>
-                )
-              })
-            }
+            <div>扉への印刷ページを記入して下さい。（データの本文ページ数）</div>
           </section>
           <section>
             <label htmlFor="addBreedAutoCover">

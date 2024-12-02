@@ -2,7 +2,7 @@ import { useCalc, useCalcDispatch } from "../context/CalcContext";
 import { useEffect } from "react";
 
 // 製本方法
-const BINDING_METHOD = ["無線とじ製本", "中とじ製本"];
+const BINDING_METHOD = ["無線綴じ製本", "中綴じ製本"];
 
 const BindingMethod = () => {
   const state = useCalc();
@@ -74,8 +74,8 @@ const BindingMethod = () => {
         }
       </div>
       <ul className="calc__explanation">
-        <li>中とじ製本は4から24ページのみ対応可能です。</li>
-        <li>A6、B6、新書、文庫、変形サイズはくるみ製本のみ対応可能</li>
+        <li>中綴じ製本は4〜24ページのみ対応可能です。</li>
+        <li>A6、B6、新書、文庫、変形サイズは無線綴じ製本のみ対応可能</li>
         <li>くるみ製本は14ページ以上から対応可能</li>
       </ul>
     </div>

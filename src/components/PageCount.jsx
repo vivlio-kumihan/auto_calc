@@ -1,7 +1,7 @@
 import { useCalc, useCalcDispatch } from "../context/CalcContext";
 import { useEffect } from "react";
 
-// ページ数
+// 本文ページ数
 const pageCountArr = [0, 4, 8];
 for (let i = 10; i <= 500; i += 2) {
   pageCountArr.push(i);
@@ -11,7 +11,7 @@ const PageCount = () => {
   const state = useCalc();
   const dispatch = useCalcDispatch();
 
-  // ページ数
+  // 本文ページ数
   const handlePageCount = (e) => {
     dispatch({
       item: "pageCount",
@@ -19,7 +19,7 @@ const PageCount = () => {
     });
   };
 
-  // カラー・ページ数
+  // カラー・本文ページ数
   const handleColorPageCount = (e) => {
     dispatch({
       item: "colorPageCount",
@@ -44,7 +44,7 @@ const PageCount = () => {
     }
   }, [state.pageCount, state.textPrintingMethod.name, dispatch]);
 
-  // カラーページ数
+  // カラー本文ページ数
   const renderColorPageCountSelector = () => {
     let count = state.pageCount;
     const _4cMonoCount = count - 1;
@@ -70,7 +70,7 @@ const PageCount = () => {
   return (
     <div className="calc__item-wrapper page_count">
       <div className="calc__entry">
-        ページ数<span>※</span>
+        本文ページ数<span>※</span>
       </div>
       <div className="calc__content-inner number-pages">
         <label htmlFor="">
@@ -86,7 +86,7 @@ const PageCount = () => {
             })}
           </select>
         </label>
-        <div className="calc__explanation">表紙（表1・2・3・4）を除く本文のページ数</div>
+        <div className="calc__explanation">表紙（表1・2・3・4）を除くページ数</div>
         <label>
           <select name="colorPageCount" 
                   value={state.colorPageCount} 
@@ -98,7 +98,7 @@ const PageCount = () => {
               )
             }
           </select>
-          <span className="title-next-label">内カラーページ数</span>
+          <span className="title-next-label">内、本文カラーページ数</span>
         </label>
       </div>
     </div>

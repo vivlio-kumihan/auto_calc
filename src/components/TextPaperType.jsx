@@ -4,7 +4,7 @@ const TextPaperType = ({ trimSizeTypesRange }) => {
   const state = useCalc();
   const dispatch = useCalcDispatch();
 
-  // 本文の種類
+  // 本文用紙の種類
   const handleTextPaperType = (e) => {
     dispatch({
       item: "textPaperType",
@@ -15,7 +15,7 @@ const TextPaperType = ({ trimSizeTypesRange }) => {
   return (
     <div className="calc__item-wrapper text_paper_type">
       <div className="calc__entry">
-        本文の種類<span>※</span>
+        本文用紙の種類<span>※</span>
       </div>
       <div className="calc__content-inner set-flex">
         {

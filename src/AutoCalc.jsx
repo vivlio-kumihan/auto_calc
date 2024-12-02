@@ -10,8 +10,9 @@ import BindingMethod from "./components/BindingMethod.jsx";
 import CoverPrintingMethod from "./components/CoverPrintingMethod.jsx";
 import CoverPaperType from "./components/CoverPaperType.jsx";
 import OptionalFinishing from "./components/OptionalFinishing.jsx";
+import OrderPad from "./components/OrderPad.jsx";
 
-// 本文の種類
+// 本文用紙の種類
 // オブジェクトを整理して配列に変換する関数
 const corectPaperTypeToArr = (hash) => {
   const arr = Object.entries(hash).reduce((acc, item) => {
@@ -65,7 +66,7 @@ const TEXT_PAPER_TYPE_4C_4cMono_OTHERS = corectPaperTypeToArr(
   { ...BASIC_TEXT_PAPER_TYPE, 4: "コート 110kg", 5: "マットコート 90kg",  9: "ラフクリーム琥珀 71.5kg" }
 );
 
-// 冊子のサイズと対応する用紙の種類
+// 冊子の版型と対応する用紙の種類
 const TRIM_SIZES_TYPES_RANGE = {
   A6: {
     name: "A6",
@@ -211,13 +212,6 @@ const COATING_AVAILABLE = [
   "しこくてんれい ゆき 180kg"
 ];
 
-const INSIDE_FRONT_BACK_COVER_COLOR = ["フルカラー印刷", "モノクロ印刷"];
-
-// 「Polypropylene (PP) Lamination」または「PP Coating」
-// Gloss PP Lamination：ラミネーション
-// Matte PP Lamination：PPラミネーション
-const PP_COATING_TYPES = ["グロス（光沢）PP", "マット（艶消し）PP"];
-
 // 本体
 const AutoCalc = () => {
   return (
@@ -225,34 +219,38 @@ const AutoCalc = () => {
       <div className="calc content-width">
         <h1>自動お見積もり</h1>
         <CalcProvider>
-          {/* 冊子のサイズ */}
-          <TrimSize trimSizeTypesRange={TRIM_SIZES_TYPES_RANGE} />
-          {/* 新書版・文庫版・変形サイズ（大）（小）入力 */}
-          <CustomSize trimSizeTypesRange={TRIM_SIZES_TYPES_RANGE} />
-          {/* 本文の印刷方法 */}
-          <TextPrintingMethod />
-          {/* 本文の種類 */}
-          <TextPaperType trimSizeTypesRange={TRIM_SIZES_TYPES_RANGE} />
-          {/* 印刷部数 */}
-          <PrintQuantity />
-          {/* ページ数 */}
-          <PageCount />
-          {/* 製本方法 */}
-          <BindingMethod />
-          {/* 表紙の印刷方法 */}
-          <CoverPrintingMethod coverPaperTypesGroup={COVER_PAPER_TYPES_GROUP} />
-          {/* 表紙の種類（印刷方法） */}
-          <CoverPaperType coverPaperTypesGroup={COVER_PAPER_TYPES_GROUP} coatingAvaiLable={COATING_AVAILABLE} />
-          {/* オプション加工 */}
-          <OptionalFinishing            
-            coatingAvaiLable={COATING_AVAILABLE}            
-            indieFrontBackCoverColor={INSIDE_FRONT_BACK_COVER_COLOR} 
-            ppCoatingTypes={PP_COATING_TYPES}
-          />
+          <div className="order">
+            <div className="order__sheet">
+              {/* 冊子の版型 */}
+              <TrimSize trimSizeTypesRange={TRIM_SIZES_TYPES_RANGE} />
+              {/* 新書版・文庫版・変形サイズ（大）（小）入力 */}
+              <CustomSize trimSizeTypesRange={TRIM_SIZES_TYPES_RANGE} />
+              {/* 印刷部数 */}
+              <PrintQuantity />
+              {/* 本文の印刷方法 */}
+              <TextPrintingMethod />
+              {/* 本文用紙の種類 */}
+              <TextPaperType trimSizeTypesRange={TRIM_SIZES_TYPES_RANGE} />
+              {/* 本文ページ数 */}
+              <PageCount />
+              {/* 製本方法 */}
+              <BindingMethod />
+              {/* 表紙の印刷方法 */}
+              <CoverPrintingMethod coverPaperTypesGroup={COVER_PAPER_TYPES_GROUP} />
+              {/* 表紙用紙の種類 */}
+              <CoverPaperType coverPaperTypesGroup={COVER_PAPER_TYPES_GROUP} coatingAvaiLable={COATING_AVAILABLE} />
+              {/* オプション加工 */}
+              <OptionalFinishing coatingAvaiLable={COATING_AVAILABLE} />
+            </div>
+            <div className="order__pad">
+              {/* 表紙用紙の種類 */}
+              <OrderPad />
+            </div>
+          </div>
         </CalcProvider>
-        <div>
-          <button name="" type="submit">お見積もり</button>
-          <button name="" type="reset" >リセット</button>
+        <div className="btn">
+          <button className="submit" name="" type="submit">お見積もり</button>
+          <button className="rest" name="" type="reset" >リセット</button>
         </div>
       </div>
     </>

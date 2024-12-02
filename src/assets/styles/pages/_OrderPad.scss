@@ -1,0 +1,17 @@
+.order-pad {
+  &__list {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #333;
+    padding: .5em;
+  }
+  &__item {
+    flex-basis: 30%;
+    font-size: .85em;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+  &__inputed-content {
+    flex-basis: 70%;
+  }
+}

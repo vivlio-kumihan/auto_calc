@@ -62,9 +62,9 @@ const CoverPrintingMethod = ({ coverPaperTypesGroup }) => {
       </div>
       <ul>
         <li className="calc__explanation">表2・表3に印刷をご希望の場合は、下記のオプション加工をお選び下さい。</li>
-        <li className="calc__explanation">表表紙（表1）の裏側を表2、裏表紙（表4）の内側を表3と呼びます。</li>
+        <li className="calc__explanation">おもて表紙（表1）の裏側を表2、裏表紙（表4）の内側を表3と呼びます。</li>
       </ul>
-    </div>
+    </div>    
   );
 };
 
