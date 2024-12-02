@@ -53,7 +53,7 @@ export const CalcProvider = ({ children }) => {
     printQuantity: 1,
     pageCount: 16,
     colorPageCount: 0,
-    coverPrintingMethod: { id: "null", name: null },
+    coverPrintingMethod: { id: null, name: null },
     coverPaperType: { name: null },
     ppCoating: { name: null },
     addBreedAutoCover: false,

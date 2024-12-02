@@ -9,6 +9,7 @@ import PageCount from "./components/PageCount.jsx";
 import BindingMethod from "./components/BindingMethod.jsx";
 import CoverPrintingMethod from "./components/CoverPrintingMethod.jsx";
 import CoverPaperType from "./components/CoverPaperType.jsx";
+import InsideCoverPrintingMethod from "./components/InsideCoverPrintingMethod.jsx";
 import OptionalFinishing from "./components/OptionalFinishing.jsx";
 import OrderPad from "./components/OrderPad.jsx";
 
@@ -239,6 +240,8 @@ const AutoCalc = () => {
               <CoverPrintingMethod coverPaperTypesGroup={COVER_PAPER_TYPES_GROUP} />
               {/* 表紙用紙の種類 */}
               <CoverPaperType coverPaperTypesGroup={COVER_PAPER_TYPES_GROUP} coatingAvaiLable={COATING_AVAILABLE} />
+              {/* 表紙用紙の種類 */}
+              <InsideCoverPrintingMethod />
               {/* オプション加工 */}
               <OptionalFinishing coatingAvaiLable={COATING_AVAILABLE} />
             </div>

@@ -26,57 +26,38 @@ const InsideCoverPrintingMethod = ({ coverPaperTypesGroup }) => {
   }, [state.coverPrintingMethod.id, state.insideFrontBackCoverColor.name, dispatch]);
 
   return (
-    <div className="calc__item-wrapper cover_printing_method">
+    <div className="calc__item-wrapper insede_cover_printing_method">
       <div className="calc__entry">
         表2・3の印刷方法<span>※</span>
       </div>
+      <ul>
+        <li className="calc__explanation">表2・表3に印刷をご希望の場合は、フルカラーかモノクロ印刷どちらかを選択してださい。</li>
+        <li className="calc__explanation">おもて表紙（表1）の裏側を表2、裏表紙（表4）の内側を表3と呼びます。</li>
+      </ul>      
       <div className="calc__content-inner">
         {
-          Object.entries(COVER_PRINTING_METHOD).map(([key, color]) => {
+          state.coverPrintingMethod.id !== null &&
+          INSIDE_FRONT_BACK_COVER_COLOR.map((color) => {
             return (
-              <label htmlFor={key} key={key}>
+              <label htmlFor={color} key={color}>
                 <input
-                  id={key}
+                  id={color}
                   type="radio"
                   name={color}
-                  checked={state.coverPrintingMethod.name === color}
-                  onChange={handleCoverPrintingMethod}
-                />
+                  checked={state.insideFrontBackCoverColor.name === color}
+                  onChange={handleInsideFrontBackCoverColor} />
                 {color}
               </label>
             )
           })
         }
       </div>
-      <ul>
-        <li className="calc__explanation">表2・表3に印刷をご希望の場合は、下記のオプション加工をお選び下さい。</li>
-        <li className="calc__explanation">おもて表紙（表1）の裏側を表2、裏表紙（表4）の内側を表3と呼びます。</li>
-      </ul>
     </div>    
   );
 };
 
 export default InsideCoverPrintingMethod;
 
-
-{/* <section>
-  {
-    state.coverPrintingMethod.id === "color" &&
-    INSIDE_FRONT_BACK_COVER_COLOR.map((color) => {
-      return (
-        <label htmlFor={color} key={color}>
-          <input
-            id={color}
-            type="radio"
-            name={color}
-            checked={state.insideFrontBackCoverColor.name === color}
-            onChange={handleInsideFrontBackCoverColor} />
-          {color}
-        </label>
-      )
-    })
-  }
-</section> */}
 
 
 // // 表紙の印刷方法
