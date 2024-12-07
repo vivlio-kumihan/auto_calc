@@ -12,6 +12,7 @@ import CoverPaperType from "./components/CoverPaperType.jsx";
 import InsideCoverPrintingMethod from "./components/InsideCoverPrintingMethod.jsx";
 import OptionalFinishing from "./components/OptionalFinishing.jsx";
 import OrderPad from "./components/OrderPad.jsx";
+import ResultOnDemand from "./components/ResultOnDemand.jsx";
 
 // 本文用紙の種類
 // オブジェクトを整理して配列に変換する関数
@@ -171,7 +172,7 @@ const TRIM_SIZES_TYPES_RANGE = {
 // 表紙で使用可能な用紙種 1C（K）
 const COVER_PAPER_TYPES_PRINTED_1C = [
   { group: "上質・色上質・色ファンシー",
-    types: ["上質 180kg", "色上質最厚口", "レザック 175kg"] },
+    types: ["上質 135kg", "色上質最厚口", "レザック 175kg"] },
   { group: "特殊紙 その他",
     types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "両更クラフト紙 129.5kg"] }
 ];
@@ -179,11 +180,11 @@ const COVER_PAPER_TYPES_PRINTED_1C = [
 // 表紙で使用可能な用紙種類 4C
 const COVER_PAPER_TYPES_PRINTED_4C = [
   { group: "上質・色上質・色ファンシー",
-    types: ["上質 180kg", "色上質最厚口", "レザック 175kg"] },
+    types: ["上質 135kg", "色上質最厚口", "レザック 175kg"] },
   { group: "艶ありコート・アート・キャスト",
-    types: ["コート紙 180kg", "アートポスト紙 200kg", "ミラーコート紙 220kg"] },
+    types: ["コート 110kg", "コート 135kg", "アートポスト 200kg", "ミラーコート 220kg"] },
   { group: "艶なしマットコート・ダル",
-    types: ["マットコート紙 135kg", "サテン金藤 180kg", "マットポスト紙 220kg"] },
+    types: ["マットコート 90kg", "マットコート 135kg", "サテン金藤 180kg", "マットポスト 220kg"] },
   { group: "ラフ・エンボス",
     types: ["アラベール スノーホワイト 160kg", "アラベール ナチュラル 160kg", "マーメイド スノーホワイト 175kg"] },
   { group: "特殊紙 パール・シャイン・ラメ",
@@ -201,10 +202,10 @@ const COVER_PAPER_TYPES_GROUP = {
 // コーティング加工が可能な用紙
 const COATING_AVAILABLE = [
   "レザック 175kg",
-  "アートポスト紙 200kg",
-  "ミラーコート紙 220kg",
+  "アートポスト 200kg",
+  "ミラーコート 220kg",
   "サテン金藤 180kg",
-  "マットポスト紙 220kg",
+  "マットポスト 220kg",
   "アラベール スノーホワイト 160kg",
   "アラベール ナチュラル 160kg",
   "ペルーラ スノーホワイト 180kg",
@@ -212,6 +213,32 @@ const COATING_AVAILABLE = [
   "エスプリコートVNエンボス アラレ 176.5kg",
   "しこくてんれい ゆき 180kg"
 ];
+
+const UNIT_COST_OF_PAPER = {
+  "上質 55kg": 2.6, "上質 70kg": 3.1, "上質 90kg": 4.1, "上質 135kg": 6.0,
+  "コート 110kg": 5.1, "コート 135kg": 6.1,
+  "マットコート 90kg": 4.3, "マットコート 135kg": 6.3,
+};
+
+// 表紙巻の単価　部数『未満』の値
+const UNIT_COVER_WRAPPING = {
+  500: { A4: 15, B5: 14, A5: 13, B6: 13 },
+  600: { A4: 14, B5: 13, A5: 12, B6: 12 },
+  700: { A4: 13, B5: 12, A5: 11, B6: 11 },
+  800: { A4: 12, B5: 11, A5: 10, B6: 10 },
+  900: { A4: 11, B5: 10, A5: 9, B6:9 },
+  1000: { A4: 10, B5: 9, A5: 8, B6:8 },
+};
+
+function getUnitCoverWrappingObject(value) {
+  if (value < 500) return UNIT_COVER_WRAPPING[500];
+  if (value >= 1000) return UNIT_COVER_WRAPPING[1000];
+
+  // 計算して対応するキーを選択
+  // 3桁以下の数字しか入らないことを前提。
+  const key = Math.ceil(value / 100) * 100;
+  return UNIT_COVER_WRAPPING[key];
+}
 
 // 本体
 const AutoCalc = () => {
@@ -246,8 +273,12 @@ const AutoCalc = () => {
               <OptionalFinishing coatingAvaiLable={COATING_AVAILABLE} />
             </div>
             <div className="order__pad">
-              {/* 表紙用紙の種類 */}
+              {/* 注文内容 */}
               <OrderPad />
+              <ResultOnDemand 
+                unitCostOfPaper={UNIT_COST_OF_PAPER}
+                getUnitCoverWrappingObject= {getUnitCoverWrappingObject}
+                />
             </div>
           </div>
         </CalcProvider>

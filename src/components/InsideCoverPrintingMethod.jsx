@@ -1,11 +1,10 @@
 import { useCalc, useCalcDispatch } from "../context/CalcContext";
 import { useEffect } from "react";
 
-// 表紙の印刷方法（度数）
-const COVER_PRINTING_METHOD = { mono: "モノクロ印刷", color: "フルカラー印刷" };
-const INSIDE_FRONT_BACK_COVER_COLOR = ["フルカラー印刷", "モノクロ印刷"];
+// 表2・3の印刷方法
+const INSIDE_FRONT_BACK_COVER_COLOR = ["印刷しない", "フルカラー印刷", "モノクロ印刷"];
 
-const InsideCoverPrintingMethod = ({ coverPaperTypesGroup }) => {
+const InsideCoverPrintingMethod = () => {
   const state = useCalc();
   const dispatch = useCalcDispatch();
 
@@ -59,6 +58,8 @@ const InsideCoverPrintingMethod = ({ coverPaperTypesGroup }) => {
 export default InsideCoverPrintingMethod;
 
 
+// カバーの印刷方法をカラーかモノクロかで選択した場合にボタンを表示させるためのもの
+// state.coverPrintingMethod.id !== null &&
 
 // // 表紙の印刷方法
 // const handleCoverPrintingMethod = (e) => {

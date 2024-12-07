@@ -12,7 +12,7 @@ const CoverPrintingMethod = ({ coverPaperTypesGroup }) => {
   const handleCoverPrintingMethod = (e) => {
     dispatch({
       item: "coverPrintingMethod",
-      payload: { key: e.target.id, name: e.target.name }
+      payload: { key: e.target.id, name: e.target.name, value: 4 }
     });
   };
 
@@ -36,6 +36,24 @@ const CoverPrintingMethod = ({ coverPaperTypesGroup }) => {
         }
       });
   }, [SELECTED_COVER_PAPER_TYPES.includes(state.coverPaperType.name)]);   
+
+  // 表2・3に印刷がない場合の表紙台ページ数の変更
+  useEffect(() => {
+    const value = state.insideFrontBackCoverColor.name === "印刷しない" ? 2 : 4;
+    dispatch({
+      item: "coverPrintingMethod",
+      payload: {
+        key: state.coverPrintingMethod.id,
+        name: state.coverPrintingMethod.name,
+        value: value
+      }
+    });
+  }, [state.insideFrontBackCoverColor.name, 
+      state.coverPrintingMethod.id, 
+      state.coverPrintingMethod.name, 
+      dispatch
+      ]
+  );   
 
   return (
     <div className="calc__item-wrapper cover_printing_method">

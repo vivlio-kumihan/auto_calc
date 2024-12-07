@@ -2,7 +2,6 @@ import { useCalc, useCalcDispatch } from "../context/CalcContext";
 
 const OrderPad = ({}) => {
   const state = useCalc();
-  const dispatch = useCalcDispatch();
 
   return (
     <ul className="order-pad">
