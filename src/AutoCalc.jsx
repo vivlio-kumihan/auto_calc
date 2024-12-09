@@ -13,6 +13,7 @@ import InsideCoverPrintingMethod from "./components/InsideCoverPrintingMethod.js
 import OptionalFinishing from "./components/OptionalFinishing.jsx";
 import OrderPad from "./components/OrderPad.jsx";
 import ResultOnDemand from "./components/ResultOnDemand.jsx";
+import ResultCTP from "./components/ResultCTP.jsx";
 
 // 本文用紙の種類
 // オブジェクトを整理して配列に変換する関数
@@ -214,20 +215,26 @@ const COATING_AVAILABLE = [
   "しこくてんれい ゆき 180kg"
 ];
 
-const UNIT_COST_OF_PAPER = {
+const UNIT_COST_OF_PAPER_FOR_ASize = {
   "上質 55kg": 2.6, "上質 70kg": 3.1, "上質 90kg": 4.1, "上質 135kg": 6.0,
-  "コート 110kg": 5.1, "コート 135kg": 6.1,
-  "マットコート 90kg": 4.3, "マットコート 135kg": 6.3,
+  "コート 90kg": 4.2, "コート 110kg": 5.1, "コート 135kg": 6.1,
+  "マットコート 90kg": 4.3, "マットコート 110kg": 5.2, "マットコート 135kg": 6.3,
+};
+
+const UNIT_COST_OF_PAPER_FOR_KikuSize = {
+  "上質 55kg": 5.6, "上質 70kg": 6.6, "上質 90kg": 8.8, "上質 135kg": 12.8,
+  "コート 90kg": 9.2, "コート 110kg": 11, "コート 135kg": 13.2,
+  "マットコート 90kg": 9.4, "マットコート 110kg": 11.2, "マットコート 135kg": 13.6,
 };
 
 // 表紙巻の単価　部数『未満』の値
 const UNIT_COVER_WRAPPING = {
-  500: { A4: 15, B5: 14, A5: 13, B6: 13 },
-  600: { A4: 14, B5: 13, A5: 12, B6: 12 },
-  700: { A4: 13, B5: 12, A5: 11, B6: 11 },
-  800: { A4: 12, B5: 11, A5: 10, B6: 10 },
-  900: { A4: 11, B5: 10, A5: 9, B6:9 },
-  1000: { A4: 10, B5: 9, A5: 8, B6:8 },
+  500: { A4: 15, B5: 14, A5: 13, A6: 13, B6: 13 },
+  600: { A4: 14, B5: 13, A5: 12, A6: 12, B6: 12 },
+  700: { A4: 13, B5: 12, A5: 11, A6: 11, B6: 11 },
+  800: { A4: 12, B5: 11, A5: 10, A6: 10, B6: 10 },
+  900: { A4: 11, B5: 10, A5: 9,  A6: 9, B6:9 },
+  1000: { A4: 10, B5: 9, A5: 8,  A6: 8, B6:8 },
 };
 
 function getUnitCoverWrappingObject(value) {
@@ -239,6 +246,23 @@ function getUnitCoverWrappingObject(value) {
   const key = Math.ceil(value / 100) * 100;
   return UNIT_COVER_WRAPPING[key];
 }
+
+const UNIT_CTP_PRINTING = {
+  500: 2200, 600: 2300, 700: 2400, 800: 2500, 900: 2600, 
+  1000: 2700, 1100: 2800, 1200: 2900, 1300: 3000, 1400: 3100, 1500: 3200, 1600: 3300, 1700: 3400, 1800: 3500, 1900: 3600, 
+  2000: 3700, 2100: 3800, 2200: 3900, 2300: 4000, 2400: 4200, 2500: 4200, 2600: 4300, 2700: 4400, 2800: 4500, 2900: 4600, 
+  3000: 4700, 4000: 5450, 5000: 6150, 6000: 6800, 7000: 7400, 8000: 7800, 9000: 8200, 10000: 8500,
+};
+function getUnitCTPPrintingObject(value) {
+  const keys = Object.keys(UNIT_CTP_PRINTING).map(Number).sort((a, b) => a - b);
+  const closestKey = keys.find(key => key >= value);
+  return closestKey !== undefined ? UNIT_CTP_PRINTING[closestKey] : null;
+}
+
+const UNIT_BLACK_CTP_COLLATION = {
+  BLACK: { 4: [1.7, 1.6], 8: 2.5 },
+  CTP: { 8: 3, 16: 3.3}
+};
 
 // 本体
 const AutoCalc = () => {
@@ -275,10 +299,16 @@ const AutoCalc = () => {
             <div className="order__pad">
               {/* 注文内容 */}
               <OrderPad />
-              <ResultOnDemand 
-                unitCostOfPaper={UNIT_COST_OF_PAPER}
+              <ResultCTP 
+                getUnitCTPPrintingObject={getUnitCTPPrintingObject}
+                unitCostOfPaperForKikuSize={UNIT_COST_OF_PAPER_FOR_KikuSize}
                 getUnitCoverWrappingObject= {getUnitCoverWrappingObject}
-                />
+                unitBlackCTPCollation= {UNIT_BLACK_CTP_COLLATION}
+              />
+              <ResultOnDemand 
+                unitCostOfPaperForASize={UNIT_COST_OF_PAPER_FOR_ASize}
+                getUnitCoverWrappingObject= {getUnitCoverWrappingObject}
+              />
             </div>
           </div>
         </CalcProvider>

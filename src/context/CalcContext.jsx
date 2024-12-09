@@ -30,6 +30,7 @@ const handleRreducer = (prev, { item, payload }) => {
     case "horizontalBinding": return { ...prev, horizontalBinding: payload };    
     case "submissionInMSWordFormat": return { ...prev, submissionInMSWordFormat: payload }; 
     case "onDemandResult": return { ...prev, onDemandResult: payload }; 
+    case "ctpResult": return { ...prev, ctpResult: payload }; 
     default: throw new Error("error in reduce...");
   }
 };

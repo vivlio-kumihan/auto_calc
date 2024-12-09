@@ -1,7 +1,7 @@
 import { useCalc, useCalcDispatch } from "../context/CalcContext";
 import { useEffect } from "react";
 
-const ResultOnDemand = ({ unitCostOfPaper, getUnitCoverWrappingObject }) => {
+const ResultOnDemand = ({ unitCostOfPaperForASize, getUnitCoverWrappingObject }) => {
   const state = useCalc();
   const dispatch = useCalcDispatch();
   
@@ -35,13 +35,13 @@ const ResultOnDemand = ({ unitCostOfPaper, getUnitCoverWrappingObject }) => {
   const printFee = coverPrintFee + TextPrintFee;
   // 用紙代
   const coverStockCost = state.coverPaperType.name
-    ? unitCostOfPaper[state.coverPaperType.name] * state.printQuantity
+    ? unitCostOfPaperForASize[state.coverPaperType.name] * state.printQuantity
     : null;
   const textStockCost = state.textPaperType.name
-    ?  Math.ceil(textImpressionCount) * unitCostOfPaper[state.textPaperType.name] * state.printQuantity
+    ?  Math.ceil(textImpressionCount) * unitCostOfPaperForASize[state.textPaperType.name] * state.printQuantity
     : null;
   // 丁合代
-  const collationFee = state.printQuantity * 1;
+  const collationFee = 1 * state.printQuantity;
   // 表紙巻代
   const unitCoverWrapping = getUnitCoverWrappingObject(state.printQuantity)[state.trimSize.name];
   const coverWrappingFee =  state.printQuantity * unitCoverWrapping;
@@ -88,8 +88,8 @@ const ResultOnDemand = ({ unitCostOfPaper, getUnitCoverWrappingObject }) => {
         <li>表紙台印刷代：{coverPrintFee}円／単価（{unitCoverPrint}円）× 通し数（{coverPlateCount}）× 部数({state.printQuantity}部)</li>
         <li>本文印刷代：{TextPrintFee}円／単価（{unitMonoPrint}円）× 通し数（{textPlateCount}）× 部数({state.printQuantity}部)</li>
         <li>印刷代：{printFee}円／表紙台（{coverPrintFee}円）+ 本文（{TextPrintFee}円）</li>
-        <li>表紙台用紙代：{coverStockCost}円／単価（{unitCostOfPaper[state.coverPaperType.name]}円）× 部数({state.printQuantity}部)</li>
-        <li>本文用紙代：{textStockCost}円／台数（{Math.ceil(textImpressionCount)}）× 単価（{unitCostOfPaper[state.textPaperType.name]}円）× 部数({state.printQuantity}部)</li>
+        <li>表紙台用紙代：{coverStockCost}円／単価（{unitCostOfPaperForASize[state.coverPaperType.name]}円）× 部数({state.printQuantity}部)</li>
+        <li>本文用紙代：{textStockCost}円／台数（{Math.ceil(textImpressionCount)}）× 単価（{unitCostOfPaperForASize[state.textPaperType.name]}円）× 部数({state.printQuantity}部)</li>
         <li>表紙巻代：{coverWrappingFee}円／単価（{unitCoverWrapping}円）× 部数({state.printQuantity}部)</li>
         <li>丁合代：{collationFee}円／単価（1円）× 部数({state.printQuantity}部)</li>
         <li>小計：{state.onDemandResult?.value}</li> 
@@ -108,10 +108,10 @@ export default ResultOnDemand;
 // console.log("本文台数", textImpressionCount);
 // console.log("本文台数 = 本文通し数", textPlateCount);
 // console.log("表紙用紙", state.coverPaperType.name);
-// console.log("用紙単価", unitCostOfPaper[state.coverPaperType.name] ?? null);
+// console.log("用紙単価", unitCostOfPaperForASize[state.coverPaperType.name] ?? null);
 // console.log("表紙用紙代", coverStockCost);
 // console.log("本文用紙", state.textPaperType.name ?? null);
-// console.log("用紙単価", unitCostOfPaper[state.textPaperType.name] ?? null);
+// console.log("用紙単価", unitCostOfPaperForASize[state.textPaperType.name] ?? null);
 // console.log("本文用紙代", textStockCost);
 // console.log("面付け代", impositionFee);
 // console.log("印刷代", printFee);
