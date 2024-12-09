@@ -31,6 +31,7 @@ const handleRreducer = (prev, { item, payload }) => {
     case "submissionInMSWordFormat": return { ...prev, submissionInMSWordFormat: payload }; 
     case "onDemandResult": return { ...prev, onDemandResult: payload }; 
     case "ctpResult": return { ...prev, ctpResult: payload }; 
+    case "blackResult": return { ...prev, blackResult: payload }; 
     default: throw new Error("error in reduce...");
   }
 };
@@ -56,7 +57,6 @@ export const CalcProvider = ({ children }) => {
     addBreedAutoText: false,
     horizontalBinding: false,
     submissionInMSWordFormat: false,
-    onDemandResult: { value: null }
   };
 
   // 状態

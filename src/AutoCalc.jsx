@@ -14,6 +14,7 @@ import OptionalFinishing from "./components/OptionalFinishing.jsx";
 import OrderPad from "./components/OrderPad.jsx";
 import ResultOnDemand from "./components/ResultOnDemand.jsx";
 import ResultCTP from "./components/ResultCTP.jsx";
+import ResultBlack from "./components/ResultBlack.jsx";
 
 // 本文用紙の種類
 // オブジェクトを整理して配列に変換する関数
@@ -253,10 +254,16 @@ const UNIT_CTP_PRINTING = {
   2000: 3700, 2100: 3800, 2200: 3900, 2300: 4000, 2400: 4200, 2500: 4200, 2600: 4300, 2700: 4400, 2800: 4500, 2900: 4600, 
   3000: 4700, 4000: 5450, 5000: 6150, 6000: 6800, 7000: 7400, 8000: 7800, 9000: 8200, 10000: 8500,
 };
-function getUnitCTPPrintingObject(value) {
-  const keys = Object.keys(UNIT_CTP_PRINTING).map(Number).sort((a, b) => a - b);
+
+const UNIT_BLACK_PRINTING = {
+  100: 400, 200: 500, 300: 600, 400: 700, 500: 800, 600: 900, 700: 1000, 800: 1080, 900: 1150, 
+  1000: 1230, 2000: 1500
+};
+
+function getUnitCtpBlackPrintingObject(value, obj) {
+  const keys = Object.keys(obj).map(Number).sort((a, b) => a - b);
   const closestKey = keys.find(key => key >= value);
-  return closestKey !== undefined ? UNIT_CTP_PRINTING[closestKey] : null;
+  return closestKey !== undefined ? obj[closestKey] : null;
 }
 
 const UNIT_BLACK_CTP_COLLATION = {
@@ -299,8 +306,16 @@ const AutoCalc = () => {
             <div className="order__pad">
               {/* 注文内容 */}
               <OrderPad />
+              <ResultBlack
+                unitBlackPrinting={UNIT_BLACK_PRINTING}
+                getUnitCtpBlackPrintingObject={getUnitCtpBlackPrintingObject}
+                unitCostOfPaperForASize={UNIT_COST_OF_PAPER_FOR_ASize}
+                getUnitCoverWrappingObject= {getUnitCoverWrappingObject}
+                unitBlackCTPCollation= {UNIT_BLACK_CTP_COLLATION}
+              />
               <ResultCTP 
-                getUnitCTPPrintingObject={getUnitCTPPrintingObject}
+                unitCtpPrinting={UNIT_CTP_PRINTING}
+                getUnitCtpBlackPrintingObject={getUnitCtpBlackPrintingObject}
                 unitCostOfPaperForKikuSize={UNIT_COST_OF_PAPER_FOR_KikuSize}
                 getUnitCoverWrappingObject= {getUnitCoverWrappingObject}
                 unitBlackCTPCollation= {UNIT_BLACK_CTP_COLLATION}
