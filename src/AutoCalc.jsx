@@ -273,6 +273,13 @@ const UNIT_BLACK_CTP_COLLATION = {
 
 // 本体
 const AutoCalc = () => {
+  // function getCoverWrappingFee(count) {
+  //   const unitCoverWrapping = state.bindingMethod === "無線綴じ製本"
+  //     ? getUnitCoverWrappingObject(state.printQuantity)[state.trimSize.name]
+  //     : 3;
+  //   // 綴じ代合計
+  //   return unitCoverWrapping * Math.ceil(count) * state.printQuantity;  
+  // }
   return (
     <>
       <div className="calc content-width">
@@ -323,6 +330,7 @@ const AutoCalc = () => {
               <ResultOnDemand 
                 unitCostOfPaperForASize={UNIT_COST_OF_PAPER_FOR_ASize}
                 getUnitCoverWrappingObject= {getUnitCoverWrappingObject}
+                // getCoverWrappingFee= {getCoverWrappingFee}
               />
             </div>
           </div>

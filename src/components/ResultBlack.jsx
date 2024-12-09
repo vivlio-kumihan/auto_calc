@@ -6,7 +6,8 @@ const ResultBlack = ({
   getUnitCtpBlackPrintingObject,
   unitCostOfPaperForASize,
   getUnitCoverWrappingObject,
-  unitBlackCTPCollation }) => {
+  unitBlackCTPCollation,
+  }) => {
   const state = useCalc();
   const dispatch = useCalcDispatch();
 
@@ -61,10 +62,14 @@ const ResultBlack = ({
       ? unitBlackCTPCollation[isCTP][4][0]
       : unitBlackCTPCollation[isCTP][4][1]
     : unitBlackCTPCollation[isCTP][8];
-  const collationFee = unitBlackCollation * state.printQuantity ;
-  // 表紙巻代
-  const unitCoverWrapping = getUnitCoverWrappingObject(state.printQuantity)[state.trimSize.name];
-  const coverWrappingFee =  state.printQuantity * unitCoverWrapping;
+  const collationFee = unitBlackCollation * textImpressionCount * state.printQuantity; 
+  // 綴じ代
+  // 表紙巻の単価
+  const unitCoverWrapping = state.bindingMethod === "無線綴じ製本"
+    ? getUnitCoverWrappingObject(state.printQuantity)[state.trimSize.name]
+    : 3;
+  // 綴じ代合計
+  const coverWrappingFee = unitCoverWrapping * Math.ceil(textImpressionCount) * state.printQuantity;
   // 合計
   const resultFee = impositionFee + platesFee + printFee + coverStockCost + textStockCost + collationFee + coverWrappingFee;
 
@@ -113,8 +118,8 @@ const ResultBlack = ({
         <li>印刷代：{printFee}円／表紙台（{coverPrintFee}円）+ 本文（{TextPrintFee}円）</li>
         <li>表紙台用紙代：{coverStockCost}円／単価（{unitCostOfPaperForASize[state.coverPaperType.name]}円）× 部数（{state.printQuantity}部）</li>
         <li>本文用紙代： {textStockCost}円／単価（{unitCostOfPaperForASize[state.textPaperType.name]}円）× 台数（{Math.ceil(textImpressionCount)}）× 部数（{state.printQuantity}部）</li>
-        <li>表紙巻代：{coverWrappingFee}円／単価（{unitCoverWrapping}円）× 部数（{state.printQuantity}部）</li>
-        <li>丁合代：{collationFee}円／単価（{unitBlackCollation}円）× 部数（{state.printQuantity}部）</li>
+        <li>綴じ代（無線または中綴）：{coverWrappingFee}円／単価（{unitCoverWrapping}円）× 台数（{Math.ceil(textImpressionCount)}台）× 部数（{state.printQuantity}部）</li>
+        <li>丁合代：{collationFee}円／単価（{unitBlackCollation}円）× 台数（{textImpressionCount}台）× 部数（{state.printQuantity}部）</li>
         <li>小計：{state.blackResult?.value}</li> 
       </ul>
     </>
