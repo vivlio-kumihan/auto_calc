@@ -50,11 +50,13 @@ const ResultBlack = ({
   const TextPrintFee = textPlateCount * unitBlackPlatePrinting;
   const printFee = coverPrintFee + TextPrintFee;
   // 用紙代
+  const coverPaperCost = unitCostOfPaperForASize[state.coverPaperType.name];
   const coverStockCost = state.coverPaperType.name
-    ? unitCostOfPaperForASize[state.coverPaperType.name] * state.printQuantity
+    ? coverPaperCost * state.printQuantity + coverPaperCost * 50
     : null;
+  const textPaperCost = unitCostOfPaperForASize[state.textPaperType.name];
   const textStockCost = state.textPaperType.name
-    ?  Math.ceil(textImpressionCount) * unitCostOfPaperForASize[state.textPaperType.name] * state.printQuantity * 2
+    ? Math.ceil(textImpressionCount) * textPaperCost * state.printQuantity + textPaperCost * 50
     : null;
   // 丁合代
   // 4がけで300部以下ならという条件で単価を振り分ける。
@@ -72,7 +74,7 @@ const ResultBlack = ({
     textImpressionCount
   );
   // 綴じ単価
-  const unitCoverWrapping = coverWrappingItem.unitCoverWrapping;
+  const unitCoverWrapping = coverWrappingItem.unitCoverWrap;
   // 綴じ合計
   const coverWrappingFee = coverWrappingItem.sumResult;
   // 合計

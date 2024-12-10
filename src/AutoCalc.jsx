@@ -248,22 +248,29 @@ function getUnitCoverWrappingObject(value) {
   return UNIT_COVER_WRAPPING[key];
 }
 
-const UNIT_CTP_PRINTING = {
-  500: 2200, 600: 2300, 700: 2400, 800: 2500, 900: 2600, 
-  1000: 2700, 1100: 2800, 1200: 2900, 1300: 3000, 1400: 3100, 1500: 3200, 1600: 3300, 1700: 3400, 1800: 3500, 1900: 3600, 
-  2000: 3700, 2100: 3800, 2200: 3900, 2300: 4000, 2400: 4200, 2500: 4200, 2600: 4300, 2700: 4400, 2800: 4500, 2900: 4600, 
-  3000: 4700, 4000: 5450, 5000: 6150, 6000: 6800, 7000: 7400, 8000: 7800, 9000: 8200, 10000: 8500,
-};
+const UNIT_CTP_PRINTING = new Map([
+  [500, 2200], [600, 2300], [700, 2400], [800, 2500], [900, 2600], 
+  [1000, 2700], [1100, 2800], [1200, 2900], [1300, 3000], [1400, 3100], [1500, 3200], [1600, 3300], [1700, 3400], [1800, 3500], [1900, 3600], 
+  [2000, 3700], [2100, 3800], [2200, 3900], [2300, 4000], [2400, 4200], [2500, 4200], [2600, 4300], [2700, 4400], [2800, 4500], [2900, 4600], 
+  [3000, 4700], [4000, 5450], [5000, 6150], [6000, 6800], [7000, 7400], [8000, 7800], [9000, 8200], [10000, 8500],
+]);
 
-const UNIT_BLACK_PRINTING = {
-  100: 400, 200: 500, 300: 600, 400: 700, 500: 800, 600: 900, 700: 1000, 800: 1080, 900: 1150, 
-  1000: 1230, 2000: 1500
-};
+const UNIT_BLACK_PRINTING_A3 = new Map([
+  [100, 400], [200, 500], [300, 600], [400, 700], [500, 800], 
+  [600, 900], [700, 1000], [800, 1080], [900, 1150], 
+  [1000, 1230], [2000, 1310]
+]);
 
-function getUnitCtpBlackPrintingObject(value, obj) {
-  const keys = Object.keys(obj).map(Number).sort((a, b) => a - b);
+const UNIT_BLACK_PRINTING_A2 = new Map([
+  [100, 750], [200, 950], [300, 1150], [400, 1350], [500, 1550], 
+  [600, 1700], [700, 1850], [800, 2000], [900, 2150], 
+  [1000, 2300], [2000, 2450]
+]);
+
+function getUnitCtpBlackPrintingObject(value, map) {
+  const keys = [...map.keys()].sort((a, b) => a - b);
   const closestKey = keys.find(key => key >= value);
-  return closestKey !== undefined ? obj[closestKey] : null;
+  return closestKey !== undefined ? map.get(closestKey) : null;
 }
 
 const UNIT_BLACK_CTP_COLLATION = {
@@ -273,12 +280,12 @@ const UNIT_BLACK_CTP_COLLATION = {
 
 function getCoverWrappingItem(bind_method, print_quantity, trim_size, count) {
   // 綴じ単価
-  const unitCoverWrapping = bind_method === "無線綴じ製本"
+  const unitCoverWrap = bind_method === "無線綴じ製本"
     ? getUnitCoverWrappingObject(print_quantity)[trim_size]
     : 3;
   // 綴じ代合計
-  const sumResult = unitCoverWrapping * Math.ceil(count) * print_quantity;  
-  return { unitCoverWrapping, sumResult };
+  const sumResult = unitCoverWrap * Math.ceil(count) * print_quantity;  
+  return { unitCoverWrap, sumResult };
 }
 
 // 本体
@@ -317,7 +324,7 @@ const AutoCalc = () => {
               {/* 注文内容 */}
               <OrderPad />
               <ResultBlack
-                unitBlackPrinting={UNIT_BLACK_PRINTING}
+                unitBlackPrinting={UNIT_BLACK_PRINTING_A3}
                 getUnitCtpBlackPrintingObject={getUnitCtpBlackPrintingObject}
                 unitCostOfPaperForASize={UNIT_COST_OF_PAPER_FOR_ASize}
                 getUnitCoverWrappingObject= {getUnitCoverWrappingObject}
@@ -325,7 +332,8 @@ const AutoCalc = () => {
                 getCoverWrappingItem= {getCoverWrappingItem}                
               />
               <ResultCTP 
-                unitCtpPrinting={UNIT_CTP_PRINTING}
+                unitCtpPrintingA2={UNIT_CTP_PRINTING}
+                unitBlackPrintingA2={UNIT_BLACK_PRINTING_A2}
                 getUnitCtpBlackPrintingObject={getUnitCtpBlackPrintingObject}
                 unitCostOfPaperForKikuSize={UNIT_COST_OF_PAPER_FOR_KikuSize}
                 getUnitCoverWrappingObject= {getUnitCoverWrappingObject}

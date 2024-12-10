@@ -39,11 +39,13 @@ const ResultOnDemand = ({
   const TextPrintFee = textPlateCount * unitMonoPrint * state.printQuantity;
   const printFee = coverPrintFee + TextPrintFee;
   // 用紙代
+  const coverPaperCost = unitCostOfPaperForASize[state.coverPaperType.name];
   const coverStockCost = state.coverPaperType.name
-    ? unitCostOfPaperForASize[state.coverPaperType.name] * state.printQuantity
+    ? coverPaperCost * state.printQuantity + coverPaperCost * 20
     : null;
+  const textPaperCost = unitCostOfPaperForASize[state.textPaperType.name];
   const textStockCost = state.textPaperType.name
-    ?  Math.ceil(textImpressionCount) * unitCostOfPaperForASize[state.textPaperType.name] * state.printQuantity
+    ? Math.ceil(textImpressionCount) * textPaperCost * state.printQuantity + textPaperCost * 20
     : null;
   // 丁合代 『1』=> 単価、台数『1』=> 表紙台の1台をプラスする。
   const collationFee = 1 * textImpressionCount * state.printQuantity;
@@ -100,7 +102,7 @@ const ResultOnDemand = ({
         <li>本文印刷代：{TextPrintFee}円／単価（{unitMonoPrint}円）× 通し数（{textPlateCount}）× 部数（{state.printQuantity}部）</li>
         <li>印刷代：{printFee}円／表紙台（{coverPrintFee}円）+ 本文（{TextPrintFee}円）</li>
         <li>表紙台用紙代：{coverStockCost}円／単価（{unitCostOfPaperForASize[state.coverPaperType.name]}円）× 部数（{state.printQuantity}部）</li>
-        <li>本文用紙代：{textStockCost}円／台数（{Math.ceil(textImpressionCount)}）× 単価（{unitCostOfPaperForASize[state.textPaperType.name]}円）× 部数（{state.printQuantity}部）</li>
+        <li>本文用紙代：{textStockCost}円／単価（{unitCostOfPaperForASize[state.textPaperType.name]}円）× 台数（{Math.ceil(textImpressionCount)}）× 部数（{state.printQuantity}部）</li>
         <li>綴じ代（無線または中綴）：{coverWrappingFee}円／単価（{unitCoverWrapping}円）× 台数（{Math.ceil(textImpressionCount)}台）× 部数（{state.printQuantity}部）</li>        
         <li>丁合代：{collationFee}円／単価（1円）× 台数（{textImpressionCount}台）× 部数（{state.printQuantity}部）</li>        
         <li>小計：{state.onDemandResult?.value}</li> 

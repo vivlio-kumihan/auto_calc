@@ -2,7 +2,8 @@ import { useCalc, useCalcDispatch } from "../context/CalcContext";
 import { useEffect } from "react";
 
 const ResultCTP = ({
-  unitCtpPrinting,
+  unitCtpPrintingA2,
+  unitBlackPrintingA2,
   getUnitCtpBlackPrintingObject,
   unitCostOfPaperForKikuSize,
   unitBlackCTPCollation,
@@ -37,8 +38,8 @@ const ResultCTP = ({
     : state.pageCount / unitPagesPerPlate;
   // 本文の通し数
   const textPlateCount = textImpressionCount * 2;
-  const unitCTPPrinting1C = getUnitCtpBlackPrintingObject(state.printQuantity, unitCtpPrinting)
-  const unitCTPPrinting4C = unitCTPPrinting1C * 4
+  const unitCtpPrintingA2_1C = getUnitCtpBlackPrintingObject(state.printQuantity, unitCtpPrintingA2);
+  const unitCtpPrintingA2_4C = getUnitCtpBlackPrintingObject(state.printQuantity, unitCtpPrintingA2);
 
   // 面付代
   const impositionFee = (coverPageCount + state.pageCount) * 100;
@@ -47,20 +48,26 @@ const ResultCTP = ({
   const textPlateFee = is4CtoText ? textPlateCount * 2500 * 4 : textPlateCount * 2500;
   const platesFee = coverPlateFee + textPlateFee;
   // 印刷代
-  //   表紙台
-  const unitCoverPrint = is4CtoCover ? unitCTPPrinting4C : unitCTPPrinting1C;
+  //  表紙台
+  const unitCoverPrint = is4CtoCover ? unitCtpPrintingA2_4C : unitCtpPrintingA2_1C;
   const coverPrintFee = coverPlateCount * unitCoverPrint;
   
   //   本文
-  const unitTextPrint = is4CtoText ? unitCTPPrinting4C : unitCTPPrinting1C;
+  const unitTextPrint = is4CtoText ? unitCtpPrintingA2_4C : unitCtpPrintingA2_1C;
   const TextPrintFee = textPlateCount * unitTextPrint;
   const printFee = coverPrintFee + TextPrintFee;
   // 用紙代
+  //  表紙台
+  const coverPaperCost = unitCostOfPaperForKikuSize[state.coverPaperType.name];
   const coverStockCost = state.coverPaperType.name
-    ? unitCostOfPaperForKikuSize[state.coverPaperType.name] * state.printQuantity
+    ? is4CtoCover ? coverPaperCost * state.printQuantity + coverPaperCost * 400
+                  : coverPaperCost * state.printQuantity + coverPaperCost * 200
     : null;
+  //  本文
+  const textCoverCost = unitCostOfPaperForKikuSize[state.textPaperType.name];
   const textStockCost = state.textPaperType.name
-    ?  Math.ceil(textImpressionCount) * unitCostOfPaperForKikuSize[state.textPaperType.name] * state.printQuantity * 2
+    ? is4CtoText ? Math.ceil(textImpressionCount) * textCoverCost * state.printQuantity + textCoverCost * 400
+                 : Math.ceil(textImpressionCount) * textCoverCost * state.printQuantity + textCoverCost * 200  
     : null;
   // 丁合代
   const collationFee = unitBlackCTPCollation[isCTP][unitPagesPerPlate] * textImpressionCount * state.printQuantity;    
@@ -71,7 +78,7 @@ const ResultCTP = ({
     state.trimSize.name, 
     textImpressionCount
   );
-  const unitCoverWrapping = coverWrappingItem.unitCoverWrapping;
+  const unitCoverWrapping = coverWrappingItem.unitCoverWrap;
   const coverWrappingFee = coverWrappingItem.sumResult;
   // 合計
   const resultFee = impositionFee + platesFee + printFee + coverStockCost + textStockCost + collationFee + coverWrappingFee;
