@@ -33,9 +33,11 @@ const ResultCTP = ({
   const coverPlateCount = coverPageCount / 2;
   // 本文の台数
   // 台の裏の半分のページ数なら2台に繰り上げる
-  const textImpressionCount = state.pageCount % unitPagesPerPlate === 6 || state.pageCount % unitPagesPerPlate === 14
-    ?  state.pageCount / unitPagesPerPlate + 0.125
-    : state.pageCount / unitPagesPerPlate;
+  const textImpressionCount = unitPagesPerPlate === 16 && state.pageCount % unitPagesPerPlate === 6 || state.pageCount % unitPagesPerPlate === 14
+    ? state.pageCount / unitPagesPerPlate + 0.125
+    : unitPagesPerPlate === 8 && state.pageCount % unitPagesPerPlate === 6 || state.pageCount % unitPagesPerPlate === 14
+      ? state.pageCount / unitPagesPerPlate + 0.25
+      : state.pageCount / unitPagesPerPlate;
   // 本文の通し数
   const textPlateCount = textImpressionCount * 2;
   const unitCtpPrintingA2_1C = getUnitCtpBlackPrintingObject(state.printQuantity, unitBlackPrintingA2);
@@ -127,8 +129,8 @@ const ResultCTP = ({
         <li>印刷代：{printFee}円／表紙台（{coverPrintFee}円）+ 本文（{TextPrintFee}円）</li>
         <li>表紙台用紙代：{coverStockCost}円／単価（{unitCostOfPaperForKikuSize[state.coverPaperType.name]}円）× 部数（{state.printQuantity}部）</li>
         <li>本文用紙代： {textStockCost}円／単価（{unitCostOfPaperForKikuSize[state.textPaperType.name]}円）× 台数（{Math.ceil(textImpressionCount)}台）× 部数（{state.printQuantity}部）</li>
-        <li>綴じ代（無線または中綴）：{coverWrappingFee}円／単価（{unitCoverWrapping}円）× 台数（{Math.ceil(textImpressionCount)}台）× 部数（{state.printQuantity}部）</li>
-        <li>丁合代：{collationFee}円／単価（{unitBlackCTPCollation[isPlate][unitPagesPerPlate]}円）× 台数（{textImpressionCount}台）× 部数（{state.printQuantity}部）</li>
+        <li>綴じ代（無線または中綴）：{coverWrappingFee}円／単価（{unitCoverWrapping}円）× 部数（{state.printQuantity}部）</li>
+        <li>丁合代：{collationFee}円／単価（{unitBlackCTPCollation[isPlate][unitPagesPerPlate]}円）× 台数（{Math.ceil(textImpressionCount)}台）× 部数（{state.printQuantity}部）</li>
         <li>小計：{state.ctpResult?.value}</li> 
       </ul>
     </>

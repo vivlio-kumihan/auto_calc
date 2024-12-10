@@ -5,7 +5,6 @@ const ResultBlack = ({
   unitBlackPrinting,
   getUnitCtpBlackPrintingObject,
   unitCostOfPaperForASize,
-  getUnitCoverWrappingObject,
   unitBlackCTPCollation,
   getCoverWrappingItem
   }) => {
@@ -31,7 +30,7 @@ const ResultBlack = ({
   // 本文の台数
   // 台の裏の半分のページ数なら2台に繰り上げる
   const textImpressionCount = state.pageCount % unitPagesPerPlate === 6
-    ?  state.pageCount / unitPagesPerPlate + 0.25
+    ? state.pageCount / unitPagesPerPlate + 0.25
     : state.pageCount / unitPagesPerPlate;
   // 本文の通し数
   const textPlateCount = textImpressionCount * 2;
@@ -124,8 +123,8 @@ const ResultBlack = ({
         <li>印刷代：{printFee}円／表紙台（{coverPrintFee}円）+ 本文（{TextPrintFee}円）</li>
         <li>表紙台用紙代：{coverStockCost}円／単価（{unitCostOfPaperForASize[state.coverPaperType.name]}円）× 部数（{state.printQuantity}部）</li>
         <li>本文用紙代： {textStockCost}円／単価（{unitCostOfPaperForASize[state.textPaperType.name]}円）× 台数（{Math.ceil(textImpressionCount)}）× 部数（{state.printQuantity}部）</li>
-        <li>綴じ代（無線または中綴）：{coverWrappingFee}円／単価（{unitCoverWrapping}円）× 台数（{Math.ceil(textImpressionCount)}台）× 部数（{state.printQuantity}部）</li>
-        <li>丁合代：{collationFee}円／単価（{unitBlackCollation}円）× 台数（{textImpressionCount}台）× 部数（{state.printQuantity}部）</li>
+        <li>綴じ代（無線または中綴）：{coverWrappingFee}円／単価（{unitCoverWrapping}円）× 部数（{state.printQuantity}部）</li>
+        <li>丁合代：{collationFee}円／単価（{unitBlackCollation}円）× 台数（{Math.ceil(textImpressionCount)}台）× 部数（{state.printQuantity}部）</li>
         <li>小計：{state.blackResult?.value}</li> 
       </ul>
     </>

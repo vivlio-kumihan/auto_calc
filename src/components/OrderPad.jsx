@@ -1,4 +1,4 @@
-import { useCalc, useCalcDispatch } from "../context/CalcContext";
+import { useCalc } from "../context/CalcContext";
 
 const OrderPad = ({}) => {
   const state = useCalc();
