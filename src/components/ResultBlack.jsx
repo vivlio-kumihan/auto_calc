@@ -13,7 +13,7 @@ const ResultBlack = ({
   const dispatch = useCalcDispatch();
 
   // Black, CTP判定
-  const isCTP = "BLACK";
+  const isPlate = "BLACK";
   
   // A4判定用フラグ
   const isA4 = state.trimSize.name === "A4";
@@ -62,16 +62,15 @@ const ResultBlack = ({
   // 4がけで300部以下ならという条件で単価を振り分ける。
   const unitBlackCollation = unitPagesPerPlate === 4 
     ? state.printQuantity <= 300
-      ? unitBlackCTPCollation[isCTP][4][0]
-      : unitBlackCTPCollation[isCTP][4][1]
-    : unitBlackCTPCollation[isCTP][8];
-  const collationFee = unitBlackCollation * textImpressionCount * state.printQuantity; 
+      ? unitBlackCTPCollation[isPlate][4][0]
+      : unitBlackCTPCollation[isPlate][4][1]
+    : unitBlackCTPCollation[isPlate][8];
+  const collationFee = Math.ceil(textImpressionCount) * unitBlackCollation * state.printQuantity; 
   // 綴じ代
   const coverWrappingItem = getCoverWrappingItem(
     state.bindingMethod, 
     state.printQuantity, 
     state.trimSize.name, 
-    textImpressionCount
   );
   // 綴じ単価
   const unitCoverWrapping = coverWrappingItem.unitCoverWrap;

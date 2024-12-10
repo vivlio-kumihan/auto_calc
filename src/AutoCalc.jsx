@@ -278,13 +278,13 @@ const UNIT_BLACK_CTP_COLLATION = {
   CTP: { 8: 3, 16: 3.3}
 };
 
-function getCoverWrappingItem(bind_method, print_quantity, trim_size, count) {
+function getCoverWrappingItem(bind_method, print_quantity, trim_size) {
   // 綴じ単価
   const unitCoverWrap = bind_method === "無線綴じ製本"
     ? getUnitCoverWrappingObject(print_quantity)[trim_size]
     : 3;
   // 綴じ代合計
-  const sumResult = unitCoverWrap * Math.ceil(count) * print_quantity;  
+  const sumResult = unitCoverWrap * print_quantity;  
   return { unitCoverWrap, sumResult };
 }
 

@@ -13,7 +13,7 @@ const ResultCTP = ({
   const dispatch = useCalcDispatch();
 
   // Black, CTP判定
-  const isCTP = "CTP";
+  const isPlate = "CTP";
   
   // A4判定用フラグ
   const isA4 = state.trimSize.name === "A4";
@@ -70,13 +70,12 @@ const ResultCTP = ({
                  : Math.ceil(textImpressionCount) * textCoverCost * state.printQuantity + textCoverCost * 200  
     : null;
   // 丁合代
-  const collationFee = unitBlackCTPCollation[isCTP][unitPagesPerPlate] * textImpressionCount * state.printQuantity;    
+  const collationFee = Math.ceil(textImpressionCount) * unitBlackCTPCollation[isPlate][unitPagesPerPlate] * state.printQuantity;    
   // 綴じ代
   const coverWrappingItem = getCoverWrappingItem(
     state.bindingMethod, 
     state.printQuantity, 
     state.trimSize.name, 
-    textImpressionCount
   );
   const unitCoverWrapping = coverWrappingItem.unitCoverWrap;
   const coverWrappingFee = coverWrappingItem.sumResult;
@@ -129,7 +128,7 @@ const ResultCTP = ({
         <li>表紙台用紙代：{coverStockCost}円／単価（{unitCostOfPaperForKikuSize[state.coverPaperType.name]}円）× 部数（{state.printQuantity}部）</li>
         <li>本文用紙代： {textStockCost}円／単価（{unitCostOfPaperForKikuSize[state.textPaperType.name]}円）× 台数（{Math.ceil(textImpressionCount)}台）× 部数（{state.printQuantity}部）</li>
         <li>綴じ代（無線または中綴）：{coverWrappingFee}円／単価（{unitCoverWrapping}円）× 台数（{Math.ceil(textImpressionCount)}台）× 部数（{state.printQuantity}部）</li>
-        <li>丁合代：{collationFee}円／単価（{unitBlackCTPCollation[isCTP][unitPagesPerPlate]}円）× 台数（{textImpressionCount}台）× 部数（{state.printQuantity}部）</li>
+        <li>丁合代：{collationFee}円／単価（{unitBlackCTPCollation[isPlate][unitPagesPerPlate]}円）× 台数（{textImpressionCount}台）× 部数（{state.printQuantity}部）</li>
         <li>小計：{state.ctpResult?.value}</li> 
       </ul>
     </>
