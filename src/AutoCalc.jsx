@@ -1,7 +1,6 @@
 import { CalcProvider } from "./context/CalcContext";
 
 import TrimSize from "./components/TrimSize.jsx";
-import CustomSize from "./components/CustomSize.jsx";
 import TextPrintingMethod from "./components/TextPrintingMethod.jsx";
 import TextPaperType from "./components/TextPaperType.jsx";
 import PrintQuantity from "./components/PrintQuantity.jsx";
@@ -76,8 +75,8 @@ const TRIM_SIZES_TYPES_RANGE = {
     name: "A6",
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_A6_PocketEdition,
-      _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
-      _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      // _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
+      // _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     }
   },
@@ -85,8 +84,8 @@ const TRIM_SIZES_TYPES_RANGE = {
     name: "B6",
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
-      _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
-      _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      // _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
+      // _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     }
   },
@@ -94,8 +93,8 @@ const TRIM_SIZES_TYPES_RANGE = {
     name: "A5",
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
-      _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
-      _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS ,
+      // _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
+      // _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS ,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     }
   },
@@ -103,8 +102,8 @@ const TRIM_SIZES_TYPES_RANGE = {
     name: "B5",
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
-      _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
-      _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      // _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
+      // _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
     }
   },
@@ -112,61 +111,9 @@ const TRIM_SIZES_TYPES_RANGE = {
     name: "A4",
     textPaperTypes: {
       _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
-      _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
-      _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
+      // _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
+      // _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
       _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
-    }
-  },
-  stdPaperback: {
-    name: "新書版",
-    textPaperTypes: {
-      _1C: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
-      _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
-      _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
-      _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
-    },
-    customTrimSizeRange: {
-      height: [172, 192],
-      width: [103, 138]
-    }
-  },
-  pocketEdition: {
-    name: "文庫版",
-    textPaperTypes: {
-      _1C: TEXT_PAPER_TYPE_1C_A6_PocketEdition,
-      _4C_MONO: TEXT_PAPER_TYPE_4C_4cMono_OTHERS,
-      _4C_MONO_SP: TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS,
-      _4C: TEXT_PAPER_TYPE_4C_4cMono_OTHERS
-    },
-    customTrimSizeRange: {
-      height: [138, 152],
-      width: [103, 115]
-    }
-  },
-  customSizeSm: {
-    name: "変形サイズ（小）",
-    textPaperTypes: {
-      _1C: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
-      _4C_MONO: TEXT_PAPER_TYPE_4C_CustomSizeSmLg,
-      _4C_MONO_SP: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
-      _4C: TEXT_PAPER_TYPE_4C_CustomSizeSmLg
-    },
-    customTrimSizeRange: {
-      height: [105, 210],
-      width: [90, 148]
-    }
-  },
-  customSizeLg: {
-    name: "変形サイズ（大）",
-    textPaperTypes: {
-      _1C: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
-      _4C_MONO: TEXT_PAPER_TYPE_4C_CustomSizeSmLg,
-      _4C_MONO_SP: TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg,
-      _4C: TEXT_PAPER_TYPE_4C_CustomSizeSmLg
-    },
-    customTrimSizeRange: {
-      height: [149, 297],
-      width: [149, 210]
     }
   }
 };
@@ -299,8 +246,6 @@ const AutoCalc = () => {
             <div className="order__sheet">
               {/* 冊子の版型 */}
               <TrimSize trimSizeTypesRange={TRIM_SIZES_TYPES_RANGE} />
-              {/* 新書版・文庫版・変形サイズ（大）（小）入力 */}
-              <CustomSize trimSizeTypesRange={TRIM_SIZES_TYPES_RANGE} />
               {/* 印刷部数 */}
               <PrintQuantity />
               {/* 本文の印刷方法 */}
@@ -314,11 +259,11 @@ const AutoCalc = () => {
               {/* 表紙の印刷方法 */}
               <CoverPrintingMethod coverPaperTypesGroup={COVER_PAPER_TYPES_GROUP} />
               {/* 表紙用紙の種類 */}
-              <CoverPaperType coverPaperTypesGroup={COVER_PAPER_TYPES_GROUP} coatingAvaiLable={COATING_AVAILABLE} />
+              <CoverPaperType coverPaperTypesGroup={COVER_PAPER_TYPES_GROUP} coatingAvailable={COATING_AVAILABLE} />
               {/* 表紙用紙の種類 */}
               <InsideCoverPrintingMethod />
               {/* オプション加工 */}
-              <OptionalFinishing coatingAvaiLable={COATING_AVAILABLE} />
+              <OptionalFinishing coatingAvailable={COATING_AVAILABLE} />
             </div>
             <div className="order__pad">
               {/* 注文内容 */}

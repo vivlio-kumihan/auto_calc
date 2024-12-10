@@ -1,7 +1,7 @@
 import { useCalc, useCalcDispatch } from "../context/CalcContext";
 import { useEffect } from "react";
 
-const CoverPaperType = ({ coverPaperTypesGroup, coatingAvaiLable }) => {
+const CoverPaperType = ({ coverPaperTypesGroup, coatingAvailable }) => {
   const state = useCalc();
   const dispatch = useCalcDispatch();
 
@@ -14,11 +14,11 @@ const CoverPaperType = ({ coverPaperTypesGroup, coatingAvaiLable }) => {
   };
 
   const putAvilablePPMark = (type) => {
-    return coatingAvaiLable.includes(type);
+    return coatingAvailable.includes(type);
   };
 
   useEffect(() => {
-    (coatingAvaiLable.includes(state.coverPaperType.name) !== true 
+    (coatingAvailable.includes(state.coverPaperType.name) !== true 
     && state.ppCoating.name !== null) && 
       dispatch({
         item: "ppCoating",

@@ -38,7 +38,7 @@ const ResultCTP = ({
     : state.pageCount / unitPagesPerPlate;
   // 本文の通し数
   const textPlateCount = textImpressionCount * 2;
-  const unitCtpPrintingA2_1C = getUnitCtpBlackPrintingObject(state.printQuantity, unitCtpPrintingA2);
+  const unitCtpPrintingA2_1C = getUnitCtpBlackPrintingObject(state.printQuantity, unitBlackPrintingA2);
   const unitCtpPrintingA2_4C = getUnitCtpBlackPrintingObject(state.printQuantity, unitCtpPrintingA2);
 
   // 面付代

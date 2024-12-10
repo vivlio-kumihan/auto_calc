@@ -3,8 +3,8 @@ import { useCalc, useCalcDispatch } from "../context/CalcContext";
 // 本文印刷方法
 const TEXT_PRINTING_METHOD = {
   _1C: "モノクロ印刷",
-  _4C_MONO: "カラー・モノクロ混在印刷",
-  _4C_MONO_SP: "カラー・モノクロ混在印刷お得ver.",
+  // _4C_MONO: "カラー・モノクロ混在印刷",
+  // _4C_MONO_SP: "カラー・モノクロ混在印刷お得ver.",
   _4C: "フルカラー印刷"
 };
 

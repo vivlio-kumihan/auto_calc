@@ -3,7 +3,6 @@ import { useEffect } from "react";
 
 const ResultOnDemand = ({ 
   unitCostOfPaperForASize, 
-  getUnitCoverWrappingObject,
   getCoverWrappingItem
   }) => {
   const state = useCalc();

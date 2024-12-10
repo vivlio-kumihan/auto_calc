@@ -6,7 +6,7 @@ import { useEffect } from "react";
 // Matte PP Lamination：PPラミネーション
 const PP_COATING_TYPES = ["グロス（光沢）PP", "マット（艶消し）PP"];
 
-const OptionalFinishing = ({ coatingAvaiLable }) => {
+const OptionalFinishing = ({ coatingAvailable }) => {
   const state = useCalc();
   const dispatch = useCalcDispatch();
 
@@ -53,7 +53,7 @@ const OptionalFinishing = ({ coatingAvaiLable }) => {
         </div>
         <div className="calc__content-inner">
           {
-            coatingAvaiLable.includes(state.coverPaperType.name) &&
+            coatingAvailable.includes(state.coverPaperType.name) &&
               <section>
                 {
                   PP_COATING_TYPES.map((coating) => {
