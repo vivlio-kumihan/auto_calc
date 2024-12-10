@@ -5,8 +5,8 @@ const ResultCTP = ({
   unitCtpPrinting,
   getUnitCtpBlackPrintingObject,
   unitCostOfPaperForKikuSize,
-  getUnitCoverWrappingObject,
-  unitBlackCTPCollation
+  unitBlackCTPCollation,
+  getCoverWrappingItem
   }) => {
   const state = useCalc();
   const dispatch = useCalcDispatch();
@@ -65,12 +65,14 @@ const ResultCTP = ({
   // 丁合代
   const collationFee = unitBlackCTPCollation[isCTP][unitPagesPerPlate] * textImpressionCount * state.printQuantity;    
   // 綴じ代
-  // 表紙巻の単価
-  const unitCoverWrapping = state.bindingMethod === "無線綴じ製本"
-    ? getUnitCoverWrappingObject(state.printQuantity)[state.trimSize.name]
-    : 3;
-  // 綴じ代合計
-  const coverWrappingFee = unitCoverWrapping * Math.ceil(textImpressionCount) * state.printQuantity;
+  const coverWrappingItem = getCoverWrappingItem(
+    state.bindingMethod, 
+    state.printQuantity, 
+    state.trimSize.name, 
+    textImpressionCount
+  );
+  const unitCoverWrapping = coverWrappingItem.unitCoverWrapping;
+  const coverWrappingFee = coverWrappingItem.sumResult;
   // 合計
   const resultFee = impositionFee + platesFee + printFee + coverStockCost + textStockCost + collationFee + coverWrappingFee;
 

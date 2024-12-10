@@ -271,15 +271,18 @@ const UNIT_BLACK_CTP_COLLATION = {
   CTP: { 8: 3, 16: 3.3}
 };
 
+function getCoverWrappingItem(bind_method, print_quantity, trim_size, count) {
+  // 綴じ単価
+  const unitCoverWrapping = bind_method === "無線綴じ製本"
+    ? getUnitCoverWrappingObject(print_quantity)[trim_size]
+    : 3;
+  // 綴じ代合計
+  const sumResult = unitCoverWrapping * Math.ceil(count) * print_quantity;  
+  return { unitCoverWrapping, sumResult };
+}
+
 // 本体
 const AutoCalc = () => {
-  // function getCoverWrappingFee(count) {
-  //   const unitCoverWrapping = state.bindingMethod === "無線綴じ製本"
-  //     ? getUnitCoverWrappingObject(state.printQuantity)[state.trimSize.name]
-  //     : 3;
-  //   // 綴じ代合計
-  //   return unitCoverWrapping * Math.ceil(count) * state.printQuantity;  
-  // }
   return (
     <>
       <div className="calc content-width">
@@ -319,6 +322,7 @@ const AutoCalc = () => {
                 unitCostOfPaperForASize={UNIT_COST_OF_PAPER_FOR_ASize}
                 getUnitCoverWrappingObject= {getUnitCoverWrappingObject}
                 unitBlackCTPCollation= {UNIT_BLACK_CTP_COLLATION}
+                getCoverWrappingItem= {getCoverWrappingItem}                
               />
               <ResultCTP 
                 unitCtpPrinting={UNIT_CTP_PRINTING}
@@ -326,11 +330,12 @@ const AutoCalc = () => {
                 unitCostOfPaperForKikuSize={UNIT_COST_OF_PAPER_FOR_KikuSize}
                 getUnitCoverWrappingObject= {getUnitCoverWrappingObject}
                 unitBlackCTPCollation= {UNIT_BLACK_CTP_COLLATION}
+                getCoverWrappingItem= {getCoverWrappingItem}                
               />
               <ResultOnDemand 
                 unitCostOfPaperForASize={UNIT_COST_OF_PAPER_FOR_ASize}
                 getUnitCoverWrappingObject= {getUnitCoverWrappingObject}
-                // getCoverWrappingFee= {getCoverWrappingFee}
+                getCoverWrappingItem= {getCoverWrappingItem}
               />
             </div>
           </div>

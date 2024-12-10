@@ -4,7 +4,7 @@ import { useEffect } from "react";
 const ResultOnDemand = ({ 
   unitCostOfPaperForASize, 
   getUnitCoverWrappingObject,
-  getCoverWrappingFee
+  getCoverWrappingItem
   }) => {
   const state = useCalc();
   const dispatch = useCalcDispatch();
@@ -48,13 +48,14 @@ const ResultOnDemand = ({
   // 丁合代 『1』=> 単価、台数『1』=> 表紙台の1台をプラスする。
   const collationFee = 1 * textImpressionCount * state.printQuantity;
   // 綴じ代
-  // 表紙巻の単価
-  const unitCoverWrapping = state.bindingMethod === "無線綴じ製本"
-    ? getUnitCoverWrappingObject(state.printQuantity)[state.trimSize.name]
-    : 3;
-  // 綴じ代合計
-  const coverWrappingFee = unitCoverWrapping * Math.ceil(textImpressionCount) * state.printQuantity;  
-  // const coverWrappingFee = getCoverWrappingFee(textImpressionCount);
+  const coverWrappingItem = getCoverWrappingItem(
+    state.bindingMethod, 
+    state.printQuantity, 
+    state.trimSize.name, 
+    textImpressionCount
+  );
+  const unitCoverWrapping = coverWrappingItem.unitCoverWrapping;
+  const coverWrappingFee = coverWrappingItem.sumResult;
   // 合計
   const resultFee = basicFee + impositionFee + printFee + coverStockCost + textStockCost + collationFee + coverWrappingFee;
 

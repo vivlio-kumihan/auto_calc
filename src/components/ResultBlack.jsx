@@ -7,6 +7,7 @@ const ResultBlack = ({
   unitCostOfPaperForASize,
   getUnitCoverWrappingObject,
   unitBlackCTPCollation,
+  getCoverWrappingItem
   }) => {
   const state = useCalc();
   const dispatch = useCalcDispatch();
@@ -64,12 +65,16 @@ const ResultBlack = ({
     : unitBlackCTPCollation[isCTP][8];
   const collationFee = unitBlackCollation * textImpressionCount * state.printQuantity; 
   // 綴じ代
-  // 表紙巻の単価
-  const unitCoverWrapping = state.bindingMethod === "無線綴じ製本"
-    ? getUnitCoverWrappingObject(state.printQuantity)[state.trimSize.name]
-    : 3;
-  // 綴じ代合計
-  const coverWrappingFee = unitCoverWrapping * Math.ceil(textImpressionCount) * state.printQuantity;
+  const coverWrappingItem = getCoverWrappingItem(
+    state.bindingMethod, 
+    state.printQuantity, 
+    state.trimSize.name, 
+    textImpressionCount
+  );
+  // 綴じ単価
+  const unitCoverWrapping = coverWrappingItem.unitCoverWrapping;
+  // 綴じ合計
+  const coverWrappingFee = coverWrappingItem.sumResult;
   // 合計
   const resultFee = impositionFee + platesFee + printFee + coverStockCost + textStockCost + collationFee + coverWrappingFee;
 
