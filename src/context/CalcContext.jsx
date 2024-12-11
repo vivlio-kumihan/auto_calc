@@ -25,8 +25,8 @@ const handleRreducer = (prev, { item, payload }) => {
     case "insideFrontBackCoverColor": return { ...prev, insideFrontBackCoverColor: { name: name } };    
     case "coverPaperType": return { ...prev, coverPaperType: { name: name } };
     case "ppCoating": return { ...prev, ppCoating: { name: name } };
-    case "addBreedAutoCover": return { ...prev, addBreedAutoCover: payload };
-    case "addBreedAutoText": return { ...prev, addBreedAutoText: payload };    
+    // case "addBreedAutoCover": return { ...prev, addBreedAutoCover: payload };
+    // case "addBreedAutoText": return { ...prev, addBreedAutoText: payload };    
     case "horizontalBinding": return { ...prev, horizontalBinding: payload };    
     case "submissionInMSWordFormat": return { ...prev, submissionInMSWordFormat: payload }; 
     case "onDemandResult": return { ...prev, onDemandResult: payload }; 
@@ -53,8 +53,8 @@ export const CalcProvider = ({ children }) => {
     insideFrontBackCoverColor: { name: null },
     coverPaperType: { name: null },
     ppCoating: { name: null },
-    addBreedAutoCover: false,
-    addBreedAutoText: false,
+    // addBreedAutoCover: false,
+    // addBreedAutoText: false,
     horizontalBinding: false,
     submissionInMSWordFormat: false,
   };
