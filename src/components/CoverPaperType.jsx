@@ -31,6 +31,7 @@ const CoverPaperType = ({ coverPaperTypesGroup, coatingAvailable }) => {
       <div className="calc__entry margin-bottom-unset">
         表紙用紙の種類<span>※</span>
       </div>
+      <div className="note">★印はPP加工ができます。</div>
       <div className="calc__content-inner">
         {
           state.coverPrintingMethod.id && // id が存在することを確認

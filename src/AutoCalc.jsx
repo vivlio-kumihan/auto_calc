@@ -6,6 +6,7 @@ import TextPaperType from "./components/TextPaperType.jsx";
 import PrintQuantity from "./components/PrintQuantity.jsx";
 import PageCount from "./components/PageCount.jsx";
 import BindingMethod from "./components/BindingMethod.jsx";
+import BindingDirection from "./components/BindingDirection.jsx";
 import CoverPrintingMethod from "./components/CoverPrintingMethod.jsx";
 import CoverPaperType from "./components/CoverPaperType.jsx";
 import InsideCoverPrintingMethod from "./components/InsideCoverPrintingMethod.jsx";
@@ -14,7 +15,8 @@ import OrderPad from "./components/OrderPad.jsx";
 import ResultOnDemand from "./components/ResultOnDemand.jsx";
 import ResultCTP from "./components/ResultCTP.jsx";
 import ResultBlack from "./components/ResultBlack.jsx";
-
+import Reslut from "./components/Reslut.jsx";
+import MakeJson from "./components/MakeJson.jsx";
 // 本文用紙の種類
 // オブジェクトを整理して配列に変換する関数
 const corectPaperTypeToArr = (hash) => {
@@ -122,8 +124,8 @@ const TRIM_SIZES_TYPES_RANGE = {
 const COVER_PAPER_TYPES_PRINTED_1C = [
   { group: "上質・色上質・色ファンシー",
     types: ["上質 135kg", "色上質最厚口", "レザック 175kg"] },
-  { group: "特殊紙 その他",
-    types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "両更クラフト紙 129.5kg"] }
+  // { group: "特殊紙 その他",
+  //   types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "両更クラフト紙 129.5kg"] }
 ];
 
 // 表紙で使用可能な用紙種類 4C
@@ -131,15 +133,15 @@ const COVER_PAPER_TYPES_PRINTED_4C = [
   { group: "上質・色上質・色ファンシー",
     types: ["上質 135kg", "色上質最厚口", "レザック 175kg"] },
   { group: "艶ありコート・アート・キャスト",
-    types: ["コート 110kg", "コート 135kg", "アートポスト 200kg", "ミラーコート 220kg"] },
+    types: ["コート 135kg", "アートポスト 200kg"] },
   { group: "艶なしマットコート・ダル",
-    types: ["マットコート 90kg", "マットコート 135kg", "サテン金藤 180kg", "マットポスト 220kg"] },
+    types: ["マットコート 90kg", "マットコート 135kg", "マットポスト 220kg"] },
   { group: "ラフ・エンボス",
     types: ["アラベール スノーホワイト 160kg", "アラベール ナチュラル 160kg", "マーメイド スノーホワイト 175kg"] },
-  { group: "特殊紙 パール・シャイン・ラメ",
-    types: ["ペルーラ スノーホワイト 180kg", "ミランダ スノーホワイト 170kg", "五感紙粗目 純白キラ 135kg", "新星物語 パウダー 180kg", "エスプリコートVNエンボス アラレ 176.5kg"] },
-  { group: "特殊紙 その他",
-    types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "レザック82 ろうけつ 白 175kg", "両更クラフト紙 129.5kg"] }
+  // { group: "特殊紙 パール・シャイン・ラメ",
+  //   types: ["ペルーラ スノーホワイト 180kg", "ミランダ スノーホワイト 170kg", "五感紙粗目 純白キラ 135kg", "新星物語 パウダー 180kg", "エスプリコートVNエンボス アラレ 176.5kg"] },
+  // { group: "特殊紙 その他",
+  //   types: ["OKカイゼル 白 155kg", "しこくてんれい ゆき 180kg", "レザック82 ろうけつ 白 175kg", "両更クラフト紙 129.5kg"] }
 ];
 
 // 表紙の用紙種類
@@ -152,8 +154,6 @@ const COVER_PAPER_TYPES_GROUP = {
 const COATING_AVAILABLE = [
   "レザック 175kg",
   "アートポスト 200kg",
-  "ミラーコート 220kg",
-  "サテン金藤 180kg",
   "マットポスト 220kg",
   "アラベール スノーホワイト 160kg",
   "アラベール ナチュラル 160kg",
@@ -256,6 +256,8 @@ const AutoCalc = () => {
               <PageCount />
               {/* 製本方法 */}
               <BindingMethod />
+              {/* 製本綴じ方法 */}
+              <BindingDirection />
               {/* 表紙の印刷方法 */}
               <CoverPrintingMethod coverPaperTypesGroup={COVER_PAPER_TYPES_GROUP} />
               {/* 表紙用紙の種類 */}
@@ -266,7 +268,8 @@ const AutoCalc = () => {
               <OptionalFinishing coatingAvailable={COATING_AVAILABLE} />
             </div>
             <div className="order__pad">
-              {/* 注文内容 */}
+              {/* JSONでダウンロード */}
+              <MakeJson /> {/* 注文内容 */}
               <OrderPad />
               <ResultBlack
                 unitBlackPrinting={UNIT_BLACK_PRINTING_A3}
@@ -290,6 +293,7 @@ const AutoCalc = () => {
                 getUnitCoverWrappingObject= {getUnitCoverWrappingObject}
                 getCoverWrappingItem= {getCoverWrappingItem}
               />
+              <Reslut />
             </div>
           </div>
         </CalcProvider>

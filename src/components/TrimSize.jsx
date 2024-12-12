@@ -41,7 +41,7 @@ const TrimSize = ({ trimSizeTypesRange }) => {
       <div className="calc__entry">
         冊子の版型<span>※</span>
       </div>
-      <div className="calc__content-inner">
+      <div className="calc__content-inner for-trim-size">
         {
           Object.entries(trimSizeTypesRange).map(([key, item]) => {
             return (

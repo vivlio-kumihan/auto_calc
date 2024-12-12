@@ -73,7 +73,7 @@ const PageCount = () => {
         本文ページ数<span>※</span>
       </div>
       <div className="calc__content-inner number-pages">
-        <label htmlFor="">
+        <label>
           <select
             name="pageCount"
             value={state.pageCount}

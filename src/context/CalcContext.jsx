@@ -19,8 +19,9 @@ const handleRreducer = (prev, { item, payload }) => {
     case "textPrintingMethod": return { ...prev, textPrintingMethod: { id: key, name: name } };
     case "printQuantity": return { ...prev, [name]: parseInt(value) };
     case "pageCount": { return { ...prev, [name]: parseInt(value) } };
-    case "colorPageCount": return { ...prev, [name]: parseInt(value) };
+    // case "colorPageCount": return { ...prev, [name]: parseInt(value) };
     case "bindingMethod": return { ...prev, bindingMethod: name };
+    case "bindingDirection": return { ...prev, bindingDirection: name };
     case "coverPrintingMethod": return { ...prev, coverPrintingMethod: { id: key, name: name, count: value } };
     case "insideFrontBackCoverColor": return { ...prev, insideFrontBackCoverColor: { name: name } };    
     case "coverPaperType": return { ...prev, coverPaperType: { name: name } };
@@ -32,6 +33,8 @@ const handleRreducer = (prev, { item, payload }) => {
     case "onDemandResult": return { ...prev, onDemandResult: payload }; 
     case "ctpResult": return { ...prev, ctpResult: payload }; 
     case "blackResult": return { ...prev, blackResult: payload }; 
+    case "result": return { ...prev, result: payload }; 
+    case "makeJson": return { ...prev, value: payload }; 
     default: throw new Error("error in reduce...");
   }
 };
@@ -48,7 +51,7 @@ export const CalcProvider = ({ children }) => {
     textPrintingMethod: { id: "_1C", name: "モノクロ印刷" },
     printQuantity: 1,
     pageCount: 16,
-    colorPageCount: 0,
+    // colorPageCount: 0,
     coverPrintingMethod: { id: null, name: null },
     insideFrontBackCoverColor: { name: null },
     coverPaperType: { name: null },
@@ -57,11 +60,14 @@ export const CalcProvider = ({ children }) => {
     // addBreedAutoText: false,
     horizontalBinding: false,
     submissionInMSWordFormat: false,
+    ctpResult: { value: 0 }, // 初期値を設定
+    onDemandResult: { value: 0 },
+    blackResult: { value: 0 },
   };
 
   // 状態
   const [state,  dispatch] = useReducer(handleRreducer, initState);
-  console.log(state);
+  // console.log(state);
 
   return (
     <CalcContext.Provider value={state}>

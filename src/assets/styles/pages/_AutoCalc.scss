@@ -9,8 +9,19 @@
   @include mq(md) {
     padding: 3em;
   }
+  @include mq(lg) {
+    padding: 3em 2em 2em;
+  }
+  & > h1 {
+    margin-bottom: 1em;
+    text-align: center;
+  }
   & .order {
-    display: flex;
+    @include mq(lg) {
+      display: flex;
+      gap: 2em;
+
+    }
     &__sheet {
       flex-basis: 50%;
     }
@@ -22,6 +33,7 @@
   &__item-wrapper {
     margin-top: 2em;
     &.trim_size {
+      margin-top: unset;
       & > .calc__content-inner {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -35,6 +47,8 @@
     font-feature-settings: "palt" 1;
   }
   &__entry {
+    display: flex;
+    align-items: flex-start;
     margin-bottom: .5em;
     font-size: 1.2em;
     font-weight: 900;
@@ -44,15 +58,19 @@
     }
     & > span {
       margin-left: .25em;
-      font-size: .8em;
+      font-size: .6em;
     }
   }
   &__content-inner {
     display: flex;
     flex-direction: column;
     @include mq(lg) {
-      width: 50%;
       flex-direction: row;
+      gap: 1em;
+      &.for-trim-size {
+        gap: unset;
+        width: 50%;
+      }
     }
     & label {
       padding-left: 1.25em;
@@ -101,6 +119,23 @@
       margin-right: 2em;
     }
   }
+  &__item-wrapper.optional_finishing {
+    & section {
+      display: flex;
+      gap: 1em;
+
+      &>label {
+        padding-left: unset;
+        text-indent: unset;
+      }
+    }
+  }
+  &__item-wrapper.binding_method {
+    & > .calc__explanation {
+      margin-top: .5em;
+
+    }
+  }
 }
 
 .set-flex {
@@ -116,4 +151,8 @@
 
 .margin-bottom-unset {
   margin-bottom: unset;
+}
+
+.note {
+  margin-top: .5em;
 }

@@ -24,17 +24,19 @@ const PrintQuantity = () => {
         印刷部数<span>※</span>
       </div>
       <div className="calc__content-inner">
-        <select
-          name="printQuantity"
-          value={state.printQuantity}
-          onChange={handlePrintQuantity}
-        >
-          { printQuantityArr.map((num) => {
-            return (
-              <option key={num} value={num}>{num}</option>
-            )
-          })}
-        </select>
+        <label>
+          <select
+            name="printQuantity"
+            value={state.printQuantity}
+            onChange={handlePrintQuantity}
+          >
+            { printQuantityArr.map((num) => {
+              return (
+                <option key={num} value={num}>{num}</option>
+              )
+            })}
+          </select>
+        </label>
       </div>
     </div>
   );

@@ -1,9 +1,17 @@
+.order {
+  &__pad {
+    // display: none;
+  }
+}
 .order-pad {
   &__list {
     display: flex;
     align-items: center;
     border-bottom: 1px solid #333;
     padding: .5em;
+    &:first-of-type {
+      border-top: 1px solid #333;
+    }
   }
   &__item {
     flex-basis: 30%;

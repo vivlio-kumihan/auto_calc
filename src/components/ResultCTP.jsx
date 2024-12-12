@@ -21,7 +21,7 @@ const ResultCTP = ({
   const is4CtoCover = state.coverPrintingMethod.name === "フルカラー印刷";
   const is4CtoText = state.textPrintingMethod.name === "フルカラー印刷";
 
-  // 表紙のページ数 
+  // 表紙台のページ数 
   //   表1、2 => 2ページ
   //   表1、2、3、4 => 4ページ
   let coverPageCount = state.coverPrintingMethod.count ?? null;
@@ -40,6 +40,7 @@ const ResultCTP = ({
       : state.pageCount / unitPagesPerPlate;
   // 本文の通し数
   const textPlateCount = textImpressionCount * 2;
+  // 本文1Cの時の印刷単価
   const unitCtpPrintingA2_1C = getUnitCtpBlackPrintingObject(state.printQuantity, unitBlackPrintingA2);
   const unitCtpPrintingA2_4C = getUnitCtpBlackPrintingObject(state.printQuantity, unitCtpPrintingA2);
 
