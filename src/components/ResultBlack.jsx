@@ -125,6 +125,7 @@ const ResultBlack = ({
         <li>本文用紙代： {textStockCost}円／単価（{unitCostOfPaperForASize[state.textPaperType.name]}円）× 台数（{Math.ceil(textImpressionCount)}）× 部数（{state.printQuantity}部）</li>
         <li>綴じ代（無線または中綴）：{coverWrappingFee}円／単価（{unitCoverWrapping}円）× 部数（{state.printQuantity}部）</li>
         <li>丁合代：{collationFee}円／単価（{unitBlackCollation}円）× 台数（{Math.ceil(textImpressionCount)}台）× 部数（{state.printQuantity}部）</li>
+        
         <li>小計：{state.blackResult?.value}</li> 
       </ul>
     </>

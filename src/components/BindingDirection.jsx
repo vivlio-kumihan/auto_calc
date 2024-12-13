@@ -15,7 +15,6 @@ const BindingDirection = () => {
     });
   };
 
-
   return (
     <div className="calc__item-wrapper binding-Direction">
       <div className="calc__entry">
