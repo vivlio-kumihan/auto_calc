@@ -17,6 +17,7 @@ import ResultCTP from "./components/ResultCTP.jsx";
 import ResultBlack from "./components/ResultBlack.jsx";
 import Reslut from "./components/Reslut.jsx";
 import MakeJson from "./components/MakeJson.jsx";
+import SendFromItemToCF7 from "./components/SendFromItemToCF7.jsx";
 // 本文用紙の種類
 // オブジェクトを整理して配列に変換する関数
 const corectPaperTypeToArr = (hash) => {
@@ -269,7 +270,10 @@ const AutoCalc = () => {
             </div>
             <div className="order__pad">
               {/* JSONでダウンロード */}
-              <MakeJson /> {/* 注文内容 */}
+              {/* <MakeJson />  */}
+              {/* ContactForm7に注文結果を埋め込む */}
+              {/* <SendFromItemToCF7 />  */}
+              {/* 注文内容 */}
               <OrderPad />
               <ResultBlack
                 unitBlackPrinting={UNIT_BLACK_PRINTING_A3}

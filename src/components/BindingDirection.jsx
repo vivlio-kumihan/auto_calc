@@ -22,23 +22,21 @@ const BindingDirection = () => {
         綴じ方向<span>※</span>
       </div>
       <div className="calc__content-inner">
-        <section>
-          {
-            BINDING_DIRECTION.map((direction) => {
-              return (
-                <label htmlFor={direction} key={direction}>
-                  <input
-                    id={direction}
-                    type="radio"
-                    name="binding-direction"
-                    value={direction}
-                    onClick={handleBindingDirection} />
-                  {direction}
-                </label>
-              )
-            })
-          }
-        </section>
+        {
+          BINDING_DIRECTION.map((direction) => {
+            return (
+              <label htmlFor={direction} key={direction}>
+                <input
+                  id={direction}
+                  type="radio"
+                  name="binding-direction"
+                  value={direction}
+                  onClick={handleBindingDirection} />
+                {direction}
+              </label>
+            )
+          })
+        }
         {/* カラー・モノクロ混在印刷 */}
           {/* 「カラーページのご指定」欄に何ページ目がカラー印刷になるかデータの本文ページ数で明記して下さい。 */}
           {/* 本文ページ数のご指定方法はコチラでご確認ください。 */}

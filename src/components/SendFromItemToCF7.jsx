@@ -1,6 +1,6 @@
 import { useCalc } from "../context/CalcContext";
 
-const MakeJson = ({ }) => {
+const SendFromItemToCF7 = ({ }) => {
   const state = useCalc();
   const downloadJSON = () => {
     const jsonData = {
@@ -18,7 +18,9 @@ const MakeJson = ({ }) => {
     URL.revokeObjectURL(url);
   };
 
-  return <button onClick={downloadJSON}>注文結果をJSONでダウンロード</button>;
+  return <button onClick={downloadJSON}>contact form 7で申込フォームを開く</button>;
 };
 
-export default MakeJson;
+export default SendFromItemToCF7;
+
+// 簡単お見積もり => Quick Quote
