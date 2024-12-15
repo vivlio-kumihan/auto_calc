@@ -85,6 +85,47 @@ const ResultCTP = ({
   // 合計
   const resultFee = impositionFee + platesFee + printFee + coverStockCost + textStockCost + collationFee + coverWrappingFee;
 
+  // 見積もり計算で必要になるprops
+  const ctpOutCalcItems = {
+    // 面付け（表紙）
+    coverImpositionFee: { unitCost: 100, pageCount: coverPageCount },
+    // 面付け（本文）
+    textImpositionFee: { unitCost: 100, pageCount: state.pageCount },
+    // 刷版（表紙）
+    coverPlateFee: { unitCost: 2500, plateCount: is4CtoCover ? coverPlateCount * 4 : coverPlateCount },
+    // 刷版（本文）
+    textPlateFee: { unitCost: 2500, plateCount: is4CtoText ? textPlateCount * 4 : textPlateCount },
+    // 用紙（表紙）
+    coverStockCost: { 
+      unitCost: unitCostOfPaperForKikuSize[state.coverPaperType.name] 
+        ? unitCostOfPaperForKikuSize[state.coverPaperType.name] 
+        : null, 
+      printQuantity: state.printQuantity, 
+      sparePapers: is4CtoCover ? 400 : 200 
+    },
+    // 用紙（本文）
+    textStockCost: { 
+      unitCost: unitCostOfPaperForKikuSize[state.textPaperType.name]
+        ? unitCostOfPaperForKikuSize[state.textPaperType.name]
+        : null, 
+      impressionCount: Math.ceil(textImpressionCount), 
+      printQuantity: state.printQuantity, 
+      sparePapers: is4CtoText ? 400 : 200 
+    },
+    // 印刷（表紙）
+    coverPrintFee: { unitCost: unitCoverPrint, throughCount: coverPlateCount },
+    // 印刷（本文）
+    TextPrintFee: { unitCost: unitTextPrint, throughCount: textPlateCount },
+    // 綴じ代（無線または中綴）
+    coverWrappingFee: { unitCost: unitCoverWrapping, printQuantity: state.printQuantity },
+    // 本文丁合
+    collationFee: { 
+      unitCost: unitBlackCTPCollation[isPlate][unitPagesPerPlate], 
+      impressionCount: Math.ceil(textImpressionCount), 
+      printQuantity: state.printQuantity 
+    },
+  };
+
   useEffect(() => {
     // stateの任意のプロパティが更新されると反応
     if (
@@ -96,7 +137,7 @@ const ResultCTP = ({
     ) {
       dispatch({
         item: "ctpResult",
-        payload: { value: resultFee }
+        payload: { name: "CTP出力", value: resultFee, ctpOutCalcItems: ctpOutCalcItems }
       });
     }
   }, [

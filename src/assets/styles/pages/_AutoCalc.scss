@@ -1,158 +1,160 @@
 @use '../globals/' as *;
 @use '../parts/common' as *;
 
-.calc {
-  margin-top: 1em;
-  padding: 1em;
-  border: 10px solid rgba($color: $cOrangeDk, $alpha: .5) ;
-  border-radius: 30px;
-  @include mq(md) {
-    padding: 3em;
-  }
-  @include mq(lg) {
-    padding: 3em 2em 2em;
-  }
-  & > h1 {
-    margin-bottom: 1em;
-    text-align: center;
-  }
-  & .order {
+#root.self-publishing-order {
+  & .calc {
+    margin-top: 1em;
+    padding: 1em;
+    border: 10px solid rgba($color: $cOrangeDk, $alpha: .5) ;
+    border-radius: 30px;
+    @include mq(md) {
+      padding: 3em;
+    }
     @include mq(lg) {
-      display: flex;
-      gap: 2em;
-
+      padding: 3em 2em 2em;
     }
-    &__sheet {
-      flex-basis: 50%;
+    & > h1 {
+      margin-bottom: 1em;
+      text-align: center;
     }
-    &__pad {
-      flex-basis: 50%;
-
-    }
-  }
-  &__item-wrapper {
-    margin-top: 2em;
-    &.trim_size {
-      margin-top: unset;
-      & > .calc__content-inner {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+    & .order {
+      @include mq(lg) {
+        display: flex;
+        gap: 2em;
+  
+      }
+      &__sheet {
+        flex-basis: 50%;
+      }
+      &__pad {
+        flex-basis: 50%;
+        font-family: $fontGothic;
       }
     }
-  }
-  &__entry,
-  &__content-inner,
-  & .calc__explanation {
-    font-family: $fontGothic;
-    font-feature-settings: "palt" 1;
-  }
-  &__entry {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: .5em;
-    font-size: 1.2em;
-    font-weight: 900;
-    line-height: 1;
-    @include mq(lg) {
-      font-size: 1.5em;
-    }
-    & > span {
-      margin-left: .25em;
-      font-size: .6em;
-    }
-  }
-  &__content-inner {
-    display: flex;
-    flex-direction: column;
-    @include mq(lg) {
-      flex-direction: row;
-      gap: 1em;
-      &.for-trim-size {
-        gap: unset;
-        width: 50%;
-      }
-    }
-    & label {
-      padding-left: 1.25em;
-      text-indent: -1em;
-      font-weight: 400;
-    }
-    & input {
-      margin-right: .25em;
-    }
-    &.number-pages {
-      flex-direction: column;
-      row-gap: .5em;
-      & > .calc__explanation {
+    &__item-wrapper {
+      margin-top: 2em;
+      &.trim_size {
         margin-top: unset;
-        font-size: .95em;
-        line-height: 1;
+        & > .calc__content-inner {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
       }
-      & > label:last-of-type {
+    }
+    &__entry,
+    &__content-inner,
+    & .calc__explanation {
+      font-family: $fontGothic;
+      font-feature-settings: "palt" 1;
+    }
+    &__entry {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: .5em;
+      font-size: 1.2em;
+      font-weight: 900;
+      line-height: 1;
+      @include mq(lg) {
+        font-size: 1.5em;
+      }
+      & > span {
+        margin-left: .25em;
+        font-size: .6em;
+      }
+    }
+    &__content-inner {
+      display: flex;
+      flex-direction: column;
+      @include mq(lg) {
+        flex-direction: row;
+        gap: 1em;
+        &.for-trim-size {
+          gap: unset;
+          width: 50%;
+        }
+      }
+      & label {
+        padding-left: 1.25em;
+        text-indent: -1em;
+        font-weight: 400;
+      }
+      & input {
+        margin-right: .25em;
+      }
+      &.number-pages {
+        flex-direction: column;
+        row-gap: .5em;
+        & > .calc__explanation {
+          margin-top: unset;
+          font-size: .95em;
+          line-height: 1;
+        }
+        & > label:last-of-type {
+          margin-top: .5em;
+        }
+      }
+    }
+    &__content-inner.paper-type
+    &__explanation {
+      margin-top: .5em;
+      font-size: .9em;
+      line-height: 1.3;
+      font-weight: 600;
+      color: $cTheme;
+      & > li:not(:first-of-type) {
         margin-top: .5em;
       }
     }
-  }
-  &__content-inner.paper-type
-  &__explanation {
-    margin-top: .5em;
-    font-size: .9em;
-    line-height: 1.3;
-    font-weight: 600;
-    color: $cTheme;
-    & > li:not(:first-of-type) {
-      margin-top: .5em;
+    & h3 {
+      margin: .75em 0 .25em;
+      font-size: 1em;
     }
-  }
-  & h3 {
-    margin: .75em 0 .25em;
-    font-size: 1em;
-  }
-  & .custom-size-input-value-wrapper {
-    & > div {
-      margin-right: .5em;
+    & .custom-size-input-value-wrapper {
+      & > div {
+        margin-right: .5em;
+      }
     }
-  }
-  & > .btn {
-    text-align: center;
-    & > .submit {
-      margin-right: 2em;
+    & > .btn {
+      text-align: center;
+      & > .submit {
+        margin-right: 2em;
+      }
     }
-  }
-  &__item-wrapper.optional_finishing {
-    & section {
-      display: flex;
-      gap: 1em;
-
-      &>label {
-        padding-left: unset;
-        text-indent: unset;
+    &__item-wrapper.optional_finishing {
+      & section {
+        display: flex;
+        gap: 1em;
+  
+        &>label {
+          padding-left: unset;
+          text-indent: unset;
+        }
+      }
+    }
+    &__item-wrapper.binding_method {
+      & > .calc__explanation {
+        margin-top: .5em;
+  
       }
     }
   }
-  &__item-wrapper.binding_method {
-    & > .calc__explanation {
-      margin-top: .5em;
-
-    }
+  
+  & .set-flex {
+    display: flex;
+    flex-direction: column;
+    gap: .25em;
   }
-}
-
-.set-flex {
-  display: flex;
-  flex-direction: column;
-  gap: .25em;
-}
-
-.custom-size-input-value-wrapper {
-  display: flex;
-  gap: 10px;
-}
-
-.margin-bottom-unset {
-  margin-bottom: unset;
-}
-
-.note {
-  margin-top: .5em;
+  
+  & .custom-size-input-value-wrapper {
+    display: flex;
+    gap: 10px;
+  }
+  
+  & .margin-bottom-unset {
+    margin-bottom: unset;
+  }
+  
+  & .note {
+    margin-top: .5em;
+  }
 }

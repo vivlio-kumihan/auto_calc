@@ -12,7 +12,14 @@ export const useCalcDispatch = () => {
 
 // 関数Reducer
 const handleRreducer = (prev, { item, payload }) => {
-  const { key, name, value, customTrimSize } = payload;
+  const { key, 
+          name, 
+          value, 
+          customTrimSize, 
+          ondemandOutCalcItems, 
+          ctpOutCalcItems, 
+          blackOutCalcItems 
+        } = payload;
   switch (item) {
     case "trimSize": return { ...prev, trimSize: { id: key, name: name, customTrimSize: customTrimSize } };
     case "textPaperType": return { ...prev, textPaperType: { name: name } };
@@ -30,11 +37,12 @@ const handleRreducer = (prev, { item, payload }) => {
     // case "addBreedAutoText": return { ...prev, addBreedAutoText: payload };    
     case "horizontalBinding": return { ...prev, horizontalBinding: payload };    
     case "submissionInMSWordFormat": return { ...prev, submissionInMSWordFormat: payload }; 
-    case "onDemandResult": return { ...prev, onDemandResult: payload }; 
-    case "ctpResult": return { ...prev, ctpResult: payload }; 
-    case "blackResult": return { ...prev, blackResult: payload }; 
-    case "result": return { ...prev, result: payload }; 
+    case "onDemandResult": return { ...prev, onDemandResult: { name: name, value: value, ondemandOutCalcItems: ondemandOutCalcItems }}; 
+    case "ctpResult": return { ...prev, ctpResult: { name: name, value: value, ctpOutCalcItems: ctpOutCalcItems } }; 
+    case "blackResult": return { ...prev, blackResult: { name: name, value: value, blackOutCalcItems: blackOutCalcItems } }; 
+    case "resultOutPutMethodAndFee": return { ...prev, resultOutPutMethodAndFee: payload }; 
     case "makeJson": return { ...prev, value: payload }; 
+    case "submitButton": return { ...prev, submitButton: payload }; 
     default: throw new Error("error in reduce...");
   }
 };
@@ -60,13 +68,14 @@ export const CalcProvider = ({ children }) => {
     // addBreedAutoText: false,
     horizontalBinding: false,
     submissionInMSWordFormat: false,
-    ctpResult: { value: 0 }, // 初期値を設定
-    onDemandResult: { value: 0 },
-    blackResult: { value: 0 },
+    ctpResult: { name: "CTP出力", value: 0 },
+    onDemandResult: { name: "オンデマンド出力", value: 0 },
+    blackResult: { name: "ブラックマスター出力", value: 0 },
+    resultOutPutMethodAndFee: { name: null, value: 0 },
   };
 
   // 状態
-  const [state,  dispatch] = useReducer(handleRreducer, initState);
+  const [state, dispatch] = useReducer(handleRreducer, initState);
   // console.log(state);
 
   return (

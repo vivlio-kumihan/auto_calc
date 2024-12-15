@@ -18,6 +18,8 @@ import ResultBlack from "./components/ResultBlack.jsx";
 import Reslut from "./components/Reslut.jsx";
 import MakeJson from "./components/MakeJson.jsx";
 import SendFromItemToCF7 from "./components/SendFromItemToCF7.jsx";
+import SubmitButton from "./components/SubmitButton.jsx";
+
 // 本文用紙の種類
 // オブジェクトを整理して配列に変換する関数
 const corectPaperTypeToArr = (hash) => {
@@ -240,8 +242,7 @@ function getCoverWrappingItem(bind_method, print_quantity, trim_size) {
 const AutoCalc = () => {
   return (
     <>
-      <div className="calc content-width">
-        <h1>自動お見積もり</h1>
+      <div className="calc">
         <CalcProvider>
           <div className="order">
             <div className="order__sheet">
@@ -272,7 +273,7 @@ const AutoCalc = () => {
               {/* JSONでダウンロード */}
               {/* <MakeJson />  */}
               {/* ContactForm7に注文結果を埋め込む */}
-              {/* <SendFromItemToCF7 />  */}
+              <SendFromItemToCF7 /> 
               {/* 注文内容 */}
               <OrderPad />
               <ResultBlack
@@ -298,13 +299,10 @@ const AutoCalc = () => {
                 getCoverWrappingItem= {getCoverWrappingItem}
               />
               <Reslut />
+              <SubmitButton />
             </div>
           </div>
         </CalcProvider>
-        <div className="btn">
-          <button className="submit" name="" type="submit">お見積もり</button>
-          <button className="rest" name="" type="reset" >リセット</button>
-        </div>
       </div>
     </>
   );

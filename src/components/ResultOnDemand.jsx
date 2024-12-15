@@ -58,7 +58,50 @@ const ResultOnDemand = ({
   const unitCoverWrapping = coverWrappingItem.unitCoverWrap;
   const coverWrappingFee = coverWrappingItem.sumResult;
   // 合計
-  const resultFee = basicFee + impositionFee + printFee + coverStockCost + textStockCost + collationFee + coverWrappingFee;
+  const resultFee = basicFee 
+                    + impositionFee 
+                    + printFee 
+                    + coverStockCost 
+                    + textStockCost 
+                    + collationFee 
+                    + coverWrappingFee;
+
+  // 見積もり計算で必要になるprops
+  const ondemandOutCalcItems = {
+    // 面付け（表紙）
+    coverImpositionFee: { unitCost: 20, pageCount: coverPageCount },
+    // 面付け（本文）
+    textImpositionFee: { unitCost: 20, pageCount: state.pageCount },
+    textPlateFee: { unitCost: 350, plateCount: textPlateCount },
+    // 用紙（表紙）
+    coverStockCost: { 
+      unitCost: coverPaperCost ? coverPaperCost : null, 
+      printQuantity: state.printQuantity, 
+      sparePapers: 20 },
+    // 用紙（本文）
+    textStockCost: { 
+      unitCost: textPaperCost ? textPaperCost : null, 
+      impressionCount: Math.ceil(textImpressionCount), 
+      printQuantity: state.printQuantity, 
+      sparePapers: 20 },
+    // 印刷（表紙）
+    coverPrintFee: { 
+      unitCost: state.textPrintingMethod.name === "フルカラー印刷" ? 30 : 10, 
+      throughCount: coverPlateCount, 
+      printQuantity: state.printQuantity },
+    // 印刷（本文）
+    TextPrintFee: { 
+      unitCost: state.textPrintingMethod.name === "フルカラー印刷" ? 30 : 10, 
+      throughCount: textPlateCount, 
+      printQuantity: state.printQuantity },
+    // 綴じ代（無線または中綴）
+    coverWrappingFee: { unitCost: unitCoverWrapping, printQuantity: state.printQuantity },
+    // 本文丁合
+    collationFee: { 
+      unitCost: 1, 
+      impressionCount: Math.ceil(textImpressionCount), 
+      printQuantity: state.printQuantity },
+  };
 
   useEffect(() => {
     // stateの任意のプロパティが更新されると反応
@@ -71,7 +114,7 @@ const ResultOnDemand = ({
     ) {
       dispatch({
         item: "onDemandResult",
-        payload: { value: resultFee }
+        payload: { name: "オンデマンド出力", value: resultFee, ondemandOutCalcItems: ondemandOutCalcItems }
       });
     }
   }, [

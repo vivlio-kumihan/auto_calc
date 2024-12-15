@@ -1,6 +1,8 @@
-.calc__item-wrapper.cover_paper_type,
-.calc__item-wrapper.optional_finishing {
-  & .calc__content-inner {
-    flex-direction: column;
+#root.self-publishing-order {
+  & .calc__item-wrapper.cover_paper_type,
+  & .calc__item-wrapper.optional_finishing {
+    & .calc__content-inner {
+      flex-direction: column;
+    }
   }
 }

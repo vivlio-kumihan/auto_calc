@@ -1,24 +1,20 @@
 import { useCalc } from "../context/CalcContext";
 
-const SendFromItemToCF7 = ({ }) => {
+const SendFromItemToCF7 = () => {
   const state = useCalc();
-  const downloadJSON = () => {
+  const openFormWithJson = () => {
     const jsonData = {
-      "オンデマンド合計": state.onDemandResult?.value,
+      "onDemandTotal": state.onDemandResult?.value,
     };
-
-    const blob = new Blob([JSON.stringify(jsonData, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'on-demand-result.json';
-    link.click();
-
-    URL.revokeObjectURL(url);
+    // URLエンコードされたクエリパラメーターを生成させる。
+    const queryPrams = new URLSearchParams(jsonData).toString();
+    // ContactForm7のフォームページにリダイレクト
+    // deploy用はこちら
+    // window.location.href = `/self-publishing-order-form?${queryPrams}`;
+    // 開発環境のローカルではこちら
+    window.location.href = `/hokuto-bs/self-publishing-order-form?${queryPrams}`;
   };
-
-  return <button onClick={downloadJSON}>contact form 7で申込フォームを開く</button>;
+  return <button onClick={openFormWithJson}>contact form 7で申込フォームを開く</button>
 };
 
 export default SendFromItemToCF7;

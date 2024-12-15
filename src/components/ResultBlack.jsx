@@ -78,6 +78,46 @@ const ResultBlack = ({
   // 合計
   const resultFee = impositionFee + platesFee + printFee + coverStockCost + textStockCost + collationFee + coverWrappingFee;
 
+    // 見積もり計算で必要になるprops
+  const blackOutCalcItems = {
+    // 面付け（表紙）
+    coverImpositionFee: { unitCost: 100, pageCount: coverPageCount },
+    // 面付け（本文）
+    textImpositionFee: { unitCost: 100, pageCount: state.pageCount },
+    // 刷版（表紙）
+    coverPlateFee: { unitCost: 350, plateCount: coverPlateCount },
+    // 刷版（本文）
+    textPlateFee: { unitCost: 350, plateCount: textPlateCount },
+    // 用紙（表紙）
+    coverStockCost: { 
+      unitCost: unitCostOfPaperForASize[state.coverPaperType.name]
+        ? unitCostOfPaperForASize[state.coverPaperType.name]
+        : null, 
+      printQuantity: state.printQuantity, 
+      sparePapers: 50 
+    },
+    // 用紙（本文）
+    textStockCost: { 
+      unitCost: unitCostOfPaperForASize[state.textPaperType.name]
+        ? unitCostOfPaperForASize[state.textPaperType.name]
+        : null, 
+      impressionCount: Math.ceil(textImpressionCount), 
+      printQuantity: state.printQuantity, 
+      sparePapers: 50 
+    },
+    // 印刷（表紙）
+    coverPrintFee: { unitCost: unitBlackPlatePrinting, throughCount: coverPlateCount },
+    // 印刷（本文）
+    TextPrintFee: { unitCost: unitBlackPlatePrinting, throughCount: textPlateCount },
+    // 綴じ代（無線または中綴）
+    coverWrappingFee: { unitCost: unitCoverWrapping, printQuantity: state.printQuantity },
+    // 本文丁合
+    collationFee: { 
+      unitCost: unitBlackCollation, 
+      impressionCount: Math.ceil(textImpressionCount), 
+      printQuantity: state.printQuantity },
+  };
+
   useEffect(() => {
     // stateの任意のプロパティが更新されると反応
     if (
@@ -89,7 +129,7 @@ const ResultBlack = ({
     ) {
       dispatch({
         item: "blackResult",
-        payload: { value: resultFee }
+        payload: { name: "ブラックマスター出力", value: resultFee, blackOutCalcItems: blackOutCalcItems }
       });
     }
   }, [
