@@ -273,7 +273,7 @@ const AutoCalc = () => {
               {/* JSONでダウンロード */}
               {/* <MakeJson />  */}
               {/* ContactForm7に注文結果を埋め込む */}
-              <SendFromItemToCF7 /> 
+              {/* <SendFromItemToCF7 />  */}
               {/* 注文内容 */}
               <OrderPad />
               <ResultBlack
@@ -299,7 +299,7 @@ const AutoCalc = () => {
                 getCoverWrappingItem= {getCoverWrappingItem}
               />
               <Reslut />
-              <SubmitButton />
+              {/* <SubmitButton /> */}
             </div>
           </div>
         </CalcProvider>

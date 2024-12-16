@@ -27,11 +27,11 @@ const InsideCoverPrintingMethod = () => {
   return (
     <div className="calc__item-wrapper insede_cover_printing_method">
       <div className="calc__entry">
-        表2・3の印刷方法<span>※</span>
+        表2・3の印刷について
       </div>
       <ul>
         <li className="calc__explanation">表2・表3に印刷をご希望の場合は、フルカラーかモノクロ印刷どちらかを選択してださい。</li>
-        <li className="calc__explanation">おもて表紙（表1）の裏側を表2、裏表紙（表4）の内側を表3と呼びます。</li>
+        <li className="calc__explanation">※おもて表紙（表1）の裏側を表2、裏表紙（表4）の内側を表3と呼びます。</li>
       </ul>      
       <div className="calc__content-inner">
         {

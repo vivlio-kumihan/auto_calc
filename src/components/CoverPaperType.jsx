@@ -29,7 +29,7 @@ const CoverPaperType = ({ coverPaperTypesGroup, coatingAvailable }) => {
   return (
     <div className="calc__item-wrapper cover_paper_type">
       <div className="calc__entry margin-bottom-unset">
-        表紙用紙の種類<span>※</span>
+        表紙の用紙<span>※</span>
       </div>
       <div className="note">★印はPP加工ができます。</div>
       <div className="calc__content-inner">
@@ -56,7 +56,7 @@ const CoverPaperType = ({ coverPaperTypesGroup, coatingAvailable }) => {
               </div>
             ))
           ) : (
-            <p>表紙の印刷方法を選択してください。</p>
+            <p>まずは、表紙の印刷方法から用紙をお選びください。</p>
           )
         }
       </div>

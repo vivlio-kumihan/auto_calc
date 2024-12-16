@@ -34,7 +34,7 @@ const OptionalFinishing = ({ coatingAvailable }) => {
     <>
       <div className="calc__item-wrapper optional_finishing">
         <div className="calc__entry">
-          オプション加工<span>※</span>
+          オプション加工
         </div>
         <div className="calc__content-inner">
           {
@@ -57,10 +57,10 @@ const OptionalFinishing = ({ coatingAvailable }) => {
                 }
               </section>
           }
-            <ul className="calc__explanation">
+            {/* <ul className="calc__explanation"> */}
               {/* <li><a href="" target="_blank">「PP加工をされる際の注意点」をご覧ください。</a></li> */}
-              <li>おもて表紙（表1）の裏側を表2<br />裏表紙（表4）の内側を表3と呼びます。</li>
-            </ul>
+              {/* <li>おもて表紙（表1）の裏側を表2<br />裏表紙（表4）の内側を表3と呼びます。</li> */}
+            {/* </ul> */}
           <section>
             <label htmlFor="horizontalBinding">
               <input

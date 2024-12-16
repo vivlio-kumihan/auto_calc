@@ -239,6 +239,7 @@ body {
   margin-bottom: unset;
 }
 #root.self-publishing-order .note {
+  font-family: "Noto Sans JP", sans-serif;
   margin-top: 0.5em;
 }
 
