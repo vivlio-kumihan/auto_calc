@@ -94,6 +94,11 @@ body {
   color: #01588C;
 }
 
+#root.self-publishing-order {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1080px;
+}
 #root.self-publishing-order .calc {
   margin-top: 1em;
   padding: 1em;

@@ -2,6 +2,11 @@
 @use '../parts/common' as *;
 
 #root.self-publishing-order {
+  //////////////////////////////////////////////////////////// // ここを削除する
+  width: 90%;
+  margin: 0 auto;
+  max-width: $contentMaxWidth;
+  //////////////////////////////////////////////////////////// // ここを削除する
   & .calc {
     margin-top: 1em;
     padding: 1em;

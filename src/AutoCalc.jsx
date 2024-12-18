@@ -299,7 +299,7 @@ const AutoCalc = () => {
                 getCoverWrappingItem= {getCoverWrappingItem}
               />
               <Reslut />
-              {/* <SubmitButton /> */}
+              <SubmitButton />
             </div>
           </div>
         </CalcProvider>

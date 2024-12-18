@@ -21,6 +21,13 @@ const Reslut = () => {
     return current.value < min.value ? current : min
   }, candidates[0]);
 
+  const itemToCalc = () => {
+    const { onDemandResult, blackResult, ctpResult } = state;
+    return [onDemandResult, blackResult, ctpResult].find((outPut) => (
+      outPut.name === whichResult.name
+    ))?.calcItems || null;
+  };
+
   useEffect(() => {
     if (
       state.textPrintingMethod.name,
@@ -34,8 +41,8 @@ const Reslut = () => {
     )
     // 費用には、販売費及び一般管理費の係数1.45を掛けて最終値を算出する。
     dispatch({
-      item: "resultOutPutMethodAndFee",
-      payload: { name: whichResult.name, value: whichResult.value * 1.45 }
+      item: "resultOutPut",
+      payload: { name: whichResult.name, value: whichResult.value * 1.45, itemToCalc: itemToCalc() }
     });
   }, [
     state.textPrintingMethod.name,
@@ -47,12 +54,13 @@ const Reslut = () => {
     state.ctpResult.name,
     state.ctpResult.value, 
     dispatch
-  ]);  
+  ]);
 
   return (
     <>
-      <h2>{state.resultOutPutMethodAndFee?.name}</h2>
-      <h2>{state.resultOutPutMethodAndFee?.value}</h2>
+      <h3>◾️最安値</h3>
+      <h4>{state.resultOutPut?.name}</h4>
+      <h4>{state.resultOutPut?.value}円</h4>
     </>
   );
 };

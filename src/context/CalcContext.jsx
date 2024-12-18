@@ -18,7 +18,7 @@ const handleRreducer = (prev, { item, payload }) => {
           customTrimSize, 
           ondemandOutCalcItems, 
           ctpOutCalcItems, 
-          blackOutCalcItems 
+          blackOutCalcItems,
         } = payload;
   switch (item) {
     case "trimSize": return { ...prev, trimSize: { id: key, name: name, customTrimSize: customTrimSize } };
@@ -37,10 +37,10 @@ const handleRreducer = (prev, { item, payload }) => {
     // case "addBreedAutoText": return { ...prev, addBreedAutoText: payload };    
     case "horizontalBinding": return { ...prev, horizontalBinding: payload };    
     case "submissionInMSWordFormat": return { ...prev, submissionInMSWordFormat: payload }; 
-    case "onDemandResult": return { ...prev, onDemandResult: { name: name, value: value, ondemandOutCalcItems: ondemandOutCalcItems }}; 
-    case "ctpResult": return { ...prev, ctpResult: { name: name, value: value, ctpOutCalcItems: ctpOutCalcItems } }; 
-    case "blackResult": return { ...prev, blackResult: { name: name, value: value, blackOutCalcItems: blackOutCalcItems } }; 
-    case "resultOutPutMethodAndFee": return { ...prev, resultOutPutMethodAndFee: payload }; 
+    case "onDemandResult": return { ...prev, onDemandResult: { name: name, value: value, calcItems: ondemandOutCalcItems }}; 
+    case "ctpResult": return { ...prev, ctpResult: { name: name, value: value, calcItems: ctpOutCalcItems } }; 
+    case "blackResult": return { ...prev, blackResult: { name: name, value: value, calcItems: blackOutCalcItems } }; 
+    case "resultOutPut": return { ...prev, resultOutPut: payload }; 
     case "makeJson": return { ...prev, value: payload }; 
     case "submitButton": return { ...prev, submitButton: payload }; 
     default: throw new Error("error in reduce...");
@@ -71,7 +71,7 @@ export const CalcProvider = ({ children }) => {
     ctpResult: { name: "CTP出力", value: 0 },
     onDemandResult: { name: "オンデマンド出力", value: 0 },
     blackResult: { name: "ブラックマスター出力", value: 0 },
-    resultOutPutMethodAndFee: { name: null, value: 0 },
+    resultOutPut: { name: null, value: 0 },
   };
 
   // 状態
