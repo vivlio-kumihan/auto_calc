@@ -67,7 +67,7 @@ const ResultBlack = ({
   const collationFee = Math.ceil(textImpressionCount) * unitBlackCollation * state.printQuantity; 
   // 綴じ代
   const coverWrappingItem = getCoverWrappingItem(
-    state.bindingMethod, 
+    state.bindingMethod.name, 
     state.printQuantity, 
     state.trimSize.name, 
   );

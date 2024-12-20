@@ -49,7 +49,7 @@ const OrderPad = ({}) => {
        */}
       <li className="order-pad__list">
         <div className="order-pad__item">綴じ方向</div>
-        <div className="order-pad__inputed-content">{state.bindingDirection}</div>
+        <div className="order-pad__inputed-content">{state.bindingDirection.name}</div>
       </li>
       <li className="order-pad__list">
         <div className="order-pad__item">縦本／横本</div>
@@ -57,7 +57,15 @@ const OrderPad = ({}) => {
       </li>
       <li className="order-pad__list">
         <div className="order-pad__item">製本方法</div>
-        <div className="order-pad__inputed-content">{state.bindingMethod}</div>
+        <div className="order-pad__inputed-content">{state.bindingMethod.name}</div>
+      </li>
+      <li className="order-pad__list">
+        <div className="order-pad__item">ワード入稿</div>
+        <div className="order-pad__inputed-content">{state.submissionInMSWordFormat ? "ワード入稿あり" : null}</div>
+      </li>
+      <li className="order-pad__list">
+        <div className="order-pad__item">印刷代金小計</div>
+        <div className="order-pad__inputed-content">{state.resultOutPut.value}</div>
       </li>
     </ul>
   );

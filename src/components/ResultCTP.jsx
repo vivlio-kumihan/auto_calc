@@ -76,7 +76,7 @@ const ResultCTP = ({
   const collationFee = Math.ceil(textImpressionCount) * unitBlackCTPCollation[isPlate][unitPagesPerPlate] * state.printQuantity;    
   // 綴じ代
   const coverWrappingItem = getCoverWrappingItem(
-    state.bindingMethod, 
+    state.bindingMethod.name, 
     state.printQuantity, 
     state.trimSize.name, 
   );

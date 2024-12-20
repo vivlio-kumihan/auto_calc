@@ -27,8 +27,8 @@ const handleRreducer = (prev, { item, payload }) => {
     case "printQuantity": return { ...prev, [name]: parseInt(value) };
     case "pageCount": { return { ...prev, [name]: parseInt(value) } };
     // case "colorPageCount": return { ...prev, [name]: parseInt(value) };
-    case "bindingMethod": return { ...prev, bindingMethod: name };
-    case "bindingDirection": return { ...prev, bindingDirection: name };
+    case "bindingMethod": return { ...prev, bindingMethod: { name: name} };
+    case "bindingDirection": return { ...prev, bindingDirection: { name: name } };
     case "coverPrintingMethod": return { ...prev, coverPrintingMethod: { id: key, name: name, count: value } };
     case "insideFrontBackCoverColor": return { ...prev, insideFrontBackCoverColor: { name: name } };    
     case "coverPaperType": return { ...prev, coverPaperType: { name: name } };
@@ -42,7 +42,7 @@ const handleRreducer = (prev, { item, payload }) => {
     case "blackResult": return { ...prev, blackResult: { name: name, value: value, calcItems: blackOutCalcItems } }; 
     case "resultOutPut": return { ...prev, resultOutPut: payload }; 
     case "makeJson": return { ...prev, value: payload }; 
-    case "submitButton": return { ...prev, submitButton: payload }; 
+    case "SendInBundleBTN": return { ...prev, SendInBundleBTN: payload }; 
     default: throw new Error("error in reduce...");
   }
 };
@@ -66,6 +66,8 @@ export const CalcProvider = ({ children }) => {
     ppCoating: { name: null },
     // addBreedAutoCover: false,
     // addBreedAutoText: false,
+    bindingMethod: { name: null },
+    bindingDirection: { name: null },
     horizontalBinding: false,
     submissionInMSWordFormat: false,
     ctpResult: { name: "CTP出力", value: 0 },

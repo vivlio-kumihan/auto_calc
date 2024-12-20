@@ -50,7 +50,7 @@ const ResultOnDemand = ({
   const collationFee = 1 * Math.ceil(textImpressionCount) * state.printQuantity;
   // 綴じ代
   const coverWrappingItem = getCoverWrappingItem(
-    state.bindingMethod, 
+    state.bindingMethod.name, 
     state.printQuantity, 
     state.trimSize.name, 
     textImpressionCount

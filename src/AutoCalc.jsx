@@ -18,7 +18,7 @@ import ResultBlack from "./components/ResultBlack.jsx";
 import Reslut from "./components/Reslut.jsx";
 import MakeJson from "./components/MakeJson.jsx";
 import SendFromItemToCF7 from "./components/SendFromItemToCF7.jsx";
-import SubmitButton from "./components/SubmitButton.jsx";
+import SendInBundleBTN from "./components/SendInBundleBTN.jsx";
 
 // 本文用紙の種類
 // オブジェクトを整理して配列に変換する関数
@@ -276,6 +276,7 @@ const AutoCalc = () => {
               {/* <SendFromItemToCF7 />  */}
               {/* 注文内容 */}
               <OrderPad />
+              <SendInBundleBTN />              
               <ResultBlack
                 unitBlackPrinting={UNIT_BLACK_PRINTING_A3}
                 getUnitCtpBlackPrintingObject={getUnitCtpBlackPrintingObject}
@@ -299,7 +300,6 @@ const AutoCalc = () => {
                 getCoverWrappingItem= {getCoverWrappingItem}
               />
               <Reslut />
-              <SubmitButton />
             </div>
           </div>
         </CalcProvider>

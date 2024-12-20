@@ -28,11 +28,11 @@ const BindingMethod = () => {
       methods = [BINDING_METHOD[1]];
       defaultMethod = BINDING_METHOD[1];
     // 無線中綴じ選択肢
-    } else if (pageCount >= 14 && pageCount <= 40) {
+    } else if (pageCount >= 14 && pageCount <= 28) {
       methods = BINDING_METHOD;
       defaultMethod = null; // 状態管理で制御
     // 中綴じ製本対応
-    } else if (pageCount >= 42) {
+    } else if (pageCount >= 30) {
       methods = [BINDING_METHOD[0]];
       defaultMethod = BINDING_METHOD[0];
     }
@@ -71,7 +71,7 @@ const BindingMethod = () => {
                   id={method}
                   type="radio"
                   name={method}
-                  checked={state.bindingMethod === method}
+                  checked={state.bindingMethod.name === method}
                   onChange={handleBindingMethod}
                 />
                 {method}
