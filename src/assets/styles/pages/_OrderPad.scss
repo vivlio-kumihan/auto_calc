@@ -1,26 +1,29 @@
 #root.self-publishing-order {
-  & .order {
-    &__pad {
-    }
-  }
-  & .order-pad {
-    &__list {
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid #333;
-      padding: .5em;
-      &:first-of-type {
-        border-top: 1px solid #333;
+  & .calc {
+    & .order {
+      &__pad {
+        & .order-pad {
+          &__list {
+            display: flex;
+            align-items: center;
+            gap: 1em;
+            border-bottom: 1px solid #333;
+            padding: .5em;
+            &:first-of-type {
+              border-top: 1px solid #333;
+            }
+          }
+          &__item {
+            flex-basis: 50%;
+            font-size: .85em;
+            font-weight: 900;
+            line-height: 1.2;
+          }
+          &__inputed-content {
+            flex-basis: 50%;
+          }
+        }
       }
-    }
-    &__item {
-      flex-basis: 30%;
-      font-size: .85em;
-      font-weight: 900;
-      line-height: 1.2;
-    }
-    &__inputed-content {
-      flex-basis: 70%;
     }
   }
 }

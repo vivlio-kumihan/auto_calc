@@ -86,10 +86,38 @@ body {
     }
   }
   
+  & .send-button-wrapper {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    margin: 1em 0;
+  }
+  & button:disabled {
+    line-height: 1.2;
+    background-color: rgba($color: $cTheme, $alpha: .4);
+    &:hover {
+      color: #fff;
+      background-color: rgba($color: $cTheme, $alpha: .4);
+      box-shadow: unset;
+      transform: unset;
+    }
+  }
   & button {
-    border: 1px solid #333;
-    padding: .25em 1em;
+    padding: .5em 1em;
+    font-size: 1.05em;
+    font-weight: 900;
+    text-align: center;
+    color: #fff;
+    background-color: $cTheme;
+    border: unset;
     border-radius: 5px;
+    transition: .5s;
+    &:hover {
+      color: $cTheme;
+      background-color: rgba($color: $cThemeLt, $alpha: .6);
+      box-shadow: 3px 3px 6px #aaa;
+      transform: translateY(-.25em);
+    }
   }
   
   & .flex {

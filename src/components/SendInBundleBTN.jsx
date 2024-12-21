@@ -18,7 +18,7 @@ const SendInBundleBTN = () => {
     { key: "bindingDirection", value: state.bindingDirection.name }, // => 綴じ方向
     { key: "horizontalBinding", value: state.horizontalBinding ? "横本" : "縦本" }, // => 縦本／横本
     { key: "submissionInMSWordFormat", value: state.submissionInMSWordFormat ? "ワード入稿あり" : null }, // => ワード入稿
-    { key: "resultOutPutFee", value: state.resultOutPut.value }, // => 印刷代金小計
+    { key: "resultOutPutFee", value: state.resultOutPut.value }, // => 印刷費用小計
   ];
 
   // フォームにデータを送る関数定義
@@ -150,25 +150,27 @@ const SendInBundleBTN = () => {
   const note = checkState
     .filter((st) => st.value.name === null)
     .map((st, idx) => (
-      <li key={idx}>『{st.key}』の入力をご確認ください。</li>
+      <li key={idx}>※『{st.key}』の入力をご確認ください。</li>
     )
   );
 
   return (
     <>
-      <ul>
+      <ul className="note under-order-pad">
         {note}
       </ul>
-      <div className="note">
-        下の『この依頼内容で申し込みフォームへ』ボタンで自費出版依頼のフォームへページ遷移いたします。<br />
-        ページ遷移後は現在の内容はリセットされます。依頼内容を今一度ご確認の上、次のステップへお進みください。
+      <div className="note to-cf7">
+        <span>下の『この依頼内容でお問い合せフォームへ』ボタンで自費出版依頼のフォームへページ遷移いたします。</span>
+        <span>ページ遷移後、こちらのページの内容はリセットされます。依頼内容を今一度ご確認の上、次のお問い合せフォームへお進みください。</span>
       </div>
-      <button onClick={openFormWithData} className="submit" type="submit" disabled={hasInvalidInput}>
-        この依頼内容で申し込みフォームへ
-      </button>
-      <button className="rest" type="reset">
-        リセット
-      </button>
+      <div className="send-button-wrapper">
+        <button onClick={openFormWithData} className="submit" type="submit" disabled={hasInvalidInput}>
+          この依頼内容で<br />申し込みフォームへ
+        </button>
+        <button className="rest" type="reset">
+          リセット
+        </button>
+      </div>
     </>
   );
 };
