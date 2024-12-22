@@ -78,7 +78,7 @@ export const CalcProvider = ({ children }) => {
 
   // 状態
   const [state, dispatch] = useReducer(handleRreducer, initState);
-  // console.log(state);
+  console.log(state);
 
   return (
     <CalcContext.Provider value={state}>

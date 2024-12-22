@@ -3,7 +3,7 @@ import { useCalc, useCalcDispatch } from "../context/CalcContext";
 // 「Polypropylene (PP) Lamination」または「PP Coating」
 // Gloss PP Lamination：ラミネーション
 // Matte PP Lamination：PPラミネーション
-const PP_COATING_TYPES = ["グロス（光沢）PP", "マット（艶消し）PP"];
+const PP_COATING_TYPES = ["グロス（光沢）PP", "マット（艶消し）PP", "コーティングをやめる"];
 
 const OptionalFinishing = ({ coatingAvailable }) => {
   const state = useCalc();
@@ -24,9 +24,10 @@ const OptionalFinishing = ({ coatingAvailable }) => {
   };
 
   const handleAddPPCoating = (e) => {
+    const value = e.target.value !== "コーティングをやめる" ? e.target.value : null;
     dispatch({
       item: "ppCoating",
-      payload: { name: e.target.value }
+      payload: { name: value }
     });
   }; 
 
@@ -39,7 +40,7 @@ const OptionalFinishing = ({ coatingAvailable }) => {
         <div className="calc__content-inner">
           {
             coatingAvailable.includes(state.coverPaperType.name) &&
-              <section>
+              <section className="coating-type">
                 {
                   PP_COATING_TYPES.map((coating) => {
                     return (

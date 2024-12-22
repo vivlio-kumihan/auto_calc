@@ -7,18 +7,18 @@ const SendInBundleBTN = () => {
   // お客様用の計算項目を表記させたシート
   const mainOrderSheetArr = [
     { key: "trimSize", value: state.trimSize.name }, // => 冊子の版型
-    { key: "printQuantity", value: state.printQuantity }, // => 印刷部数
+    { key: "printQuantity", value: state.printQuantity + "部" }, // => 印刷部数
     { key: "coverPrintingMethodName", value: state.coverPrintingMethod.name }, // => 表紙台の印刷方法
-    { key: "coverPrintingMethodCount", value: state.coverPrintingMethod.count }, // => 表紙台ページ数
+    { key: "coverPrintingMethodCount", value: state.coverPrintingMethod.count + "P" }, // => 表紙台ページ数
     { key: "coverPaperType", value: state.coverPaperType.name }, // => 表紙台用紙の種類
     { key: "ppCoating", value: state.ppCoating.name ? state.ppCoating.name : null }, // => 表紙加工
     { key: "textPrintingMethodName", value: state.textPrintingMethod.name }, // => 本文の印刷方法
-    { key: "textPrintingMethodCount", value: state.pageCount }, // => 本文ページ数
+    { key: "textPrintingMethodCount", value: state.pageCount + "P" }, // => 本文ページ数
     { key: "textPaperType", value: state.textPaperType.name }, // => 本文用紙の種類
     { key: "bindingDirection", value: state.bindingDirection.name }, // => 綴じ方向
     { key: "horizontalBinding", value: state.horizontalBinding ? "横本" : "縦本" }, // => 縦本／横本
     { key: "submissionInMSWordFormat", value: state.submissionInMSWordFormat ? "ワード入稿あり" : null }, // => ワード入稿
-    { key: "resultOutPutFee", value: state.resultOutPut.value }, // => 印刷費用小計
+    { key: "resultOutPutFee", value: state.resultOutPut.value + "円" }, // => 印刷費用小計
   ];
 
   // フォームにデータを送る関数定義
@@ -144,6 +144,7 @@ const SendInBundleBTN = () => {
     { key: "表紙台の印刷方法", value: state.coverPrintingMethod }, 
     { key: "表紙台用紙の種類", value: state.coverPaperType }, 
     { key: "本文用紙の種類", value: state.textPaperType }, 
+    { key: "製本方法", value: state.bindingMethod },
     { key: "綴じ方向", value: state.bindingDirection }];
 
   const hasInvalidInput = checkState.some((st) => st.value.name === null);

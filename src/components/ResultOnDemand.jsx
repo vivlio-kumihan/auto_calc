@@ -3,6 +3,8 @@ import { useEffect } from "react";
 
 const ResultOnDemand = ({ 
   unitCostOfPaperForASize, 
+  coloredBondPaper150180Asize,
+  getUnitColoredBondPaper,
   getCoverWrappingItem
   }) => {
   const state = useCalc();
@@ -38,9 +40,12 @@ const ResultOnDemand = ({
   const textPrintFee = textPlateCount * unitMonoPrint * state.printQuantity;
   const printFee = coverPrintFee + textPrintFee;
   // 用紙代
-  const coverPaperCost = unitCostOfPaperForASize[state.coverPaperType.name];
+  console.log(state.coverPaperType);
+  const coverPaperUnitCost = state.coverPaperType.name === "色上質最厚口"
+    ? getUnitColoredBondPaper(state.printQuantity, coloredBondPaper150180Asize)
+    : unitCostOfPaperForASize[state.coverPaperType.name];
   const coverStockCostFee = state.coverPaperType.name
-    ? coverPaperCost * state.printQuantity + coverPaperCost * 20
+    ? coverPaperUnitCost * state.printQuantity + coverPaperUnitCost * 20
     : null;
   const textPaperCost = unitCostOfPaperForASize[state.textPaperType.name];
   const textStockCostFee = state.textPaperType.name
@@ -74,7 +79,7 @@ const ResultOnDemand = ({
     textImpositionCalcMaterials: { unitCost: 20, pageCount: state.pageCount },
     // 用紙（表紙）
     coverStockCostCalcMaterials: { 
-      unitCost: coverPaperCost ? coverPaperCost : null, 
+      unitCost: coverPaperUnitCost ? coverPaperUnitCost : null, 
       printQuantity: state.printQuantity, 
       sparePapers: 20 },
     // 用紙（本文）
@@ -107,7 +112,7 @@ const ResultOnDemand = ({
     // !== => 非同期の対応
     // なお、これをすると、入力をしないと小計は0になる。
     if (
-      coverPaperCost !== undefined &&
+      coverPaperUnitCost !== undefined &&
       textPaperCost !== undefined &&  
       coverWrappingItem.unitCoverWrap !== undefined &&  
       state.trimSize &&
@@ -122,7 +127,7 @@ const ResultOnDemand = ({
       });
     }
   }, [
-    coverPaperCost,
+    coverPaperUnitCost,
     textPaperCost,
     state.trimSize,
     coverPageCount,
@@ -149,7 +154,7 @@ const ResultOnDemand = ({
         <li>表紙台印刷代：{coverPrintFee}円／単価（{unitCoverPrint}円）× 通し数（{coverPlateCount}）× 部数（{state.printQuantity}部）</li>
         <li>本文印刷代：{textPrintFee}円／単価（{unitMonoPrint}円）× 通し数（{textPlateCount}）× 部数（{state.printQuantity}部）</li>
         <li>印刷代：{printFee}円／表紙台（{coverPrintFee}円）+ 本文（{textPrintFee}円）</li>
-        <li>表紙台用紙代：{coverStockCostFee}円／単価（{unitCostOfPaperForASize[state.coverPaperType.name]}円）× 部数（{state.printQuantity}部）</li>
+        <li>表紙台用紙代：{coverStockCostFee}円／単価（{coverPaperUnitCost}円）× 部数（{state.printQuantity}部）</li>
         <li>本文用紙代：{textStockCostFee}円／単価（{unitCostOfPaperForASize[state.textPaperType.name]}円）× 台数（{Math.ceil(textImpressionCount)}）× 部数（{state.printQuantity}部）</li>
         <li>綴じ代（無線または中綴）：{coverWrappingFee}円／単価（{unitCoverWrapping}円）× 部数（{state.printQuantity}部）</li>        
         <li>丁合代：{collationFee}円／単価（1円）× 台数（{Math.ceil(textImpressionCount)}台）× 部数（{state.printQuantity}部）</li>        

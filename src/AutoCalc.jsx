@@ -16,8 +16,6 @@ import ResultOnDemand from "./components/ResultOnDemand.jsx";
 import ResultCTP from "./components/ResultCTP.jsx";
 import ResultBlack from "./components/ResultBlack.jsx";
 import Reslut from "./components/Reslut.jsx";
-import MakeJson from "./components/MakeJson.jsx";
-import SendFromItemToCF7 from "./components/SendFromItemToCF7.jsx";
 import SendInBundleBTN from "./components/SendInBundleBTN.jsx";
 
 // 本文用紙の種類
@@ -52,11 +50,11 @@ const TEXT_PAPER_TYPE_1C_A6_PocketEdition = corectPaperTypeToArr(
   { ...BASIC_TEXT_PAPER_TYPE, 3: "上質 55kg", 8: "書籍用紙 57kg（淡クリームキンマリ）", 9: "ラフクリーム琥珀 71.5kg" }
 );
 
-// 本文 => モノクロ: 変形サイズ（小）（大）
-// 本文 => カラー・モノクロ混在・お得: 変形サイズ（小）（大）
-const TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg = corectPaperTypeToArr(
-  { ...BASIC_TEXT_PAPER_TYPE }
-);
+// // 本文 => モノクロ: 変形サイズ（小）（大）
+// // 本文 => カラー・モノクロ混在・お得: 変形サイズ（小）（大）
+// const TEXT_PAPER_TYPES_1C_4cMonoSP_CustomSizeSmLg = corectPaperTypeToArr(
+//   { ...BASIC_TEXT_PAPER_TYPE }
+// );
 
 // 本文 => モノクロ: B6, A5, B5, A4, 新書版
 // 本文 => カラー・モノクロ混在・お得: A6, B6, A5, B5, A4, 新書版, 文庫版
@@ -64,10 +62,10 @@ const TEXT_PAPER_TYPE_1C_4cMonoSP_OTHERS = corectPaperTypeToArr(
   { ...BASIC_TEXT_PAPER_TYPE, 9: "ラフクリーム琥珀 71.5kg" }
 );
 
-// 本文 => カラー: 変形サイズ（小）（大）
-const TEXT_PAPER_TYPE_4C_CustomSizeSmLg = corectPaperTypeToArr(
-  { ...BASIC_TEXT_PAPER_TYPE, 4: "コート 110kg", 5: "マットコート 90kg" }
-);
+// // 本文 => カラー: 変形サイズ（小）（大）
+// const TEXT_PAPER_TYPE_4C_CustomSizeSmLg = corectPaperTypeToArr(
+//   { ...BASIC_TEXT_PAPER_TYPE, 4: "コート 110kg", 5: "マットコート 90kg" }
+// );
 
 // 本文 => カラー: カラー・モノクロ混在: A6, B6, A5, B5, A4, 新書版, 文庫版
 const TEXT_PAPER_TYPE_4C_4cMono_OTHERS = corectPaperTypeToArr(
@@ -134,13 +132,15 @@ const COVER_PAPER_TYPES_PRINTED_1C = [
 // 表紙で使用可能な用紙種類 4C
 const COVER_PAPER_TYPES_PRINTED_4C = [
   { group: "上質・色上質・色ファンシー",
-    types: ["上質 135kg", "色上質最厚口", "レザック 175kg"] },
+    types: ["上質 135kg", "レザック 175kg"] },
+    // types: ["上質 135kg", "色上質最厚口", "レザック 175kg"] },
   { group: "艶ありコート・アート・キャスト",
     types: ["コート 135kg", "アートポスト 200kg"] },
   { group: "艶なしマットコート・ダル",
     types: ["マットコート 90kg", "マットコート 135kg", "マットポスト 220kg"] },
   { group: "ラフ・エンボス",
-    types: ["アラベール スノーホワイト 160kg", "アラベール ナチュラル 160kg", "マーメイド スノーホワイト 175kg"] },
+    types: ["アラベール スノーホワイト 160kg", "アラベール ナチュラル 160kg"] },
+    // types: ["アラベール スノーホワイト 160kg", "アラベール ナチュラル 160kg", "マーメイド スノーホワイト 175kg"] },
   // { group: "特殊紙 パール・シャイン・ラメ",
   //   types: ["ペルーラ スノーホワイト 180kg", "ミランダ スノーホワイト 170kg", "五感紙粗目 純白キラ 135kg", "新星物語 パウダー 180kg", "エスプリコートVNエンボス アラレ 176.5kg"] },
   // { group: "特殊紙 その他",
@@ -160,23 +160,44 @@ const COATING_AVAILABLE = [
   "マットポスト 220kg",
   "アラベール スノーホワイト 160kg",
   "アラベール ナチュラル 160kg",
-  "ペルーラ スノーホワイト 180kg",
-  "ミランダ スノーホワイト 170kg",
-  "エスプリコートVNエンボス アラレ 176.5kg",
-  "しこくてんれい ゆき 180kg"
+  // "ペルーラ スノーホワイト 180kg",
+  // "ミランダ スノーホワイト 170kg",
+  // "エスプリコートVNエンボス アラレ 176.5kg",
+  // "しこくてんれい ゆき 180kg"
 ];
 
 const UNIT_COST_OF_PAPER_FOR_ASize = {
   "上質 55kg": 2.6, "上質 70kg": 3.1, "上質 90kg": 4.1, "上質 135kg": 6.0,
   "コート 90kg": 4.2, "コート 110kg": 5.1, "コート 135kg": 6.1,
   "マットコート 90kg": 4.3, "マットコート 110kg": 5.2, "マットコート 135kg": 6.3,
+  "書籍用紙 72.5kg（淡クリームキンマリ）": 5.6, "書籍用紙 90kg（淡クリームキンマリ）": 6.8,
+  "レザック 175kg": 50, "アートポスト 200kg": 50, "マットポスト 220kg": 50,
+  "アラベール スノーホワイト 160kg": 55, "アラベール ナチュラル 160kg": 55,
+  "ラフクリーム琥珀 71.5kg": 70,
 };
 
 const UNIT_COST_OF_PAPER_FOR_KikuSize = {
   "上質 55kg": 5.6, "上質 70kg": 6.6, "上質 90kg": 8.8, "上質 135kg": 12.8,
   "コート 90kg": 9.2, "コート 110kg": 11, "コート 135kg": 13.2,
   "マットコート 90kg": 9.4, "マットコート 110kg": 11.2, "マットコート 135kg": 13.6,
+  "書籍用紙 72.5kg（淡クリームキンマリ）": 11.2, "書籍用紙 90kg（淡クリームキンマリ）": 13.6,  
+  "レザック 175kg": 100, "アートポスト 200kg": 70, "マットポスト 220kg": 70,
+  "アラベール スノーホワイト 160kg": 110, "アラベール ナチュラル 160kg": 110,  
+  "ラフクリーム琥珀 71.5kg": 140,
 };
+
+const COLORED_BOND_PAPER_150_180_ASize = new Map([
+  [10, 158.2], [20, 90], [30, 67.2], [40, 55.8], [50, 49], [60, 44.5], [70, 41.2], [80, 38.8], [90, 36.9], [100, 35.4], [110, 34.1], [120, 33.1], [130, 32.2], [140, 31.5], [150, 27.5], [160, 27], [170, 26.6], [180, 26.2], [190, 25.8], [200, 25.5], 
+  [210, 25.2], [220, 24.9], [230, 24.7], [240, 24.4], [250, 24.2], [260, 24], [270, 23.4], [280, 21.6], [290, 21.8], [300, 21.1], [310, 20.4], [320, 19.8], [330, 19.2], [340, 18.6], [350, 18.1], [360, 17.6], [370, 17.1], [380, 16.7], [390, 16.2], [400, 15.8], 
+  [410, 15.4], [420, 15.1], [430, 14.7], [440, 14.4], [450, 14.1], [460, 13.8], [470, 13.5], [480, 13.2], [490, 12.9], [500, 12.7], [510, 12.4], [520, 12.2], [530, 11.9], [540, 11.7], [550, 11.5], [560, 11.3], [570, 11.1], [580, 10.9], [590, 10.7], [600, 10.5], 
+  [610, 10.4], [620, 10.2], [630, 10], [640, 9.9], [650, 9.7], [660, 9.6], [670, 9.4], [680, 9.3], [690, 9.2], [700, 9], [710, 8.9], [720, 8.8], [730, 8.7], [740, 8.6], [750, 8.4]
+]);
+
+function getUnitColoredBondPaper(pageNum, map) {
+  const keys = [...map.keys()].sort((a, b) => a - b);
+  const closestKey = keys.find(key => key >= pageNum);
+  return closestKey !== undefined ? map.get(closestKey) : null;
+}
 
 // 表紙巻の単価　部数『未満』の値
 const UNIT_COVER_WRAPPING = {
@@ -281,6 +302,8 @@ const AutoCalc = () => {
                 unitBlackPrinting={UNIT_BLACK_PRINTING_A3}
                 getUnitCtpBlackPrintingObject={getUnitCtpBlackPrintingObject}
                 unitCostOfPaperForASize={UNIT_COST_OF_PAPER_FOR_ASize}
+                coloredBondPaper150180Asize={COLORED_BOND_PAPER_150_180_ASize}
+                getUnitColoredBondPaper={getUnitColoredBondPaper}
                 getUnitCoverWrappingObject= {getUnitCoverWrappingObject}
                 unitBlackCTPCollation= {UNIT_BLACK_CTP_COLLATION}
                 getCoverWrappingItem= {getCoverWrappingItem}                
@@ -296,6 +319,8 @@ const AutoCalc = () => {
               />
               <ResultOnDemand 
                 unitCostOfPaperForASize={UNIT_COST_OF_PAPER_FOR_ASize}
+                coloredBondPaper150180Asize={COLORED_BOND_PAPER_150_180_ASize}
+                getUnitColoredBondPaper={getUnitColoredBondPaper}                             
                 getUnitCoverWrappingObject= {getUnitCoverWrappingObject}
                 getCoverWrappingItem= {getCoverWrappingItem}
               />

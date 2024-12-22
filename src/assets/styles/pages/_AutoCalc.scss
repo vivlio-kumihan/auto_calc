@@ -122,7 +122,10 @@
       & section {
         display: flex;
         gap: 1em;
-  
+        &.coating-type {
+          flex-direction: column;
+          gap: 0;
+        }
         &>label {
           padding-left: unset;
           text-indent: unset;

@@ -244,6 +244,10 @@ body {
   display: flex;
   gap: 1em;
 }
+#root.self-publishing-order .calc__item-wrapper.optional_finishing section.coating-type {
+  flex-direction: column;
+  gap: 0;
+}
 #root.self-publishing-order .calc__item-wrapper.optional_finishing section > label {
   padding-left: unset;
   text-indent: unset;

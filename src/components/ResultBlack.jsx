@@ -5,6 +5,8 @@ const ResultBlack = ({
   unitBlackPrinting,
   getUnitCtpBlackPrintingObject,
   unitCostOfPaperForASize,
+  coloredBondPaper150180Asize,
+  getUnitColoredBondPaper,
   unitBlackCTPCollation,
   getCoverWrappingItem
   }) => {
@@ -49,9 +51,11 @@ const ResultBlack = ({
   const textPrintFee = textPlateCount * unitBlackPlatePrinting;
   const printFee = coverPrintFee + textPrintFee;
   // 用紙代
-  const coverPaperCost = unitCostOfPaperForASize[state.coverPaperType.name];
+  const coverPaperUnitCost = state.coverPaperType.name === "色上質最厚口"
+    ? getUnitColoredBondPaper(state.printQuantity, coloredBondPaper150180Asize)
+    : unitCostOfPaperForASize[state.coverPaperType.name];
   const coverStockCostFee = state.coverPaperType.name
-    ? coverPaperCost * state.printQuantity + coverPaperCost * 50
+    ? coverPaperUnitCost * state.printQuantity + coverPaperUnitCost * 50
     : null;
   const textPaperCost = unitCostOfPaperForASize[state.textPaperType.name];
   const textStockCostFee = state.textPaperType.name
@@ -161,7 +165,7 @@ const ResultBlack = ({
         <li>表紙台印刷代：{coverPrintFee}円／単価（{unitBlackPlatePrinting}円）× 通し数（{coverPlateCount}）</li>
         <li>本文印刷代：{textPrintFee}円／単価（{unitBlackPlatePrinting}円）× 通し数（{textPlateCount}）</li>
         <li>印刷代：{printFee}円／表紙台（{coverPrintFee}円）+ 本文（{textPrintFee}円）</li>
-        <li>表紙台用紙代：{coverStockCostFee}円／単価（{unitCostOfPaperForASize[state.coverPaperType.name]}円）× 部数（{state.printQuantity}部）</li>
+        <li>表紙台用紙代：{coverStockCostFee}円／単価（{coverPaperUnitCost}円）× 部数（{state.printQuantity}部）</li>
         <li>本文用紙代： {textStockCostFee}円／単価（{unitCostOfPaperForASize[state.textPaperType.name]}円）× 台数（{Math.ceil(textImpressionCount)}）× 部数（{state.printQuantity}部）</li>
         <li>綴じ代（無線または中綴）：{coverWrappingFee}円／単価（{unitCoverWrapping}円）× 部数（{state.printQuantity}部）</li>
         <li>丁合代：{collationFee}円／単価（{unitBlackCollation}円）× 台数（{Math.ceil(textImpressionCount)}台）× 部数（{state.printQuantity}部）</li>
