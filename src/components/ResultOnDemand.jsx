@@ -10,18 +10,21 @@ const ResultOnDemand = ({
   const state = useCalc();
   const dispatch = useCalcDispatch();
   
+  // オンデマンド印刷というだけで1000円チャージ料金発生。この分を増額。
   const basicFee = 1000;
-  // A4判定用フラグ
-  const isA4 = state.trimSize.name === "A4";
+  // A4判定用フラグ　真偽値が入る。
+  const isA4B5 = state.trimSize.name === "A4" || state.trimSize.name === "B5";
   // 表紙のページ数 
   //   表1、2 => 2ページ
   //   表1、2、3、4 => 4ページ
   let coverPageCount = state.coverPrintingMethod.count ?? null;
-  // 版型による1台に面付けするページ数の単位
-  const unitPagesPerPlate = isA4 ? 4 : 8;
+  // 版型によって1台に面付けできるページ数
+  const unitPagesPerPlate = isA4B5 ? 4 : 8;
 
   // 表紙の台数はわざわざ算出しない。値は『1』です。
   // 表紙の通し数
+  //   表1、2 => 表面だけ『1回』通したら印刷できる。
+  //   表1、2、3、4 => 裏表面の『2回』通したら印刷できる。
   const coverPlateCount = coverPageCount / 2;
   // 本文の台数
   // 台の裏の半分のページ数なら2台に繰り上げる
@@ -36,29 +39,30 @@ const ResultOnDemand = ({
   // 印刷代
   const unitCoverPrint = state.coverPrintingMethod.name === "フルカラー印刷" ? 30 : 10;
   const coverPrintFee = coverPlateCount * unitCoverPrint * state.printQuantity;
-  const unitMonoPrint = state.textPrintingMethod.name === "フルカラー印刷" ? 30 : 10;
-  const textPrintFee = textPlateCount * unitMonoPrint * state.printQuantity;
+  const unitTextPrint = state.textPrintingMethod.name === "フルカラー印刷" ? 30 : 10;
+  const textPrintFee = textPlateCount * unitTextPrint * state.printQuantity;
   const printFee = coverPrintFee + textPrintFee;
   // 用紙代
-  console.log(state.coverPaperType);
   const coverPaperUnitCost = state.coverPaperType.name === "色上質最厚口"
     ? getUnitColoredBondPaper(state.printQuantity, coloredBondPaper150180Asize)
     : unitCostOfPaperForASize[state.coverPaperType.name];
   const coverStockCostFee = state.coverPaperType.name
-    ? coverPaperUnitCost * state.printQuantity + coverPaperUnitCost * 20
+    ? isA4B5 
+      ? coverPaperUnitCost * state.printQuantity + coverPaperUnitCost * 20
+      : coverPaperUnitCost * (state.printQuantity / 2) + coverPaperUnitCost * 20
     : null;
   const textPaperCost = unitCostOfPaperForASize[state.textPaperType.name];
   const textStockCostFee = state.textPaperType.name
-    ? Math.ceil(textImpressionCount) * textPaperCost * state.printQuantity + textPaperCost * 20
+    ? textPaperCost * Math.ceil(textImpressionCount) * state.printQuantity + textPaperCost * 20
     : null;
-  // 丁合代 『1』
+  // 丁合代の単価『1円』
   const collationFee = 1 * Math.ceil(textImpressionCount) * state.printQuantity;
   // 綴じ代
   const coverWrappingItem = getCoverWrappingItem(
-    state.bindingMethod.name, 
-    state.printQuantity, 
-    state.trimSize.name, 
-    textImpressionCount
+                              state.bindingMethod.name, 
+                              state.printQuantity, 
+                              state.trimSize.name, 
+                              textImpressionCount
   );
   const unitCoverWrapping = coverWrappingItem.unitCoverWrap;
   const coverWrappingFee = coverWrappingItem.sumResult;
@@ -80,7 +84,7 @@ const ResultOnDemand = ({
     // 用紙（表紙）
     coverStockCostCalcMaterials: { 
       unitCost: coverPaperUnitCost ? coverPaperUnitCost : null, 
-      printQuantity: state.printQuantity, 
+      printQuantity: isA4B5 ? state.printQuantity : state.printQuantity / 2, 
       sparePapers: 20 },
     // 用紙（本文）
     textStockCostCalcMaterials: { 
@@ -146,18 +150,18 @@ const ResultOnDemand = ({
         <li>本文の頁数：{state.pageCount}</li> 
         <li>表紙通し数：{coverPlateCount}</li> 
         <li>本文通し数：{textPlateCount}</li> 
-        <li>用紙代算出するため表紙台数：1</li> 
-        <li>用紙代算出するため本文台数：{Math.ceil(textImpressionCount)}</li>
+        <li>表紙用紙費用を算出するための枚数：1</li> 
+        <li>本文用紙費用を算出するための枚数：{Math.ceil(textImpressionCount)}</li>
       </ul>
       <ul>
-        <li>面付代：{impositionFee}円／単価（20円）× 総ページ数（{state.pageCount + coverPageCount}P）</li>
-        <li>表紙台印刷代：{coverPrintFee}円／単価（{unitCoverPrint}円）× 通し数（{coverPlateCount}）× 部数（{state.printQuantity}部）</li>
-        <li>本文印刷代：{textPrintFee}円／単価（{unitMonoPrint}円）× 通し数（{textPlateCount}）× 部数（{state.printQuantity}部）</li>
-        <li>印刷代：{printFee}円／表紙台（{coverPrintFee}円）+ 本文（{textPrintFee}円）</li>
-        <li>表紙台用紙代：{coverStockCostFee}円／単価（{coverPaperUnitCost}円）× 部数（{state.printQuantity}部）</li>
-        <li>本文用紙代：{textStockCostFee}円／単価（{unitCostOfPaperForASize[state.textPaperType.name]}円）× 台数（{Math.ceil(textImpressionCount)}）× 部数（{state.printQuantity}部）</li>
-        <li>綴じ代（無線または中綴）：{coverWrappingFee}円／単価（{unitCoverWrapping}円）× 部数（{state.printQuantity}部）</li>        
-        <li>丁合代：{collationFee}円／単価（1円）× 台数（{Math.ceil(textImpressionCount)}台）× 部数（{state.printQuantity}部）</li>        
+        <li>面付費用：{impositionFee}円／単価（20円）× 総ページ数（{state.pageCount + coverPageCount}P）</li>
+        <li>表紙台印刷費用：{coverPrintFee}円／単価（{unitCoverPrint}円）× 通し数（{coverPlateCount}）× 部数（{state.printQuantity}部）</li>
+        <li>本文印刷費用：{textPrintFee}円／単価（{unitTextPrint}円）× 通し数（{textPlateCount}）× 部数（{state.printQuantity}部）</li>
+        <li>印刷費用：{printFee}円／表紙台（{coverPrintFee}円）+ 本文（{textPrintFee}円）</li>
+        <li>表紙台用紙費用：{coverStockCostFee}円／単価（{coverPaperUnitCost}円）× 枚数（{isA4B5 ? state.printQuantity : state.printQuantity / 2}枚）</li>
+        <li>本文用紙費用：{textStockCostFee}円／単価（{textPaperCost}円）× 枚数（{Math.ceil(textImpressionCount)}枚）× 部数（{state.printQuantity}部）</li>
+        <li>綴じ費用（無線または中綴）：{coverWrappingFee}円／単価（{unitCoverWrapping}円）× 部数（{state.printQuantity}部）</li>        
+        <li>丁合費用：{collationFee}円／単価（1円）× 台数（{Math.ceil(textImpressionCount)}台）× 部数（{state.printQuantity}部）</li>        
         <li>小計：{state.onDemandResult?.value}</li> 
       </ul>
     </>

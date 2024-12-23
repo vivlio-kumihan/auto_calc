@@ -300,6 +300,14 @@ body {
   flex-direction: column;
 }
 
+#root.self-publishing-order .calc .order__pad {
+  margin-top: 2em;
+}
+@media (min-width: 960px) {
+  #root.self-publishing-order .calc .order__pad {
+    margin-top: unset;
+  }
+}
 #root.self-publishing-order .calc .order__pad .order-pad__list {
   display: flex;
   align-items: center;

@@ -1,3 +1,6 @@
+@use '../globals/' as *;
+@use '../parts/common' as *;
+
 #root.self-publishing-order {
   & .calc__item-wrapper.cover_paper_type,
   & .calc__item-wrapper.optional_finishing {

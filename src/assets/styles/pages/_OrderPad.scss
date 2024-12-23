@@ -1,7 +1,14 @@
+@use '../globals/' as *;
+@use '../parts/common' as *;
+
 #root.self-publishing-order {
   & .calc {
     & .order {
       &__pad {
+        margin-top: 2em;
+        @include mq(lg) {
+          margin-top: unset;
+        }
         & .order-pad {
           &__list {
             display: flex;
